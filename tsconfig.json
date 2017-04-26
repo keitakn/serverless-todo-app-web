@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "es2015",
+    "target": "es5",
+    "jsx": "react",
+    "sourceMap": true,
+    // コンパイル時にコメントを削除する
+    "removeComments": true,
+    // 暗黙のany型を禁止する
+    "noImplicitAny": true,
+    // Null安全かどうかチェックする（一部抜け道はありなので完璧ではない）
+    "strictNullChecks": true,
+    // 未使用なローカル変数はエラーにする
+    "noUnusedLocals": true,
+    // 到達しえないコードがある場合はエラーにする
+    "allowUnreachableCode": false,
+    // 到達しえないラベルがある場合はエラーにする
+    "allowUnusedLabels": false,
+    // use strict; を自動で追加
+    "alwaysStrict": true,
+    // 暗黙的な undefined を返す事を禁止する
+    "noImplicitReturns": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
