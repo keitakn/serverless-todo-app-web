@@ -5,6 +5,7 @@
   "author": "keita-nishimoto",
   "license": "MIT",
   "scripts": {
+    "build": "webpack",
     "start:dev": "webpack-dev-server"
   },
   "dependencies": {
