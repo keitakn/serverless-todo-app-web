@@ -4,6 +4,9 @@
   "repository": "https://keita-nishimoto@github.com/keita-nishimoto/spa-prototype-react.git",
   "author": "keita-nishimoto",
   "license": "MIT",
+  "scripts": {
+    "start:dev": "webpack-dev-server"
+  },
   "dependencies": {
     "@types/material-ui": "^0.17.2",
     "@types/react": "^15.0.22",
@@ -15,6 +18,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "ts-loader": "^2.0.3",
     "typescript": "^2.2.2",
-    "webpack": "^2.4.1"
+    "webpack": "^2.4.1",
+    "webpack-dev-server": "^2.4.5"
   }
 }
