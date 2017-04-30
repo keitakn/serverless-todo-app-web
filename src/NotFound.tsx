@@ -3,11 +3,11 @@ import {RouteComponentProps} from "react-router";
 
 export default class NotFound extends React.Component<RouteComponentProps<any>, {}> {
 
-  render() {
+  public render() {
     return (
       <div>
         Not Found
       </div>
-    )
+    );
   }
 }

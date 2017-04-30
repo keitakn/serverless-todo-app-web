@@ -1,12 +1,12 @@
+import createBrowserHistory from "history/createBrowserHistory";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Router, Switch } from 'react-router';
-import { Route } from 'react-router-dom';
-import Counter from "./counter/Container";
-import store from "./store";
 import {Provider} from "react-redux";
-import createBrowserHistory from 'history/createBrowserHistory';
+import { Router, Switch } from "react-router";
+import { Route } from "react-router-dom";
+import Counter from "./counter/Container";
 import NotFound from "./NotFound";
+import store from "./store";
 
 const history = createBrowserHistory();
 
@@ -20,5 +20,5 @@ ReactDOM.render(
       </Switch>
     </Router>
   </Provider>,
-  document.getElementById("app")
+  document.getElementById("app"),
 );
