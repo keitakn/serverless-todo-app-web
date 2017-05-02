@@ -3,6 +3,7 @@
     "module": "es2015",
     "target": "es5",
     "jsx": "react",
+    "moduleResolution": "node",
     "sourceMap": true,
     // コンパイル時にコメントを削除する
     "removeComments": true,
@@ -19,7 +20,11 @@
     // use strict; を自動で追加
     "alwaysStrict": true,
     // 暗黙的な undefined を返す事を禁止する
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "lib": [
+      "dom",
+      "ES2017"
+    ]
   },
   "exclude": [
     "node_modules"

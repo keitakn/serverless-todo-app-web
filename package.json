@@ -6,20 +6,28 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "start:dev": "webpack-dev-server"
+    "dev": "node server.js",
+    "lint": "tslint -c tslint.json src/**/*.ts*",
+    "lint:fix": "tslint -c tslint.json --fix src/**/*.ts*"
   },
   "dependencies": {
     "@types/material-ui": "^0.17.2",
     "@types/react": "^15.0.22",
     "@types/react-dom": "^15.5.0",
+    "@types/react-redux": "4.4.38",
+    "@types/react-router-dom": "^4.0.4",
     "@types/react-tap-event-plugin": "^0.0.30",
+    "express": "^4.15.2",
     "material-ui": "^0.17.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-redux": "^5.0.4",
+    "react-router-dom": "^4.1.1",
     "react-tap-event-plugin": "^2.0.1",
+    "redux": "^3.6.0",
     "ts-loader": "^2.0.3",
-    "typescript": "^2.2.2",
-    "webpack": "^2.4.1",
-    "webpack-dev-server": "^2.4.5"
+    "tslint": "^5.1.0",
+    "typescript": "^2.3.2",
+    "webpack": "^2.4.1"
   }
 }
