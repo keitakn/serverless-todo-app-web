@@ -1,12 +1,12 @@
 import {Action} from "redux";
 
 const INCREMENT_NAME = "counter/increment";
-type INCREMENT_TYPE = typeof INCREMENT_NAME;
 const DECREMENT_NAME = "counter/decrement";
-type DECREMENT_TYPE = typeof DECREMENT_NAME;
 const FETCH_REQUEST_START_NAME = "counter/fetch_request_start";
-type FETCH_REQUEST_START_TYPE = typeof FETCH_REQUEST_START_NAME;
 const FETCH_REQUEST_FINISH_NAME = "counter/fetch_request_finish";
+type INCREMENT_TYPE = typeof INCREMENT_NAME;
+type DECREMENT_TYPE = typeof DECREMENT_NAME;
+type FETCH_REQUEST_START_TYPE = typeof FETCH_REQUEST_START_NAME;
 type FETCH_REQUEST_FINISH_TYPE = typeof FETCH_REQUEST_FINISH_NAME;
 
 interface IncrementAction extends Action {
