@@ -1,3 +1,4 @@
+import axios from "axios";
 import {connect} from "react-redux";
 import {RouteComponentProps} from "react-router";
 import {Dispatch} from "redux";
@@ -27,19 +28,24 @@ export class ActionDispatcher {
     this.dispatch(fetchRequestStart());
 
     try {
-      const response: Response = await fetch("/api/count", {
-        method: "GET",
+      const requestConfig = {
         headers: this.myHeaders,
-      });
+      };
 
-      if (response.status === 200) {
-        const json: {amount: number} = await response.json();
-        this.dispatch(incrementAmount(json.amount));
-      } else {
-        throw new Error(`illegal status code: ${response.status}`);
+      const axiosInstance = axios.create(requestConfig);
+
+      const axiosResponse = await axiosInstance.get("/api/count");
+
+      if (axiosResponse.status !== 200) {
+        throw new Error(`illegal status code: ${axiosResponse.status}`);
       }
-    } catch (err) {
-      console.error(err);
+
+      this.dispatch(
+        incrementAmount(axiosResponse.data.amount),
+      );
+
+    } catch (error) {
+      console.error(error);
     } finally {
       this.dispatch(fetchRequestFinish());
     }
