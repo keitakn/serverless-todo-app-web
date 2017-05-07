@@ -1,7 +1,7 @@
+import RaisedButton from "material-ui/RaisedButton";
 import * as React from "react";
 import {ActionDispatcher} from "./Container";
 import {CounterState} from "./module";
-import RaisedButton from "material-ui/RaisedButton";
 
 interface Props {
   value: CounterState;
