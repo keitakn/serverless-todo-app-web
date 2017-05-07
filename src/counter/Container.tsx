@@ -52,9 +52,12 @@ export class ActionDispatcher {
   }
 }
 
+const mapStateToProps    = (state: ReduxState) => ({value: state.counter});
+const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>, ownProps: RouteComponentProps<{myParams: string}>) => {
+  return {actions: new ActionDispatcher(dispatch)};
+};
+
 export default connect(
-  (state: ReduxState) => ({value: state.counter}),
-  (dispatch: Dispatch<ReduxAction>, ownProps: RouteComponentProps<{myParams: string}>) => {
-    return {actions: new ActionDispatcher(dispatch)};
-  },
+  mapStateToProps,
+  mapDispatchToProps,
 )(Counter);
