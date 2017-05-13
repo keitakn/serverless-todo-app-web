@@ -1,6 +1,6 @@
+import HttpClientFactory from "../../factories/HttpClientFactory";
 import {ActionDispatcher} from "../Container";
 import {fetchRequestFinish, fetchRequestStart, incrementAmount} from "../module";
-import HttpClientFactory from "../../factories/HttpClientFactory";
 
 /**
  * ActionDispatcherのテスト
