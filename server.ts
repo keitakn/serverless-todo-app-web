@@ -1,6 +1,8 @@
-const path = require('path');
-const express = require('express');
+import * as path from "path";
+import * as express from "express";
+
 const app = express();
+const port = 3000;
 
 app.use('/dist', express.static('dist'));
 
@@ -15,9 +17,9 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(3000, (err) => {
-  if (err) {
-    console.log(err);
+app.listen(port, (error: Error) => {
+  if (error) {
+    console.log(error);
   }
   console.log("server start at port 3000")
 });
