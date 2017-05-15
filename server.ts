@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as path from "path";
 
 const app = express();
 const port = 3000;
@@ -13,7 +14,7 @@ app.get("/api/count", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.status(200).send(renderFullPage());
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.listen(port, (error: Error) => {
@@ -22,33 +23,3 @@ app.listen(port, (error: Error) => {
   }
   console.log("server start at port 3000");
 });
-
-/**
- * 初期表示用のHTMLを返す
- *
- * @todo 後で別のファイルに分割する
- * @returns {string}
- */
-const renderFullPage = () => {
-  const initialState = {
-    num: 99,
-    loadingCount: 0,
-  };
-
-  return `
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>SPA-Prototype-React</title>
-</head>
-<body>
-  <div id="app"></div>
-  <script>
-    var INITIAL_STATE = ${initialState};
-  </script>
-  <script src="./dist/bundle.js"></script>
-</body>
-</html>
-  `;
-};
