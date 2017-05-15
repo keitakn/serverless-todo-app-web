@@ -44,6 +44,8 @@ const axiosInstance = HttpClientFactory.create();
 
 const mapStateToProps    = (state: ReduxState) => ({value: state.counter});
 const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>, ownProps: RouteComponentProps<{myParams: string}>) => {
+  // URLパラメータを受け取れるか確認
+  console.log(ownProps.match.params.myParams);
   return {actions: new ActionDispatcher(dispatch, axiosInstance)};
 };
 
