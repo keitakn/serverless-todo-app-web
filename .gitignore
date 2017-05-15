@@ -63,4 +63,6 @@ typings/
 .idea
 spa-prototype-react.iml
 
+# JavaScript Files
+server.js
 
