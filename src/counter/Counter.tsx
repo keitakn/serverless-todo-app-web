@@ -1,8 +1,8 @@
 import RaisedButton from "material-ui/RaisedButton";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as React from "react";
 import {ActionDispatcher} from "./Container";
 import {CounterState} from "./module";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 interface Props {
   value: CounterState;
