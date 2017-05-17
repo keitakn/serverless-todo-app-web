@@ -3,6 +3,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as React from "react";
 import {ActionDispatcher} from "./Container";
 import {CounterState} from "./module";
+import AppMenu from "../common/AppMenu";
 
 interface Props {
   value: CounterState;
@@ -19,6 +20,7 @@ export class Counter extends React.Component<Props, {}> {
     return (
       <MuiThemeProvider>
         <div>
+          <AppMenu />
           {(this.props.value.loadingCount === 0) ? null : <p>loading</p>}
           <p>{`score: ${this.props.value.num}`}</p>
           <RaisedButton
