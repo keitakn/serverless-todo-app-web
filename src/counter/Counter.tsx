@@ -1,9 +1,9 @@
 import RaisedButton from "material-ui/RaisedButton";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as React from "react";
+import AppMenu from "../common/AppMenu";
 import {ActionDispatcher} from "./Container";
 import {CounterState} from "./module";
-import AppMenu from "../common/AppMenu";
 
 interface Props {
   value: CounterState;
