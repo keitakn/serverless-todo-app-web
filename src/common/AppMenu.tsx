@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 
 export default class AppMenu extends React.Component<any, any> {
 
-  render() {
+  public render() {
     return (
       <AppBar
         title="SPA-Prototype-React"
