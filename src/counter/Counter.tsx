@@ -8,6 +8,7 @@ import {CounterState} from "./module";
 interface Props {
   value: CounterState;
   actions: ActionDispatcher;
+  param?: string;
 }
 
 const style = {

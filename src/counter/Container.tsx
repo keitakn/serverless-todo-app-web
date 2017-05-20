@@ -42,14 +42,15 @@ export class ActionDispatcher {
 
 const axiosInstance = HttpClientFactory.create();
 
-const mapStateToProps    = (state: ReduxState) => ({value: state.counter});
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>, ownProps: RouteComponentProps<{myParams: string}>) => {
-  // URLパラメータを受け取れるか確認
-  console.log(ownProps.match.params.myParams);
-  return {actions: new ActionDispatcher(dispatch, axiosInstance)};
+const mapStateToProps = (state: ReduxState, ownProps: RouteComponentProps<{myParams: string | undefined}>) => {
+  if (ownProps.match.params.myParams === undefined) {
+    return {value: state.counter};
+  }
+  return {value: state.counter, param: ownProps.match.params.myParams};
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Counter);
+const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => (
+    {actions: new ActionDispatcher(dispatch, axiosInstance)}
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
