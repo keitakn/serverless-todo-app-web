@@ -1,4 +1,5 @@
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import TextField from "material-ui/TextField";
 import * as React from "react";
 import AppMenu from "../common/AppMenu";
 import {ActionDispatcher} from "./Container";
@@ -16,7 +17,10 @@ export default class Todo extends React.Component<Props, {}> {
       <MuiThemeProvider>
         <div>
           <AppMenu />
-          <p>TODO Component!</p>
+          <p>TODOリスト</p>
+          <div>
+            <TextField hintText="買い物に行く" />
+          </div>
         </div>
       </MuiThemeProvider>
     );
