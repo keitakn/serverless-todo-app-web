@@ -9,7 +9,7 @@ interface AddAction extends Action {
 }
 export const addAction = (title: string): AddAction => ({
   type: ADD_NAME,
-  title,
+  title: title,
 });
 
 export interface TodoState {
@@ -25,7 +25,7 @@ const initialState: TodoState = {
 export default function reducer(state: TodoState = initialState, action: TodoActions): TodoState {
   switch (action.type) {
     case ADD_NAME:
-      return Object.assign({}, state, {string: state.title});
+      return Object.assign({}, state, {title: action.title});
     default:
       return state;
   }

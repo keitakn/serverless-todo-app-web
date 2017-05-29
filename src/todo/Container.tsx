@@ -8,7 +8,7 @@ import Todo from "./Todo";
 export class ActionDispatcher {
   constructor(private dispatch: (action: ReduxAction) => void) {}
 
-  public add(title: string): void {
+  public addTodo(title: string): void {
     this.dispatch(addAction(title));
   }
 }
