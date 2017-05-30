@@ -9,7 +9,7 @@ interface AddAction extends Action {
 }
 export const addAction = (title: string): AddAction => ({
   type: ADD_NAME,
-  title: title,
+  title,
 });
 
 export interface TodoState {
