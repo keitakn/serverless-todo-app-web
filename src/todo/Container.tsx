@@ -1,24 +1,38 @@
+import {AxiosInstance} from "axios";
 import {connect} from "react-redux";
 import {RouteComponentProps} from "react-router";
 import {Dispatch} from "redux";
-import {ReduxAction, ReduxState} from "../store";
-import {addAction} from "./module";
-import Todo from "./Todo";
-import {AxiosInstance} from "axios";
 import HttpClientFactory from "../factories/HttpClientFactory";
+import {ReduxAction, ReduxState} from "../store";
+import {addAction, findAllAction} from "./module";
+import Todo from "./Todo";
 
 export class ActionDispatcher {
   constructor(private dispatch: (action: ReduxAction) => void, private axiosInstance: AxiosInstance) {}
 
   public async addTodo(title: string): Promise<void> {
     try {
-      const axiosResponse = await this.axiosInstance.post("/api/todo", {title: title});
+      const axiosResponse = await this.axiosInstance.post("/api/todo", {title});
 
       if (axiosResponse.status !== 201) {
         throw new Error(`illegal status code: ${axiosResponse.status}`);
       }
 
       this.dispatch(addAction(title));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  public async findAll(): Promise<void> {
+    try {
+      const axiosResponse = await this.axiosInstance.get("/api/todo");
+
+      if (axiosResponse.status !== 200) {
+        throw new Error(`illegal status code: ${axiosResponse.status}`);
+      }
+
+      this.dispatch(findAllAction(axiosResponse.data));
     } catch (error) {
       console.error(error);
     }

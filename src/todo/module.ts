@@ -1,7 +1,9 @@
 import {Action} from "redux";
 
-const ADD_NAME = "todo/add";
-type ADD_TYPE = typeof ADD_NAME;
+const ADD_NAME      = "todo/add";
+const FIND_ALL_NAME = "todo/find/all";
+type ADD_TYPE       = typeof ADD_NAME;
+type FIND_ALL_TYPE  = typeof FIND_ALL_NAME;
 
 interface AddAction extends Action {
   type: ADD_TYPE;
@@ -12,11 +14,21 @@ export const addAction = (title: string): AddAction => ({
   title,
 });
 
+interface FindAllAction extends Action {
+  type: FIND_ALL_TYPE;
+  list: [{id: number, title: string}];
+}
+export const findAllAction = (list: [{id: number, title: string}]): FindAllAction => ({
+  type: FIND_ALL_NAME,
+  list,
+});
+
 export interface TodoState {
   title: string;
+  list?: [{id: number, title: string}];
 }
 
-export type TodoActions = AddAction;
+export type TodoActions = AddAction | FindAllAction;
 
 const initialState: TodoState = {
   title: "",
@@ -26,6 +38,8 @@ export default function reducer(state: TodoState = initialState, action: TodoAct
   switch (action.type) {
     case ADD_NAME:
       return Object.assign({}, state, {title: action.title});
+    case FIND_ALL_NAME:
+      return Object.assign({}, state, {list: action.list});
     default:
       return state;
   }

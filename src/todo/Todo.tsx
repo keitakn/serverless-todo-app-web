@@ -23,11 +23,18 @@ export default class Todo extends React.Component<Props, {}> {
   constructor(props: Props) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
+  public componentDidMount() {
+    // TODO Promiseが返却されるのでちゃんと受け取り処理を書く
+    this.props.actions.findAll();
   }
 
   public handleTouchTap(e: React.FormEvent<any>) {
     e.preventDefault();
     const title = this.refs.todoTitle.getValue();
+    // TODO Promiseが返却されるのでちゃんと受け取り処理を書く
     this.props.actions.addTodo(title);
   }
 
