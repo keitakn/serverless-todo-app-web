@@ -1,4 +1,6 @@
+import Checkbox from "material-ui/Checkbox";
 import FloatingActionButton from "material-ui/FloatingActionButton";
+import {List, ListItem} from "material-ui/List";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import TextField from "material-ui/TextField";
@@ -50,6 +52,17 @@ export default class Todo extends React.Component<Props, {}> {
               <ContentAdd />
             </FloatingActionButton>
           </div>
+          <List>
+            {this.props.value.list.map((todo) => {
+              return (
+                <ListItem
+                  key={todo.id}
+                  primaryText={todo.title}
+                  leftCheckbox={<Checkbox />}
+                />
+              );
+            })}
+          </List>
         </div>
       </MuiThemeProvider>
     );

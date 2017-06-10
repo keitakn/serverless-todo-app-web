@@ -19,6 +19,8 @@ export class ActionDispatcher {
       }
 
       this.dispatch(addAction(title));
+
+      await this.findAll();
     } catch (error) {
       console.error(error);
     }
@@ -34,7 +36,7 @@ export class ActionDispatcher {
 
       this.dispatch(findAllAction(axiosResponse.data));
     } catch (error) {
-      console.error(error);
+      return Promise.reject(error);
     }
   }
 }

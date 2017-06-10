@@ -25,13 +25,15 @@ export const findAllAction = (list: [{id: number, title: string}]): FindAllActio
 
 export interface TodoState {
   title: string;
-  list?: [{id: number, title: string}];
+  list: [{id: number, title: string}];
 }
 
 export type TodoActions = AddAction | FindAllAction;
 
+// TODO initialStateに関してはもっと良い取得方法を検討する
 const initialState: TodoState = {
   title: "",
+  list: [{id: 0, title: "サンプル"}],
 };
 
 export default function reducer(state: TodoState = initialState, action: TodoActions): TodoState {
