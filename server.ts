@@ -2,6 +2,7 @@ import * as express from "express";
 import * as path from "path";
 import * as fs from "fs";
 import * as bodyParser from "body-parser";
+import {Request, Response} from "express";
 
 const app = express();
 const port = 3000;
@@ -15,6 +16,26 @@ app.get("/api/count", (req, res) => {
   const obj = {amount: 100};
   setTimeout(() => res.json(obj), 500);
   //res.status(400).json(obj); //for error testing
+});
+
+app.get("/api/todo", (req: Request, res: Response) => {
+
+  fs.readFile(TODO_LIST_JSON, (error, buffer) => {
+    if (error) {
+      res.status(500).json(
+        {"message": "500 Internal Server Error"}
+      );
+      return;
+    }
+
+    res.json(
+      JSON.parse(
+        buffer.toString()
+      )
+    );
+
+    return;
+  });
 });
 
 app.post("/api/todo", (req, res) => {

@@ -1,4 +1,6 @@
+import Checkbox from "material-ui/Checkbox";
 import FloatingActionButton from "material-ui/FloatingActionButton";
+import {List, ListItem} from "material-ui/List";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import TextField from "material-ui/TextField";
@@ -23,11 +25,18 @@ export default class Todo extends React.Component<Props, {}> {
   constructor(props: Props) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
+  public componentDidMount() {
+    // TODO Promiseが返却されるのでちゃんと受け取り処理を書く
+    this.props.actions.findAll();
   }
 
   public handleTouchTap(e: React.FormEvent<any>) {
     e.preventDefault();
     const title = this.refs.todoTitle.getValue();
+    // TODO Promiseが返却されるのでちゃんと受け取り処理を書く
     this.props.actions.addTodo(title);
   }
 
@@ -43,6 +52,17 @@ export default class Todo extends React.Component<Props, {}> {
               <ContentAdd />
             </FloatingActionButton>
           </div>
+          <List>
+            {this.props.value.list.map((todo) => {
+              return (
+                <ListItem
+                  key={todo.id}
+                  primaryText={todo.title}
+                  leftCheckbox={<Checkbox />}
+                />
+              );
+            })}
+          </List>
         </div>
       </MuiThemeProvider>
     );
