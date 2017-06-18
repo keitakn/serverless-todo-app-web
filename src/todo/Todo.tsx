@@ -14,8 +14,7 @@ interface Props {
   actions: ActionDispatcher;
 }
 
-export default class Todo extends React.Component<Props, {}> {
-
+class TodoForm extends React.Component<Props, {}> {
   // TODO もっと良い書き方がないか検討する
   public refs: {
     [string: string]: any;
@@ -25,19 +24,57 @@ export default class Todo extends React.Component<Props, {}> {
   constructor(props: Props) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
-  }
-
-  public componentDidMount() {
-    // TODO Promiseが返却されるのでちゃんと受け取り処理を書く
-    this.props.actions.findAll();
   }
 
   public handleTouchTap(e: React.FormEvent<any>) {
     e.preventDefault();
     const title = this.refs.todoTitle.getValue();
-    // TODO Promiseが返却されるのでちゃんと受け取り処理を書く
-    this.props.actions.addTodo(title);
+    this.props.actions.addTodo(title).catch((error) => {
+      // TODO まともなエラー処理を行う
+      console.error(error);
+    });
+  }
+
+  public render() {
+    return (
+      <div>
+        <TextField hintText="買い物に行く" ref="todoTitle" />
+        <FloatingActionButton onTouchTap={(e) => this.handleTouchTap(e)}>
+          <ContentAdd />
+        </FloatingActionButton>
+      </div>
+    );
+  }
+}
+
+const TodoList = (props: Props) => {
+  return (
+    <List>
+      {props.value.list.map((todo) => {
+        return (
+          <ListItem
+            key={todo.id}
+            primaryText={todo.title}
+            leftCheckbox={<Checkbox />}
+          />
+        );
+      })}
+    </List>
+  );
+};
+
+export default class Todo extends React.Component<Props, {}> {
+
+  constructor(props: Props) {
+    super(props);
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
+
+  public componentDidMount() {
+    this.props.actions.findAll().catch((error) => {
+      // TODO まともなエラー処理を行う
+      console.error(error);
+    });
   }
 
   public render() {
@@ -46,23 +83,8 @@ export default class Todo extends React.Component<Props, {}> {
         <div>
           <AppMenu />
           <p>TODOリスト</p>
-          <div>
-            <TextField hintText="買い物に行く" ref="todoTitle" />
-            <FloatingActionButton onTouchTap={(e) => this.handleTouchTap(e)}>
-              <ContentAdd />
-            </FloatingActionButton>
-          </div>
-          <List>
-            {this.props.value.list.map((todo) => {
-              return (
-                <ListItem
-                  key={todo.id}
-                  primaryText={todo.title}
-                  leftCheckbox={<Checkbox />}
-                />
-              );
-            })}
-          </List>
+          <TodoForm value={this.props.value} actions={this.props.actions} />
+          <TodoList value={this.props.value} actions={this.props.actions} />
         </div>
       </MuiThemeProvider>
     );
