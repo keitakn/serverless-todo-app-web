@@ -47,6 +47,22 @@ class TodoForm extends React.Component<Props, {}> {
   }
 }
 
+const TodoList = (props: Props) => {
+  return (
+    <List>
+      {props.value.list.map((todo) => {
+        return (
+          <ListItem
+            key={todo.id}
+            primaryText={todo.title}
+            leftCheckbox={<Checkbox />}
+          />
+        );
+      })}
+    </List>
+  );
+};
+
 export default class Todo extends React.Component<Props, {}> {
 
   constructor(props: Props) {
@@ -68,17 +84,7 @@ export default class Todo extends React.Component<Props, {}> {
           <AppMenu />
           <p>TODOリスト</p>
           <TodoForm value={this.props.value} actions={this.props.actions} />
-          <List>
-            {this.props.value.list.map((todo) => {
-              return (
-                <ListItem
-                  key={todo.id}
-                  primaryText={todo.title}
-                  leftCheckbox={<Checkbox />}
-                />
-              );
-            })}
-          </List>
+          <TodoList value={this.props.value} actions={this.props.actions} />
         </div>
       </MuiThemeProvider>
     );
