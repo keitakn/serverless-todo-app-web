@@ -4,7 +4,7 @@ import {RouteComponentProps} from "react-router";
 import {Dispatch} from "redux";
 import HttpClientFactory from "../factories/HttpClientFactory";
 import {ReduxAction, ReduxState} from "../store";
-import {addAction, findAllAction} from "./module";
+import {addTodoAction, fetchAllTodoAction} from "./module";
 import Todo from "./Todo";
 
 export class ActionDispatcher {
@@ -18,7 +18,7 @@ export class ActionDispatcher {
         throw new Error(`illegal status code: ${axiosResponse.status}`);
       }
 
-      this.dispatch(addAction(title));
+      this.dispatch(addTodoAction(title));
 
       await this.findAll();
     } catch (error) {
@@ -34,7 +34,7 @@ export class ActionDispatcher {
         throw new Error(`illegal status code: ${axiosResponse.status}`);
       }
 
-      this.dispatch(findAllAction(axiosResponse.data));
+      this.dispatch(fetchAllTodoAction(axiosResponse.data));
     } catch (error) {
       return Promise.reject(error);
     }

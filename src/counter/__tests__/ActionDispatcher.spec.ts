@@ -1,6 +1,7 @@
 import HttpClientFactory from "../../factories/HttpClientFactory";
 import {ActionDispatcher} from "../Container";
 import {fetchRequestFinish, fetchRequestStart, incrementAmount} from "../module";
+import {AxiosPromise, AxiosRequestConfig} from "axios";
 
 /**
  * ActionDispatcherのテスト
@@ -31,11 +32,18 @@ describe("ActionDispatcher", () => {
       amount: 100,
     };
 
-    const mockAdapter = () => {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    const mockAdapter = (requestConfig: AxiosRequestConfig): AxiosPromise => {
       return new Promise((resolve) => {
         resolve({
           data: mockResponse,
           status: 200,
+          statusText: "OK",
+          headers,
+          config: requestConfig
         });
       });
     };
@@ -60,11 +68,18 @@ describe("ActionDispatcher", () => {
   it("fetchAmount Bad Request", async (done) => {
     const mockResponse = {};
 
-    const mockAdapter = () => {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    const mockAdapter = (requestConfig: AxiosRequestConfig): AxiosPromise => {
       return new Promise((resolve) => {
         resolve({
           data: mockResponse,
           status: 400,
+          statusText: "Bad Request",
+          headers,
+          config: requestConfig
         });
       });
     };

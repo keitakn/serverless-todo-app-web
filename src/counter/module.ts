@@ -1,44 +1,42 @@
 import {Action} from "redux";
 
-const INCREMENT_NAME = "counter/increment";
-const DECREMENT_NAME = "counter/decrement";
-const FETCH_REQUEST_START_NAME = "counter/fetch_request_start";
-const FETCH_REQUEST_FINISH_NAME = "counter/fetch_request_finish";
-type INCREMENT_TYPE = typeof INCREMENT_NAME;
-type DECREMENT_TYPE = typeof DECREMENT_NAME;
-type FETCH_REQUEST_START_TYPE = typeof FETCH_REQUEST_START_NAME;
-type FETCH_REQUEST_FINISH_TYPE = typeof FETCH_REQUEST_FINISH_NAME;
+enum ActionNames {
+  INCREMENT = 'counter/increment',
+  DECREMENT = 'counter/decrement',
+  FETCH_START = 'counter/fetch_request_start',
+  FETCH_FINISH = 'counter/fetch_request_finish'
+}
 
 interface IncrementAction extends Action {
-  type: INCREMENT_TYPE;
+  type: ActionNames.INCREMENT;
   plusAmount: number;
 }
 export const incrementAmount = (amount: number): IncrementAction => ({
-  type: INCREMENT_NAME,
+  type: ActionNames.INCREMENT,
   plusAmount: amount,
 });
 
 interface DecrementAction extends Action {
-  type: DECREMENT_TYPE;
+  type: ActionNames.DECREMENT;
   minusAmount: number;
 }
 export const decrementAmount = (amount: number): DecrementAction => ({
-  type: DECREMENT_NAME,
+  type: ActionNames.DECREMENT,
   minusAmount: amount,
 });
 
 interface FetchRequestStartAction extends Action {
-  type: FETCH_REQUEST_START_TYPE;
+  type: ActionNames.FETCH_START;
 }
 export const fetchRequestStart = (): FetchRequestStartAction => ({
-  type: FETCH_REQUEST_START_NAME,
+  type: ActionNames.FETCH_START,
 });
 
 interface FetchRequestFinishAction extends Action {
-  type: FETCH_REQUEST_FINISH_TYPE;
+  type: ActionNames.FETCH_FINISH;
 }
 export const fetchRequestFinish = (): FetchRequestFinishAction => ({
-  type: FETCH_REQUEST_FINISH_NAME,
+  type: ActionNames.FETCH_FINISH,
 });
 
 export interface CounterState {
@@ -58,14 +56,14 @@ const initialState: CounterState = {
 
 export default function reducer(state: CounterState = initialState, action: CounterActions): CounterState {
   switch (action.type) {
-    case INCREMENT_NAME:
+    case ActionNames.INCREMENT:
       return Object.assign({}, state, {num: state.num + action.plusAmount});
-    case DECREMENT_NAME:
+    case ActionNames.DECREMENT:
       return Object.assign({}, state, {num: state.num - action.minusAmount});
-    case FETCH_REQUEST_START_NAME: {
+    case ActionNames.FETCH_START: {
       return Object.assign({}, state, {loadingCount: state.loadingCount + 1});
     }
-    case FETCH_REQUEST_FINISH_NAME: {
+    case ActionNames.FETCH_FINISH: {
       return Object.assign({}, state, {loadingCount: state.loadingCount - 1});
     }
     default:
