@@ -1,25 +1,25 @@
 import {Action} from "redux";
 
-const ADD_NAME      = "todo/add";
-const FIND_ALL_NAME = "todo/find/all";
-type ADD_TYPE       = typeof ADD_NAME;
-type FIND_ALL_TYPE  = typeof FIND_ALL_NAME;
+enum ActionNames {
+  POST_TODO = 'todo/increment',
+  FETCH_ALL_TODO = 'todo/fetch_all_todo'
+}
 
-interface AddAction extends Action {
-  type: ADD_TYPE;
+interface AddTodoAction extends Action {
+  type: ActionNames.POST_TODO;
   title: string;
 }
-export const addAction = (title: string): AddAction => ({
-  type: ADD_NAME,
+export const addTodoAction = (title: string): AddTodoAction => ({
+  type: ActionNames.POST_TODO,
   title,
 });
 
-interface FindAllAction extends Action {
-  type: FIND_ALL_TYPE;
+interface FetchAllTodoAction extends Action {
+  type: ActionNames.FETCH_ALL_TODO;
   list: [{id: number, title: string}];
 }
-export const findAllAction = (list: [{id: number, title: string}]): FindAllAction => ({
-  type: FIND_ALL_NAME,
+export const fetchAllTodoAction = (list: [{id: number, title: string}]): FetchAllTodoAction => ({
+  type: ActionNames.FETCH_ALL_TODO,
   list,
 });
 
@@ -28,7 +28,7 @@ export interface TodoState {
   list: [{id: number, title: string}];
 }
 
-export type TodoActions = AddAction | FindAllAction;
+export type TodoActions = AddTodoAction | FetchAllTodoAction;
 
 // TODO initialStateに関してはもっと良い取得方法を検討する
 const initialState: TodoState = {
@@ -38,9 +38,9 @@ const initialState: TodoState = {
 
 export default function reducer(state: TodoState = initialState, action: TodoActions): TodoState {
   switch (action.type) {
-    case ADD_NAME:
+    case ActionNames.POST_TODO:
       return Object.assign({}, state, {title: action.title});
-    case FIND_ALL_NAME:
+    case ActionNames.FETCH_ALL_TODO:
       return Object.assign({}, state, {list: action.list});
     default:
       return state;
