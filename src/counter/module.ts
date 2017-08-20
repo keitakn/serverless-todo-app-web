@@ -1,10 +1,10 @@
 import {Action} from "redux";
 
 enum ActionNames {
-  INCREMENT = 'counter/increment',
-  DECREMENT = 'counter/decrement',
-  FETCH_START = 'counter/fetch_request_start',
-  FETCH_FINISH = 'counter/fetch_request_finish'
+  INCREMENT = "counter/increment",
+  DECREMENT = "counter/decrement",
+  FETCH_START = "counter/fetch_request_start",
+  FETCH_FINISH = "counter/fetch_request_finish",
 }
 
 interface IncrementAction extends Action {
