@@ -1,3 +1,4 @@
+import DatePicker from "material-ui/DatePicker";
 import {RadioButton, RadioButtonGroup} from "material-ui/RadioButton";
 import RaisedButton from "material-ui/RaisedButton";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
@@ -17,6 +18,7 @@ class SignUpForm extends React.Component<Props, {}> {
   public refs: {
     email: TextField;
     gender: RadioButtonGroup;
+    birthdate: any;
   };
 
   constructor(props: Props) {
@@ -29,6 +31,7 @@ class SignUpForm extends React.Component<Props, {}> {
     e.preventDefault();
     console.log(this.refs.email.getValue().trim());
     console.log(this.refs.gender.getSelectedValue());
+    console.log(this.refs.birthdate.refs.input.props.value);
   }
 
   public render() {
@@ -49,6 +52,10 @@ class SignUpForm extends React.Component<Props, {}> {
             label="男性"
           />
         </RadioButtonGroup>
+        <DatePicker
+          ref="birthdate"
+          hintText="birthdate"
+        />
         <RaisedButton onTouchTap={this.send} label="Sign UP" secondary={true} fullWidth={true} />
       </form>
     );
