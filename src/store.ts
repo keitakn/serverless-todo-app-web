@@ -1,7 +1,7 @@
 import {Action, combineReducers, createStore} from "redux";
 import counter, {CounterActions, CounterState} from "./counter/module";
 import todo, {TodoActions, TodoState} from "./todo/module";
-import user, {UserState} from "./user/module";
+import user, {UserActions, UserState} from "./user/module";
 
 export default createStore(
   combineReducers({
@@ -17,4 +17,4 @@ export interface ReduxState {
   user: UserState;
 }
 
-export type ReduxAction = CounterActions | TodoActions |Action;
+export type ReduxAction = CounterActions | TodoActions | UserActions | Action;
