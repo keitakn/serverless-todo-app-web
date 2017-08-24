@@ -15,6 +15,7 @@ interface Props {
 
 class SignUpForm extends React.Component<Props, {}> {
 
+  // TODO passwordの入力フォームが必要
   public refs: {
     email: TextField;
     gender: RadioButtonGroup;
