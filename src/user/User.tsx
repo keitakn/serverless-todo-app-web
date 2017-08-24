@@ -27,11 +27,16 @@ class SignUpForm extends React.Component<Props, {}> {
     this.send = this.send.bind(this);
   }
 
-  public send(e: React.FormEvent<any>) {
+  public async send(e: React.FormEvent<any>) {
     e.preventDefault();
-    console.log(this.refs.email.getValue().trim());
-    console.log(this.refs.gender.getSelectedValue());
-    console.log(this.refs.birthdate.refs.input.props.value);
+
+    const signUpRequest = {
+      email: this.refs.email.getValue().trim(),
+      gender: this.refs.gender.getSelectedValue(),
+      birthdate: this.refs.birthdate.refs.input.props.value,
+    };
+
+    await this.props.actions.postSignUp(signUpRequest);
   }
 
   public render() {
