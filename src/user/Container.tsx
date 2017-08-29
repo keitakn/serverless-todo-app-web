@@ -47,7 +47,7 @@ export class ActionDispatcher {
 
     cognitoUserPool.signUp(
       dataEmail.Value,
-      "(Password1234)",
+      signUpRequest.password,
       attributeList,
       attributeList,
       (error: Error, cognitoUser: ISignUpResult) => {

@@ -18,6 +18,7 @@ class SignUpForm extends React.Component<Props, {}> {
   // TODO passwordの入力フォームが必要
   public refs: {
     email: TextField;
+    password: TextField;
     gender: RadioButtonGroup;
     birthdate: any;
   };
@@ -25,14 +26,15 @@ class SignUpForm extends React.Component<Props, {}> {
   constructor(props: Props) {
     super(props);
 
-    this.send = this.send.bind(this);
+    this.handleTouchTap = this.handleTouchTap.bind(this);
   }
 
-  public async send(e: React.FormEvent<any>) {
+  public async handleTouchTap(e: React.FormEvent<any>) {
     e.preventDefault();
 
     const signUpRequest = {
       email: this.refs.email.getValue().trim(),
+      password: this.refs.password.getValue().trim(),
       gender: this.refs.gender.getSelectedValue(),
       birthdate: this.refs.birthdate.refs.input.props.value,
     };
@@ -44,8 +46,15 @@ class SignUpForm extends React.Component<Props, {}> {
     return (
       <form>
         <TextField
-          hintText="email"
+          type="email"
+          hintText="Enter your Email"
           ref="email"
+          defaultValue={this.props.value.email}
+        />
+        <TextField
+          type="password"
+          hintText="Enter your Password"
+          ref="password"
           defaultValue=""
         />
         <RadioButtonGroup ref="gender" name="gender" defaultSelected="not_light">
@@ -62,7 +71,7 @@ class SignUpForm extends React.Component<Props, {}> {
           ref="birthdate"
           hintText="birthdate"
         />
-        <RaisedButton onTouchTap={this.send} label="Sign UP" secondary={true} fullWidth={true} />
+        <RaisedButton onTouchTap={this.handleTouchTap} label="Sign UP" secondary={true} fullWidth={true} />
       </form>
     );
   }
