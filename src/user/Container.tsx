@@ -4,6 +4,9 @@ import {ReduxAction, ReduxState} from "../store";
 import {postSignUpRequestAction, SignUpRequest, UserState} from "./module";
 import User from "./User";
 import {CognitoUserPool, CognitoUserAttribute, ISignUpResult} from "amazon-cognito-identity-js";
+import {AppConfig} from "../AppConfig";
+import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
+import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
 
 export class ActionDispatcher {
   constructor(private dispatch: (action: ReduxAction) => void) {}
@@ -13,10 +16,9 @@ export class ActionDispatcher {
 
     // TODO 登録成功時と登録失敗時のアクションを実装
     // TODO この一連の登録処理は別の場所に分離させる
-    // TODO UserPoolIdとClientIdは環境変数から取得する
     const poolData = {
-      UserPoolId: "",
-      ClientId: "",
+      UserPoolId: getCognitoUserPoolId(),
+      ClientId: getCognitoUserPoolClientId(),
     };
     const cognitoUserPool = new CognitoUserPool(poolData);
 
