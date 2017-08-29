@@ -27,6 +27,7 @@
     "amazon-cognito-identity-js": "^1.19.0",
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
+    "dotenv-webpack": "^1.5.4",
     "enzyme": "^2.9.1",
     "express": "^4.15.4",
     "jasmine-core": "^2.7.0",
