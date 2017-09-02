@@ -61,12 +61,14 @@ class SignUpForm extends React.Component<Props, {}> {
           hintText="Enter your Email"
           ref="email"
           defaultValue={this.props.value.email}
+          errorText={(this.props.value.error) ? this.props.value.errors.message : ""}
         />
         <TextField
           type="password"
           hintText="Enter your Password"
           ref="password"
-          defaultValue=""
+          defaultValue={this.props.value.password}
+          errorText={(this.props.value.error) ? this.props.value.errors.message : ""}
         />
         <RadioButtonGroup ref="gender" name="gender" defaultSelected="not_light">
           <RadioButton

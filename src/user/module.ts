@@ -43,15 +43,40 @@ export const signUpSuccessAction = (signUpSuccessResponse: SignUpSuccessResponse
   signUpCompleted: signUpSuccessResponse.signUpCompleted,
 });
 
+interface SignUpFailureAction extends Action {
+  type: ActionNames.SIGN_UP_FAILURE;
+  error: true;
+  errors: {
+    message: string;
+  },
+}
+export interface SignUpFailureResponse {
+  errors: {
+    message: string;
+  },
+}
+
+export const signUpFailureAction = (response: SignUpFailureResponse): SignUpFailureAction => ({
+  type: ActionNames.SIGN_UP_FAILURE,
+  error: true,
+  errors: {
+    message: response.errors.message,
+  },
+});
+
 export interface UserState {
   email: string;
   password: string;
   gender: string;
   birthdate: string;
   signUpCompleted: boolean;
+  error: boolean;
+  errors: {
+    message: string;
+  },
 }
 
-export type UserActions = PostSignUpRequestAction | SignUpSuccessAction;
+export type UserActions = PostSignUpRequestAction | SignUpSuccessAction | SignUpFailureAction;
 
 const initialState: UserState = {
   email: "",
@@ -59,6 +84,10 @@ const initialState: UserState = {
   gender: "",
   birthdate: "1999-01-01",
   signUpCompleted: false,
+  error: false,
+  errors: {
+    message: "",
+  },
 };
 
 export default function reducer(state: UserState = initialState, action: UserActions): UserState {
@@ -74,6 +103,12 @@ export default function reducer(state: UserState = initialState, action: UserAct
         {},
         state,
         {email: action.email, signUpCompleted: action.signUpCompleted},
+      );
+    case ActionNames.SIGN_UP_FAILURE:
+      return Object.assign(
+        {},
+        state,
+        {error: action.error, errors: action.errors},
       );
     default:
       return state;

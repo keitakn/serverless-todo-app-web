@@ -1,7 +1,10 @@
 import {connect, MapDispatchToPropsParam, MapStateToPropsParam} from "react-redux";
 import {Dispatch} from "redux";
 import {ReduxAction, ReduxState} from "../store";
-import {postSignUpRequestAction, SignUpRequest, signUpSuccessAction, SignUpSuccessResponse, UserState} from "./module";
+import {
+  postSignUpRequestAction, signUpFailureAction, SignUpRequest, signUpSuccessAction, SignUpSuccessResponse,
+  UserState
+} from "./module";
 import User from "./User";
 import {CognitoUserPool, CognitoUserAttribute, ISignUpResult} from "amazon-cognito-identity-js";
 import {AppConfig} from "../AppConfig";
@@ -54,6 +57,14 @@ export class ActionDispatcher {
       attributeList,
       (error: Error, signUpResult: ISignUpResult) => {
         if (error) {
+          const signUpFailureResponse = {
+            errors: {
+              message: error.message,
+            },
+          };
+
+          this.dispatch(signUpFailureAction(signUpFailureResponse));
+
           return error;
         }
 
