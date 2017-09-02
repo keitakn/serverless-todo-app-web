@@ -1,7 +1,7 @@
 import {connect, MapDispatchToPropsParam, MapStateToPropsParam} from "react-redux";
 import {Dispatch} from "redux";
 import {ReduxAction, ReduxState} from "../store";
-import {postSignUpRequestAction, SignUpRequest, UserState} from "./module";
+import {postSignUpRequestAction, SignUpRequest, signUpSuccessAction, SignUpSuccessResponse, UserState} from "./module";
 import User from "./User";
 import {CognitoUserPool, CognitoUserAttribute, ISignUpResult} from "amazon-cognito-identity-js";
 import {AppConfig} from "../AppConfig";
@@ -52,12 +52,19 @@ export class ActionDispatcher {
       signUpRequest.password,
       attributeList,
       attributeList,
-      (error: Error, cognitoUser: ISignUpResult) => {
+      (error: Error, signUpResult: ISignUpResult) => {
         if (error) {
           return error;
         }
 
-        return cognitoUser;
+        const signUpSuccessResponse: SignUpSuccessResponse = {
+          email: signUpResult.user.getUsername(),
+          signUpCompleted: true,
+        };
+
+        this.dispatch(signUpSuccessAction(signUpSuccessResponse));
+
+        return signUpSuccessResponse;
       });
   }
 }

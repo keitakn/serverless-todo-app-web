@@ -13,6 +13,17 @@ interface Props {
   actions: ActionDispatcher;
 }
 
+const SignUpSuccessMessage = (props: Props) => {
+  return (
+    <div>
+      SignUpが完了しました。
+      メールアドレス宛に検証コードが届いているので入力して下さい。
+      メールが届かない場合は、下記アドレスからのメールを受信出来るように設定して下さい。
+      no-reply@verificationemail.com
+    </div>
+  );
+};
+
 class SignUpForm extends React.Component<Props, {}> {
 
   // TODO passwordの入力フォームが必要
@@ -85,6 +96,11 @@ export default class User extends React.Component<Props, {}> {
           <AppMenu />
           <p>サインアップ</p>
           <SignUpForm value={this.props.value} actions={this.props.actions} />
+          {
+            (this.props.value.signUpCompleted) ?
+            <SignUpSuccessMessage value={this.props.value} actions={this.props.actions}/> :
+            ""
+          }
         </div>
       </MuiThemeProvider>
     );
