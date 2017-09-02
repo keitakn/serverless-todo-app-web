@@ -1,8 +1,8 @@
 import {Action} from "redux";
 
 enum ActionNames {
-  POST_TODO = 'todo/increment',
-  FETCH_ALL_TODO = 'todo/fetch_all_todo'
+  POST_TODO = "todo/increment",
+  FETCH_ALL_TODO = "todo/fetch_all_todo",
 }
 
 interface AddTodoAction extends Action {

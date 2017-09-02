@@ -14,9 +14,9 @@ export default class AppMenu extends React.Component<any, any> {
             iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
           >
             <MenuItem
-              primaryText="home"
+              primaryText="sign up"
               containerElement={
-                <Link to="/" />
+                <Link to="/sign-up" />
               }
             />
             <MenuItem
