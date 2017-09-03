@@ -4,7 +4,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import TextField from "material-ui/TextField";
 import * as React from "react";
-import AppMenu from "../../common/AppMenu";
+import AppMenu from "../../components/AppMenu";
 import {ActionDispatcher} from "./Container";
 import {UserState} from "./module";
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import {Switch} from "react-router";
 import {Route} from "react-router-dom";
 import Counter from "./pages/counter/Container";
-import NotFound from "./NotFound";
+import NotFound from "./components/NotFound";
 import Todo from "./pages/todo/Container";
 import User from "./pages/user/Container";
 
