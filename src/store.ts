@@ -1,20 +1,20 @@
 import {Action, combineReducers, createStore} from "redux";
 import counter, {CounterActions, CounterState} from "./pages/counter/module";
 import todo, {TodoActions, TodoState} from "./pages/todo/module";
-import user, {UserActions, UserState} from "./pages/user/module";
+import signup, {SignupActions, SignupState} from "./pages/signup/module";
 
 export default createStore(
   combineReducers({
     counter,
     todo,
-    user,
+    signup,
   }),
 );
 
 export interface ReduxState {
   counter: CounterState;
   todo: TodoState;
-  user: UserState;
+  signup: SignupState;
 }
 
-export type ReduxAction = CounterActions | TodoActions | UserActions | Action;
+export type ReduxAction = CounterActions | TodoActions | SignupActions | Action;

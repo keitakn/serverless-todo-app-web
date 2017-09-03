@@ -4,7 +4,7 @@ import {Route} from "react-router-dom";
 import Counter from "./pages/counter/Container";
 import NotFound from "./components/NotFound";
 import Todo from "./pages/todo/Container";
-import User from "./pages/user/Container";
+import Signup from "./pages/signup/Container";
 
 export default class Routes extends React.Component<{}, {}> {
 
@@ -14,7 +14,7 @@ export default class Routes extends React.Component<{}, {}> {
         <Route exact path="/counter" component={Counter} />
         <Route path="/counter/:myParams" component={Counter} />
         <Route path="/todo" component={Todo} />
-        <Route path="/sign-up" component={User} />
+        <Route path="/signup" component={Signup} />
         <Route component={NotFound}/>
       </Switch>
     );

@@ -2,10 +2,14 @@ import {connect, MapDispatchToPropsParam, MapStateToPropsParam} from "react-redu
 import {Dispatch} from "redux";
 import {ReduxAction, ReduxState} from "../../store";
 import {
-  postSignUpRequestAction, signUpFailureAction, SignUpRequest, signUpSuccessAction, SignUpSuccessResponse,
-  UserState
+  postSignupRequestAction,
+  signupFailureAction,
+  SignupRequest,
+  signupSuccessAction,
+  SignupSuccessResponse,
+  SignupState
 } from "./module";
-import User from "./User";
+import Signup from "./Signup";
 import {CognitoUserPool, CognitoUserAttribute, ISignUpResult} from "amazon-cognito-identity-js";
 import {AppConfig} from "../../AppConfig";
 import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
@@ -14,8 +18,8 @@ import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
 export class ActionDispatcher {
   constructor(private dispatch: (action: ReduxAction) => void) {}
 
-  public async postSignUp(signUpRequest: SignUpRequest) {
-    this.dispatch(postSignUpRequestAction(signUpRequest));
+  public async postSignup(signUpRequest: SignupRequest) {
+    this.dispatch(postSignupRequestAction(signUpRequest));
 
     // TODO 登録成功時と登録失敗時のアクションを実装
     // TODO この一連の登録処理は別の場所に分離させる
@@ -55,36 +59,36 @@ export class ActionDispatcher {
       signUpRequest.password,
       attributeList,
       attributeList,
-      (error: Error, signUpResult: ISignUpResult) => {
+      (error: Error, signupResult: ISignUpResult) => {
         if (error) {
-          const signUpFailureResponse = {
+          const signupFailureResponse = {
             errors: {
               message: error.message,
             },
           };
 
-          this.dispatch(signUpFailureAction(signUpFailureResponse));
+          this.dispatch(signupFailureAction(signupFailureResponse));
 
           return error;
         }
 
-        const signUpSuccessResponse: SignUpSuccessResponse = {
-          email: signUpResult.user.getUsername(),
-          signUpCompleted: true,
+        const signupSuccessResponse: SignupSuccessResponse = {
+          email: signupResult.user.getUsername(),
+          signupCompleted: true,
         };
 
-        this.dispatch(signUpSuccessAction(signUpSuccessResponse));
+        this.dispatch(signupSuccessAction(signupSuccessResponse));
 
-        return signUpSuccessResponse;
+        return signupSuccessResponse;
       });
   }
 }
 
-const mapStateToProps: MapStateToPropsParam<{value: UserState}, any> = (state: ReduxState) => {
-  return {value: state.user};
+const mapStateToProps: MapStateToPropsParam<{value: SignupState}, any> = (state: ReduxState) => {
+  return {value: state.signup};
 };
 
 const mapDispatchToProps: MapDispatchToPropsParam<{actions: ActionDispatcher}, {}>
   = (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)});
 
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

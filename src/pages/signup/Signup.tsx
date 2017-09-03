@@ -6,17 +6,17 @@ import TextField from "material-ui/TextField";
 import * as React from "react";
 import AppMenu from "../../components/AppMenu";
 import {ActionDispatcher} from "./Container";
-import {UserState} from "./module";
+import {SignupState} from "./module";
 
 interface Props {
-  value: UserState;
+  value: SignupState;
   actions: ActionDispatcher;
 }
 
-const SignUpSuccessMessage = (props: Props) => {
+const SignupSuccessMessage = (props: Props) => {
   return (
     <div>
-      SignUpが完了しました。
+      Signupが完了しました。
       メールアドレス宛に検証コードが届いているので入力して下さい。
       メールが届かない場合は、下記アドレスからのメールを受信出来るように設定して下さい。
       no-reply@verificationemail.com
@@ -24,7 +24,7 @@ const SignUpSuccessMessage = (props: Props) => {
   );
 };
 
-class SignUpForm extends React.Component<Props, {}> {
+class SignupForm extends React.Component<Props, {}> {
 
   // TODO passwordの入力フォームが必要
   public refs: {
@@ -50,7 +50,7 @@ class SignUpForm extends React.Component<Props, {}> {
       birthdate: this.refs.birthdate.refs.input.props.value,
     };
 
-    await this.props.actions.postSignUp(signUpRequest);
+    await this.props.actions.postSignup(signUpRequest);
   }
 
   public render() {
@@ -84,23 +84,23 @@ class SignUpForm extends React.Component<Props, {}> {
           ref="birthdate"
           hintText="birthdate"
         />
-        <RaisedButton onTouchTap={this.handleTouchTap} label="Sign UP" secondary={true} fullWidth={true} />
+        <RaisedButton onTouchTap={this.handleTouchTap} label="サインアップ" secondary={true} fullWidth={true} />
       </form>
     );
   }
 }
 
-export default class User extends React.Component<Props, {}> {
+export default class Signup extends React.Component<Props, {}> {
   public render() {
     return (
       <MuiThemeProvider>
         <div>
           <AppMenu />
           <p>サインアップ</p>
-          <SignUpForm value={this.props.value} actions={this.props.actions} />
+          <SignupForm value={this.props.value} actions={this.props.actions} />
           {
-            (this.props.value.signUpCompleted) ?
-            <SignUpSuccessMessage value={this.props.value} actions={this.props.actions}/> :
+            (this.props.value.signupCompleted) ?
+            <SignupSuccessMessage value={this.props.value} actions={this.props.actions}/> :
             ""
           }
         </div>
