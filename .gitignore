@@ -61,7 +61,7 @@ typings/
 
 # IntelliJ IDEA Setting Files
 .idea
-spa-prototype-react.iml
+serverless-todo-app-web.iml
 
 # JavaScript Files
 server.js

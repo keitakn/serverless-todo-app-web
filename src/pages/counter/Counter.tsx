@@ -1,7 +1,7 @@
 import RaisedButton from "material-ui/RaisedButton";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import * as React from "react";
-import AppMenu from "../common/AppMenu";
+import AppMenu from "../../components/AppMenu";
 import {ActionDispatcher} from "./Container";
 import {CounterState} from "./module";
 

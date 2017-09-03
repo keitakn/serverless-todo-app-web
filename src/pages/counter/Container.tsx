@@ -2,8 +2,8 @@ import {AxiosInstance} from "axios";
 import {connect} from "react-redux";
 import {RouteComponentProps} from "react-router";
 import {Dispatch} from "redux";
-import HttpClientFactory from "../factories/HttpClientFactory";
-import {ReduxAction, ReduxState} from "../store";
+import HttpClientFactory from "../../factories/HttpClientFactory";
+import {ReduxAction, ReduxState} from "../../store";
 import {Counter} from "./Counter";
 import {decrementAmount, fetchRequestFinish, fetchRequestStart, incrementAmount} from "./module";
 

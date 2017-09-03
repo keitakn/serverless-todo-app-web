@@ -1,7 +1,7 @@
 {
-  "name": "spa-prototype-react",
+  "name": "serverless-todo-app-web",
   "version": "1.0.0",
-  "repository": "https://keita-nishimoto@github.com/keita-nishimoto/spa-prototype-react.git",
+  "repository": "https://keita-nishimoto@github.com/keita-nishimoto/serverless-todo-app-web.git",
   "author": "keita-nishimoto",
   "license": "MIT",
   "scripts": {
