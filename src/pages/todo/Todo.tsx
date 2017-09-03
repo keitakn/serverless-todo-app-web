@@ -5,7 +5,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import TextField from "material-ui/TextField";
 import * as React from "react";
-import AppMenu from "../common/AppMenu";
+import AppMenu from "../../common/AppMenu";
 import {ActionDispatcher} from "./Container";
 import {TodoState} from "./module";
 

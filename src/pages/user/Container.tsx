@@ -1,13 +1,13 @@
 import {connect, MapDispatchToPropsParam, MapStateToPropsParam} from "react-redux";
 import {Dispatch} from "redux";
-import {ReduxAction, ReduxState} from "../store";
+import {ReduxAction, ReduxState} from "../../store";
 import {
   postSignUpRequestAction, signUpFailureAction, SignUpRequest, signUpSuccessAction, SignUpSuccessResponse,
   UserState
 } from "./module";
 import User from "./User";
 import {CognitoUserPool, CognitoUserAttribute, ISignUpResult} from "amazon-cognito-identity-js";
-import {AppConfig} from "../AppConfig";
+import {AppConfig} from "../../AppConfig";
 import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
 import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
 

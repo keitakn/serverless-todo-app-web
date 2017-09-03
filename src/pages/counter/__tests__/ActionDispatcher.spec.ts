@@ -1,4 +1,4 @@
-import HttpClientFactory from "../../factories/HttpClientFactory";
+import HttpClientFactory from "../../../factories/HttpClientFactory";
 import {ActionDispatcher} from "../Container";
 import {fetchRequestFinish, fetchRequestStart, incrementAmount} from "../module";
 import {AxiosPromise, AxiosRequestConfig} from "axios";
