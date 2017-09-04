@@ -15,9 +15,25 @@ import {AppConfig} from "../../AppConfig";
 import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
 import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
 
+/**
+ * ActionDispatcher
+ * 非同期処理でのビジネスロジックを定義し、Actionをdispatchする
+ *
+ * @link http://qiita.com/uryyyyyyy/items/d8bae6a7fca1c4732696
+ */
 export class ActionDispatcher {
+
+  /**
+   * @param {(action: ReduxAction) => void} dispatch
+   */
   constructor(private dispatch: (action: ReduxAction) => void) {}
 
+  /**
+   * サインアップリクエストを送信する
+   *
+   * @param {SignupRequest} signUpRequest
+   * @returns {Promise<void>}
+   */
   public async postSignup(signUpRequest: SignupRequest) {
     this.dispatch(postSignupRequestAction(signUpRequest));
 
@@ -62,11 +78,10 @@ export class ActionDispatcher {
       (error: Error, signupResult: ISignUpResult) => {
         if (error) {
           const signupFailureResponse = {
-            errors: {
-              message: error.message,
-            },
+            error: error,
           };
 
+          // TODO エラー内容が既にemailが登録されている等だった場合は検証コードを再送するのが良いかも
           this.dispatch(signupFailureAction(signupFailureResponse));
 
           return error;
@@ -74,7 +89,6 @@ export class ActionDispatcher {
 
         const signupSuccessResponse: SignupSuccessResponse = {
           email: signupResult.user.getUsername(),
-          signupCompleted: true,
         };
 
         this.dispatch(signupSuccessAction(signupSuccessResponse));
