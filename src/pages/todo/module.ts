@@ -1,47 +1,147 @@
 import {Action} from "redux";
 
+/**
+ * actions Enum
+ */
 enum ActionNames {
-  POST_TODO = "todo/increment",
-  FETCH_ALL_TODO = "todo/fetch_all_todo",
+  POST_TODO = "POST_TODO",
+  FETCH_ALL_TODO_SUCCESS = "FETCH_ALL_TODO_SUCCESS",
 }
 
-interface AddTodoAction extends Action {
+/**
+ * postTodoAction IF
+ */
+interface PostTodoAction extends Action {
   type: ActionNames.POST_TODO;
+  payload: {
+    title: string;
+  },
+  meta: {
+    loading: true;
+  },
+  error: false;
+}
+
+/**
+ * TODO作成のリクエスト型
+ * @todo このIFはドメイン層的な場所を作ってそっちに移す
+ */
+export interface ICreateTodoRequest {
   title: string;
 }
-export const addTodoAction = (title: string): AddTodoAction => ({
+
+/**
+ * TODOの作成リクエスト送信時に実行されるaction
+ *
+ * @param {ICreateTodoRequest} request
+ * @returns {PostTodoAction}
+ */
+export const postTodoAction = (request: ICreateTodoRequest): PostTodoAction => ({
   type: ActionNames.POST_TODO,
-  title,
+  payload: {
+    title: request.title,
+  },
+  meta: {
+    loading: true,
+  },
+  error: false,
 });
 
-interface FetchAllTodoAction extends Action {
-  type: ActionNames.FETCH_ALL_TODO;
-  list: [{id: number, title: string}];
-}
-export const fetchAllTodoAction = (list: [{id: number, title: string}]): FetchAllTodoAction => ({
-  type: ActionNames.FETCH_ALL_TODO,
-  list,
-});
-
-export interface TodoState {
+/**
+ * TODOのデータ型
+ * @todo このIFはドメイン層的な場所を作ってそっちに移す
+ */
+export interface ITodoEntity {
+  id: number;
   title: string;
-  list: [{id: number, title: string}];
 }
 
-export type TodoActions = AddTodoAction | FetchAllTodoAction;
+/**
+ * fetchAllTodoSuccessAction IF
+ */
+interface FetchAllTodoSuccessAction extends Action {
+  type: ActionNames.FETCH_ALL_TODO_SUCCESS;
+  payload: {
+    todoList: [{id: number, title: string}];
+  },
+  meta: {
+    loading: false;
+  },
+  error: false;
+}
 
-// TODO initialStateに関してはもっと良い取得方法を検討する
+/**
+ * 全てのTODOの取得が成功した際に実行されるaction
+ *
+ * @param {[ITodoEntity]} todoList
+ * @returns {FetchAllTodoSuccessAction}
+ */
+export const fetchAllTodoSuccessAction = (todoList: [ITodoEntity]): FetchAllTodoSuccessAction => ({
+  type: ActionNames.FETCH_ALL_TODO_SUCCESS,
+  payload: {
+    todoList: todoList,
+  },
+  meta: {
+    loading: false,
+  },
+  error: false,
+});
+
+/**
+ * TodoState IF
+ */
+export interface TodoState {
+  currentTodo: ITodoEntity,
+  todoList: [ITodoEntity];
+  loading: boolean;
+  isError: boolean;
+  errors: {message: string};
+}
+
+export type TodoActions = PostTodoAction | FetchAllTodoSuccessAction;
+
 const initialState: TodoState = {
-  title: "",
-  list: [{id: 0, title: "サンプル"}],
+  currentTodo: {
+    id: 0,
+    title: "",
+  },
+  todoList: [{id: 0, title: ""}],
+  loading: false,
+  isError: false,
+  errors: {
+    message: "",
+  },
 };
 
+/**
+ * reducer
+ *
+ * @param {TodoState} state
+ * @param {TodoActions} action
+ * @returns {TodoState}
+ */
 export default function reducer(state: TodoState = initialState, action: TodoActions): TodoState {
   switch (action.type) {
     case ActionNames.POST_TODO:
-      return Object.assign({}, state, {title: action.title});
-    case ActionNames.FETCH_ALL_TODO:
-      return Object.assign({}, state, {list: action.list});
+      return Object.assign(
+        {},
+        state,
+        {
+          currentTodo: action.payload.title,
+          loading: action.meta.loading,
+          isError: action.error,
+        }
+      );
+    case ActionNames.FETCH_ALL_TODO_SUCCESS:
+      return Object.assign(
+        {},
+        state,
+        {
+          todoList: action.payload.todoList,
+          loading: action.meta.loading,
+          isError: action.error,
+        }
+      );
     default:
       return state;
   }
