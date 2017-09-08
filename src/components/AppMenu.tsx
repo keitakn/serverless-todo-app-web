@@ -8,7 +8,7 @@ export default class AppMenu extends React.Component<any, any> {
   public render() {
     return (
       <AppBar
-        title="SPA-Prototype-React"
+        title="TODOアプリ"
         iconElementLeft={
           <IconMenu
             iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
@@ -17,18 +17,6 @@ export default class AppMenu extends React.Component<any, any> {
               primaryText="signup"
               containerElement={
                 <Link to="/signup" />
-              }
-            />
-            <MenuItem
-              primaryText="counter"
-              containerElement={
-                <Link to="/counter" />
-              }
-            />
-            <MenuItem
-              primaryText="counter(params)"
-              containerElement={
-                <Link to="/counter/9999" />
               }
             />
             <MenuItem

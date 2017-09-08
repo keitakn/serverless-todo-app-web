@@ -3,39 +3,69 @@ import {connect} from "react-redux";
 import {RouteComponentProps} from "react-router";
 import {Dispatch} from "redux";
 import HttpClientFactory from "../../factories/HttpClientFactory";
-import {ReduxAction, ReduxState} from "../../store";
-import {addTodoAction, fetchAllTodoAction} from "./module";
+import {ReduxAction, IReduxState} from "../../store";
+import {postTodoAction, fetchAllTodoSuccessAction, ICreateTodoRequest} from "./module";
 import Todo from "./Todo";
 
+/**
+ * ActionDispatcher
+ * 非同期処理でのビジネスロジックを定義し、Actionをdispatchする
+ *
+ * @link http://qiita.com/uryyyyyyy/items/d8bae6a7fca1c4732696
+ */
 export class ActionDispatcher {
+
+  /**
+   * @param {(action: ReduxAction) => void} dispatch
+   * @param {AxiosInstance} axiosInstance
+   */
   constructor(private dispatch: (action: ReduxAction) => void, private axiosInstance: AxiosInstance) {}
 
-  public async addTodo(title: string): Promise<void> {
+  /**
+   * TODOを作成する
+   *
+   * @param {ICreateTodoRequest} request
+   * @returns {Promise<void>}
+   */
+  public async create(request: ICreateTodoRequest): Promise<void> {
     try {
-      const axiosResponse = await this.axiosInstance.post("/api/todo", {title});
+      const axiosResponse = await this.axiosInstance.post("/api/todo", request);
 
       if (axiosResponse.status !== 201) {
-        throw new Error(`illegal status code: ${axiosResponse.status}`);
+        return Promise.reject(
+          new Error(`illegal status code: ${axiosResponse.status}`)
+        );
       }
 
-      this.dispatch(addTodoAction(title));
+      this.dispatch(
+        postTodoAction(request)
+      );
 
-      await this.findAll();
+      await this.fetchAll();
     } catch (error) {
-      console.error(error);
+      // TODO 異常系のactionを作る必要がある
+      return Promise.reject(error);
     }
   }
 
-  public async findAll(): Promise<void> {
+  /**
+   * 全てのTODOを取得する
+   *
+   * @returns {Promise<void>}
+   */
+  public async fetchAll(): Promise<void> {
     try {
       const axiosResponse = await this.axiosInstance.get("/api/todo");
 
       if (axiosResponse.status !== 200) {
-        throw new Error(`illegal status code: ${axiosResponse.status}`);
+        return Promise.reject(
+          new Error(`illegal status code: ${axiosResponse.status}`)
+        );
       }
 
-      this.dispatch(fetchAllTodoAction(axiosResponse.data));
+      this.dispatch(fetchAllTodoSuccessAction(axiosResponse.data));
     } catch (error) {
+      // TODO 異常系のactionを作る必要がある
       return Promise.reject(error);
     }
   }
@@ -43,15 +73,15 @@ export class ActionDispatcher {
 
 const axiosInstance = HttpClientFactory.create();
 
-const mapStateToProps = (state: ReduxState, ownProps: RouteComponentProps<{myParams: string | undefined}>) => {
-  if (ownProps.match.params.myParams === undefined) {
+const mapStateToProps = (state: IReduxState, ownProps: RouteComponentProps<{todoId: string | undefined}>) => {
+  if (ownProps.match.params.todoId === undefined) {
     return {value: state.todo};
   }
-  return {value: state.todo, param: ownProps.match.params.myParams};
+  return {value: state.todo, param: ownProps.match.params.todoId};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => (
-    {actions: new ActionDispatcher(dispatch, axiosInstance)}
-  );
+const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
+  actions: new ActionDispatcher(dispatch, axiosInstance)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);

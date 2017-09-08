@@ -6,14 +6,24 @@ import TextField from "material-ui/TextField";
 import * as React from "react";
 import AppMenu from "../../components/AppMenu";
 import {ActionDispatcher} from "./Container";
-import {SignupState} from "./module";
+import {ISignupState} from "./module";
 
-interface Props {
-  value: SignupState;
+/**
+ * IProps IF
+ */
+interface IProps {
+  value: ISignupState;
   actions: ActionDispatcher;
 }
 
-const SignupSuccessMessage = (props: Props) => {
+/**
+ * サインアップ正常終了時に表示させるComponent
+ *
+ * @param {IProps} props
+ * @returns {any}
+ * @constructor
+ */
+const SignupSuccessMessage = (props: IProps) => {
   return (
     <div>
       Signupが完了しました。
@@ -24,9 +34,14 @@ const SignupSuccessMessage = (props: Props) => {
   );
 };
 
-class SignupForm extends React.Component<Props, {}> {
+/**
+ * SignupForm Component
+ */
+class SignupForm extends React.Component<IProps, {}> {
 
-  // TODO passwordの入力フォームが必要
+  /**
+   * TODO 非推奨の書き方なので後で直す
+   */
   public refs: {
     email: TextField;
     password: TextField;
@@ -34,12 +49,21 @@ class SignupForm extends React.Component<Props, {}> {
     birthdate: any;
   };
 
-  constructor(props: Props) {
+  /**
+   * @param {IProps} props
+   */
+  constructor(props: IProps) {
     super(props);
 
     this.handleTouchTap = this.handleTouchTap.bind(this);
   }
 
+  /**
+   * サインアップのリクエストを送信する
+   *
+   * @param {React.FormEvent<any>} e
+   * @returns {Promise<void>}
+   */
   public async handleTouchTap(e: React.FormEvent<any>) {
     e.preventDefault();
 
@@ -53,6 +77,9 @@ class SignupForm extends React.Component<Props, {}> {
     await this.props.actions.postSignup(signUpRequest);
   }
 
+  /**
+   * @returns {any}
+   */
   public render() {
     return (
       <form>
@@ -61,14 +88,14 @@ class SignupForm extends React.Component<Props, {}> {
           hintText="Enter your Email"
           ref="email"
           defaultValue={this.props.value.email}
-          errorText={(this.props.value.error) ? this.props.value.errors.message : ""}
+          errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
         />
         <TextField
           type="password"
           hintText="Enter your Password"
           ref="password"
           defaultValue={this.props.value.password}
-          errorText={(this.props.value.error) ? this.props.value.errors.message : ""}
+          errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
         />
         <RadioButtonGroup ref="gender" name="gender" defaultSelected="not_light">
           <RadioButton
@@ -90,7 +117,10 @@ class SignupForm extends React.Component<Props, {}> {
   }
 }
 
-export default class Signup extends React.Component<Props, {}> {
+/**
+ * Signup Root Component
+ */
+export default class Signup extends React.PureComponent<IProps, {}> {
   public render() {
     return (
       <MuiThemeProvider>

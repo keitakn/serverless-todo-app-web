@@ -7,34 +7,51 @@ import TextField from "material-ui/TextField";
 import * as React from "react";
 import AppMenu from "../../components/AppMenu";
 import {ActionDispatcher} from "./Container";
-import {TodoState} from "./module";
+import {ITodoEntity, ITodoState} from "./module";
 
-interface Props {
-  value: TodoState;
+/**
+ * IProps IF
+ */
+interface IProps {
+  value: ITodoState;
   actions: ActionDispatcher;
 }
 
-class TodoForm extends React.Component<Props, {}> {
-  // TODO もっと良い書き方がないか検討する
+/**
+ * TODO作成 Form Component
+ */
+class TodoCreateForm extends React.Component<IProps, {}> {
+  // TODO 非推奨の書き方なので後で直す
   public refs: {
     [string: string]: any;
     todoTitle: TextField;
   };
 
-  constructor(props: Props) {
+  /**
+   * @param {IProps} props
+   */
+  constructor(props: IProps) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
   }
 
-  public handleTouchTap(e: React.FormEvent<any>) {
+  /**
+   * TODO作成リクエストを送信する
+   *
+   * @param {React.FormEvent<any>} e
+   * @returns {Promise<void>}
+   */
+  public async handleTouchTap(e: React.FormEvent<any>) {
     e.preventDefault();
+
     const title = this.refs.todoTitle.getValue();
-    this.props.actions.addTodo(title).catch((error) => {
-      // TODO まともなエラー処理を行う
-      console.error(error);
-    });
+
+    await this.props.actions.create({title});
   }
 
+  /**
+   * @returns {any}
+   */
   public render() {
     return (
       <div>
@@ -47,10 +64,17 @@ class TodoForm extends React.Component<Props, {}> {
   }
 }
 
-const TodoList = (props: Props) => {
+/**
+ * TODOリスト 表示用Component
+ *
+ * @param {IProps} props
+ * @returns {any}
+ * @constructor
+ */
+const TodoList = (props: IProps) => {
   return (
     <List>
-      {props.value.list.map((todo) => {
+      {props.value.todoList.map((todo: ITodoEntity) => {
         return (
           <ListItem
             key={todo.id}
@@ -63,27 +87,39 @@ const TodoList = (props: Props) => {
   );
 };
 
-export default class Todo extends React.Component<Props, {}> {
+/**
+ * TODOの親Component
+ */
+export default class Todo extends React.Component<IProps, {}> {
 
-  constructor(props: Props) {
+  /**
+   * @param {IProps} props
+   */
+  constructor(props: IProps) {
     super(props);
-    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentWillMount = this.componentWillMount.bind(this);
   }
 
-  public componentDidMount() {
-    this.props.actions.findAll().catch((error) => {
-      // TODO まともなエラー処理を行う
-      console.error(error);
-    });
+  /**
+   * 初期化処理
+   * 初期表示用のTODOリストを取得する
+   *
+   * @returns {Promise<void>}
+   */
+  public async componentWillMount() {
+    await this.props.actions.fetchAll();
   }
 
+  /**
+   * @returns {any}
+   */
   public render() {
     return (
       <MuiThemeProvider>
         <div>
           <AppMenu />
           <p>TODOリスト</p>
-          <TodoForm value={this.props.value} actions={this.props.actions} />
+          <TodoCreateForm value={this.props.value} actions={this.props.actions} />
           <TodoList value={this.props.value} actions={this.props.actions} />
         </div>
       </MuiThemeProvider>

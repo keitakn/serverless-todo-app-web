@@ -1,13 +1,13 @@
 import {connect, MapDispatchToPropsParam, MapStateToPropsParam} from "react-redux";
 import {Dispatch} from "redux";
-import {ReduxAction, ReduxState} from "../../store";
+import {ReduxAction, IReduxState} from "../../store";
 import {
   postSignupRequestAction,
   signupFailureAction,
-  SignupRequest,
+  ISignupRequest,
   signupSuccessAction,
-  SignupSuccessResponse,
-  SignupState
+  ISignupSuccessResponse,
+  ISignupState
 } from "./module";
 import Signup from "./Signup";
 import {CognitoUserPool, CognitoUserAttribute, ISignUpResult} from "amazon-cognito-identity-js";
@@ -15,10 +15,26 @@ import {AppConfig} from "../../AppConfig";
 import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
 import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
 
+/**
+ * ActionDispatcher
+ * 非同期処理でのビジネスロジックを定義し、Actionをdispatchする
+ *
+ * @link http://qiita.com/uryyyyyyy/items/d8bae6a7fca1c4732696
+ */
 export class ActionDispatcher {
+
+  /**
+   * @param {(action: ReduxAction) => void} dispatch
+   */
   constructor(private dispatch: (action: ReduxAction) => void) {}
 
-  public async postSignup(signUpRequest: SignupRequest) {
+  /**
+   * サインアップリクエストを送信する
+   *
+   * @param {ISignupRequest} signUpRequest
+   * @returns {Promise<void>}
+   */
+  public async postSignup(signUpRequest: ISignupRequest) {
     this.dispatch(postSignupRequestAction(signUpRequest));
 
     // TODO 登録成功時と登録失敗時のアクションを実装
@@ -62,19 +78,17 @@ export class ActionDispatcher {
       (error: Error, signupResult: ISignUpResult) => {
         if (error) {
           const signupFailureResponse = {
-            errors: {
-              message: error.message,
-            },
+            error: error,
           };
 
+          // TODO エラー内容が既にemailが登録されている等だった場合は検証コードを再送するのが良いかも
           this.dispatch(signupFailureAction(signupFailureResponse));
 
           return error;
         }
 
-        const signupSuccessResponse: SignupSuccessResponse = {
+        const signupSuccessResponse: ISignupSuccessResponse = {
           email: signupResult.user.getUsername(),
-          signupCompleted: true,
         };
 
         this.dispatch(signupSuccessAction(signupSuccessResponse));
@@ -84,7 +98,7 @@ export class ActionDispatcher {
   }
 }
 
-const mapStateToProps: MapStateToPropsParam<{value: SignupState}, any> = (state: ReduxState) => {
+const mapStateToProps: MapStateToPropsParam<{value: ISignupState}, any> = (state: IReduxState) => {
   return {value: state.signup};
 };
 
