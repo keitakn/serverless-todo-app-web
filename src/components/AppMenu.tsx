@@ -8,7 +8,7 @@ export default class AppMenu extends React.Component<any, any> {
   public render() {
     return (
       <AppBar
-        title="SPA-Prototype-React"
+        title="TODOアプリ"
         iconElementLeft={
           <IconMenu
             iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
