@@ -20,18 +20,6 @@ export default class AppMenu extends React.Component<any, any> {
               }
             />
             <MenuItem
-              primaryText="counter"
-              containerElement={
-                <Link to="/counter" />
-              }
-            />
-            <MenuItem
-              primaryText="counter(params)"
-              containerElement={
-                <Link to="/counter/9999" />
-              }
-            />
-            <MenuItem
               primaryText="todo"
               containerElement={
                 <Link to="/todo" />
