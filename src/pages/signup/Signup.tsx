@@ -6,24 +6,24 @@ import TextField from "material-ui/TextField";
 import * as React from "react";
 import AppMenu from "../../components/AppMenu";
 import {ActionDispatcher} from "./Container";
-import {SignupState} from "./module";
+import {ISignupState} from "./module";
 
 /**
- * Props IF
+ * IProps IF
  */
-interface Props {
-  value: SignupState;
+interface IProps {
+  value: ISignupState;
   actions: ActionDispatcher;
 }
 
 /**
  * サインアップ正常終了時に表示させるComponent
  *
- * @param {Props} props
+ * @param {IProps} props
  * @returns {any}
  * @constructor
  */
-const SignupSuccessMessage = (props: Props) => {
+const SignupSuccessMessage = (props: IProps) => {
   return (
     <div>
       Signupが完了しました。
@@ -37,7 +37,7 @@ const SignupSuccessMessage = (props: Props) => {
 /**
  * SignupForm Component
  */
-class SignupForm extends React.Component<Props, {}> {
+class SignupForm extends React.Component<IProps, {}> {
 
   /**
    * TODO 非推奨の書き方なので後で直す
@@ -50,9 +50,9 @@ class SignupForm extends React.Component<Props, {}> {
   };
 
   /**
-   * @param {Props} props
+   * @param {IProps} props
    */
-  constructor(props: Props) {
+  constructor(props: IProps) {
     super(props);
 
     this.handleTouchTap = this.handleTouchTap.bind(this);
@@ -120,7 +120,7 @@ class SignupForm extends React.Component<Props, {}> {
 /**
  * Signup Root Component
  */
-export default class Signup extends React.PureComponent<Props, {}> {
+export default class Signup extends React.PureComponent<IProps, {}> {
   public render() {
     return (
       <MuiThemeProvider>

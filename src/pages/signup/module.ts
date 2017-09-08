@@ -12,7 +12,7 @@ enum ActionNames {
 /**
  * postSignupRequestAction IF
  */
-interface PostSignupRequestAction extends Action {
+interface IPostSignupRequestAction extends Action {
   type: ActionNames.POST_SIGNUP_REQUEST;
   payload: {
     email: string;
@@ -30,7 +30,7 @@ interface PostSignupRequestAction extends Action {
 /**
  * postSignupRequestAction引数データ型
  */
-export interface SignupRequest {
+export interface ISignupRequest {
   email: string;
   password: string;
   gender: string;
@@ -40,10 +40,10 @@ export interface SignupRequest {
 /**
  * サインアップのリクエストが送信された時に実行されるaction
  *
- * @param {SignupRequest} request
- * @returns {PostSignupRequestAction}
+ * @param {ISignupRequest} request
+ * @returns {IPostSignupRequestAction}
  */
-export const postSignupRequestAction = (request: SignupRequest): PostSignupRequestAction => ({
+export const postSignupRequestAction = (request: ISignupRequest): IPostSignupRequestAction => ({
   type: ActionNames.POST_SIGNUP_REQUEST,
   payload: {
     email: request.email,
@@ -61,7 +61,7 @@ export const postSignupRequestAction = (request: SignupRequest): PostSignupReque
 /**
  * signupSuccessAction IF
  */
-interface SignupSuccessAction extends Action {
+interface ISignupSuccessAction extends Action {
   type: ActionNames.SIGNUP_SUCCESS;
   payload: {
     email: string;
@@ -76,17 +76,17 @@ interface SignupSuccessAction extends Action {
 /**
  * signupSuccessAction 引数IF
  */
-export interface SignupSuccessResponse {
+export interface ISignupSuccessResponse {
   email: string;
 }
 
 /**
  * サインアップが正常終了した時に実行されるaction
  *
- * @param {SignupSuccessResponse} response
- * @returns {SignupSuccessAction}
+ * @param {ISignupSuccessResponse} response
+ * @returns {ISignupSuccessAction}
  */
-export const signupSuccessAction = (response: SignupSuccessResponse): SignupSuccessAction => ({
+export const signupSuccessAction = (response: ISignupSuccessResponse): ISignupSuccessAction => ({
   type: ActionNames.SIGNUP_SUCCESS,
   payload: {
     email: response.email,
@@ -101,7 +101,7 @@ export const signupSuccessAction = (response: SignupSuccessResponse): SignupSucc
 /**
  * signupFailureAction IF
  */
-interface SignupFailureAction extends Action {
+interface ISignupFailureAction extends Action {
   type: ActionNames.SIGNUP_FAILURE;
   payload: Error;
   meta: {
@@ -114,17 +114,17 @@ interface SignupFailureAction extends Action {
 /**
  * signupFailureAction 引数IF
  */
-export interface SignupFailureResponse {
+export interface ISignupFailureResponse {
   error: Error;
 }
 
 /**
  * サインアップが異常終了した時に実行されるaction
  *
- * @param {SignupFailureResponse} response
- * @returns {SignupFailureAction}
+ * @param {ISignupFailureResponse} response
+ * @returns {ISignupFailureAction}
  */
-export const signupFailureAction = (response: SignupFailureResponse): SignupFailureAction => ({
+export const signupFailureAction = (response: ISignupFailureResponse): ISignupFailureAction => ({
   type: ActionNames.SIGNUP_FAILURE,
   payload: response.error,
   meta: {
@@ -135,9 +135,9 @@ export const signupFailureAction = (response: SignupFailureResponse): SignupFail
 });
 
 /**
- * SignupState IF
+ * ISignupState IF
  */
-export interface SignupState {
+export interface ISignupState {
   email: string;
   password: string;
   gender: string;
@@ -148,9 +148,9 @@ export interface SignupState {
   errors: {message: string};
 }
 
-export type SignupActions = PostSignupRequestAction | SignupSuccessAction | SignupFailureAction;
+export type SignupActions = IPostSignupRequestAction | ISignupSuccessAction | ISignupFailureAction;
 
-const initialState: SignupState = {
+const initialState: ISignupState = {
   email: "",
   password: "",
   gender: "",
@@ -163,7 +163,14 @@ const initialState: SignupState = {
   },
 };
 
-export default function reducer(state: SignupState = initialState, action: SignupActions): SignupState {
+/**
+ * reducer
+ *
+ * @param {ISignupState} state
+ * @param {SignupActions} action
+ * @returns {ISignupState}
+ */
+export default function reducer(state: ISignupState = initialState, action: SignupActions): ISignupState {
   switch (action.type) {
     case ActionNames.POST_SIGNUP_REQUEST:
       return Object.assign(

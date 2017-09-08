@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {RouteComponentProps} from "react-router";
 import {Dispatch} from "redux";
 import HttpClientFactory from "../../factories/HttpClientFactory";
-import {ReduxAction, ReduxState} from "../../store";
+import {ReduxAction, IReduxState} from "../../store";
 import {Counter} from "./Counter";
 import {decrementAmount, fetchRequestFinish, fetchRequestStart, incrementAmount} from "./module";
 
@@ -42,7 +42,7 @@ export class ActionDispatcher {
 
 const axiosInstance = HttpClientFactory.create();
 
-const mapStateToProps = (state: ReduxState, ownProps: RouteComponentProps<{myParams: string | undefined}>) => {
+const mapStateToProps = (state: IReduxState, ownProps: RouteComponentProps<{myParams: string | undefined}>) => {
   if (ownProps.match.params.myParams === undefined) {
     return {value: state.counter};
   }

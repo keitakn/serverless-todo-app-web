@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {RouteComponentProps} from "react-router";
 import {Dispatch} from "redux";
 import HttpClientFactory from "../../factories/HttpClientFactory";
-import {ReduxAction, ReduxState} from "../../store";
+import {ReduxAction, IReduxState} from "../../store";
 import {postTodoAction, fetchAllTodoSuccessAction, ICreateTodoRequest} from "./module";
 import Todo from "./Todo";
 
@@ -73,7 +73,7 @@ export class ActionDispatcher {
 
 const axiosInstance = HttpClientFactory.create();
 
-const mapStateToProps = (state: ReduxState, ownProps: RouteComponentProps<{todoId: string | undefined}>) => {
+const mapStateToProps = (state: IReduxState, ownProps: RouteComponentProps<{todoId: string | undefined}>) => {
   if (ownProps.match.params.todoId === undefined) {
     return {value: state.todo};
   }

@@ -1,7 +1,7 @@
 import {Action, combineReducers, createStore} from "redux";
 import counter, {CounterActions, CounterState} from "./pages/counter/module";
-import todo, {TodoActions, TodoState} from "./pages/todo/module";
-import signup, {SignupActions, SignupState} from "./pages/signup/module";
+import todo, {TodoActions, ITodoState} from "./pages/todo/module";
+import signup, {SignupActions, ISignupState} from "./pages/signup/module";
 
 export default createStore(
   combineReducers({
@@ -11,10 +11,10 @@ export default createStore(
   }),
 );
 
-export interface ReduxState {
+export interface IReduxState {
   counter: CounterState;
-  todo: TodoState;
-  signup: SignupState;
+  todo: ITodoState;
+  signup: ISignupState;
 }
 
 export type ReduxAction = CounterActions | TodoActions | SignupActions | Action;

@@ -1,13 +1,13 @@
 import {connect, MapDispatchToPropsParam, MapStateToPropsParam} from "react-redux";
 import {Dispatch} from "redux";
-import {ReduxAction, ReduxState} from "../../store";
+import {ReduxAction, IReduxState} from "../../store";
 import {
   postSignupRequestAction,
   signupFailureAction,
-  SignupRequest,
+  ISignupRequest,
   signupSuccessAction,
-  SignupSuccessResponse,
-  SignupState
+  ISignupSuccessResponse,
+  ISignupState
 } from "./module";
 import Signup from "./Signup";
 import {CognitoUserPool, CognitoUserAttribute, ISignUpResult} from "amazon-cognito-identity-js";
@@ -31,10 +31,10 @@ export class ActionDispatcher {
   /**
    * サインアップリクエストを送信する
    *
-   * @param {SignupRequest} signUpRequest
+   * @param {ISignupRequest} signUpRequest
    * @returns {Promise<void>}
    */
-  public async postSignup(signUpRequest: SignupRequest) {
+  public async postSignup(signUpRequest: ISignupRequest) {
     this.dispatch(postSignupRequestAction(signUpRequest));
 
     // TODO 登録成功時と登録失敗時のアクションを実装
@@ -87,7 +87,7 @@ export class ActionDispatcher {
           return error;
         }
 
-        const signupSuccessResponse: SignupSuccessResponse = {
+        const signupSuccessResponse: ISignupSuccessResponse = {
           email: signupResult.user.getUsername(),
         };
 
@@ -98,7 +98,7 @@ export class ActionDispatcher {
   }
 }
 
-const mapStateToProps: MapStateToPropsParam<{value: SignupState}, any> = (state: ReduxState) => {
+const mapStateToProps: MapStateToPropsParam<{value: ISignupState}, any> = (state: IReduxState) => {
   return {value: state.signup};
 };
 

@@ -11,7 +11,7 @@ enum ActionNames {
 /**
  * postTodoAction IF
  */
-interface PostTodoAction extends Action {
+interface IPostTodoAction extends Action {
   type: ActionNames.POST_TODO;
   payload: {
     title: string;
@@ -34,9 +34,9 @@ export interface ICreateTodoRequest {
  * TODOの作成リクエスト送信時に実行されるaction
  *
  * @param {ICreateTodoRequest} request
- * @returns {PostTodoAction}
+ * @returns {IPostTodoAction}
  */
-export const postTodoAction = (request: ICreateTodoRequest): PostTodoAction => ({
+export const postTodoAction = (request: ICreateTodoRequest): IPostTodoAction => ({
   type: ActionNames.POST_TODO,
   payload: {
     title: request.title,
@@ -59,7 +59,7 @@ export interface ITodoEntity {
 /**
  * fetchAllTodoSuccessAction IF
  */
-interface FetchAllTodoSuccessAction extends Action {
+interface IFetchAllTodoSuccessAction extends Action {
   type: ActionNames.FETCH_ALL_TODO_SUCCESS;
   payload: {
     todoList: [{id: number, title: string}];
@@ -74,9 +74,9 @@ interface FetchAllTodoSuccessAction extends Action {
  * 全てのTODOの取得が成功した際に実行されるaction
  *
  * @param {[ITodoEntity]} todoList
- * @returns {FetchAllTodoSuccessAction}
+ * @returns {IFetchAllTodoSuccessAction}
  */
-export const fetchAllTodoSuccessAction = (todoList: [ITodoEntity]): FetchAllTodoSuccessAction => ({
+export const fetchAllTodoSuccessAction = (todoList: [ITodoEntity]): IFetchAllTodoSuccessAction => ({
   type: ActionNames.FETCH_ALL_TODO_SUCCESS,
   payload: {
     todoList: todoList,
@@ -88,9 +88,9 @@ export const fetchAllTodoSuccessAction = (todoList: [ITodoEntity]): FetchAllTodo
 });
 
 /**
- * TodoState IF
+ * ITodoState IF
  */
-export interface TodoState {
+export interface ITodoState {
   currentTodo: ITodoEntity,
   todoList: [ITodoEntity];
   loading: boolean;
@@ -98,9 +98,9 @@ export interface TodoState {
   errors: {message: string};
 }
 
-export type TodoActions = PostTodoAction | FetchAllTodoSuccessAction;
+export type TodoActions = IPostTodoAction | IFetchAllTodoSuccessAction;
 
-const initialState: TodoState = {
+const initialState: ITodoState = {
   currentTodo: {
     id: 0,
     title: "",
@@ -116,11 +116,11 @@ const initialState: TodoState = {
 /**
  * reducer
  *
- * @param {TodoState} state
+ * @param {ITodoState} state
  * @param {TodoActions} action
- * @returns {TodoState}
+ * @returns {ITodoState}
  */
-export default function reducer(state: TodoState = initialState, action: TodoActions): TodoState {
+export default function reducer(state: ITodoState = initialState, action: TodoActions): ITodoState {
   switch (action.type) {
     case ActionNames.POST_TODO:
       return Object.assign(

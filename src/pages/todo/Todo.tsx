@@ -7,20 +7,20 @@ import TextField from "material-ui/TextField";
 import * as React from "react";
 import AppMenu from "../../components/AppMenu";
 import {ActionDispatcher} from "./Container";
-import {ITodoEntity, TodoState} from "./module";
+import {ITodoEntity, ITodoState} from "./module";
 
 /**
- * Props IF
+ * IProps IF
  */
-interface Props {
-  value: TodoState;
+interface IProps {
+  value: ITodoState;
   actions: ActionDispatcher;
 }
 
 /**
  * TODO作成 Form Component
  */
-class TodoCreateForm extends React.Component<Props, {}> {
+class TodoCreateForm extends React.Component<IProps, {}> {
   // TODO 非推奨の書き方なので後で直す
   public refs: {
     [string: string]: any;
@@ -28,9 +28,9 @@ class TodoCreateForm extends React.Component<Props, {}> {
   };
 
   /**
-   * @param {Props} props
+   * @param {IProps} props
    */
-  constructor(props: Props) {
+  constructor(props: IProps) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
   }
@@ -67,11 +67,11 @@ class TodoCreateForm extends React.Component<Props, {}> {
 /**
  * TODOリスト 表示用Component
  *
- * @param {Props} props
+ * @param {IProps} props
  * @returns {any}
  * @constructor
  */
-const TodoList = (props: Props) => {
+const TodoList = (props: IProps) => {
   return (
     <List>
       {props.value.todoList.map((todo: ITodoEntity) => {
@@ -90,12 +90,12 @@ const TodoList = (props: Props) => {
 /**
  * TODOの親Component
  */
-export default class Todo extends React.Component<Props, {}> {
+export default class Todo extends React.Component<IProps, {}> {
 
   /**
-   * @param {Props} props
+   * @param {IProps} props
    */
-  constructor(props: Props) {
+  constructor(props: IProps) {
     super(props);
     this.componentWillMount = this.componentWillMount.bind(this);
   }
