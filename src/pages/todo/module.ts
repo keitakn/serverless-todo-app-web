@@ -127,7 +127,9 @@ export default function reducer(state: ITodoState = initialState, action: TodoAc
         {},
         state,
         {
-          currentTodo: action.payload.title,
+          currentTodo: {
+            title: action.payload.title,
+          },
           loading: action.meta.loading,
           isError: action.error,
         }
