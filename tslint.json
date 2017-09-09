@@ -1,41 +1,13 @@
 {
-  "extends": "tslint:recommended",
+  "extends": ["tslint:latest", "tslint-react"],
   "rules": {
-    "max-line-length": {
-      "options": [120]
-    },
-    "new-parens": true,
-    "no-arg": true,
-    "no-bitwise": true,
-    "no-conditional-assignment": true,
-    "no-consecutive-blank-lines": false,
+    // TSLintに元から設定されている設定の上書き
     "object-literal-sort-keys": false,
-    "no-console": {
-      "options": [
-        "debug",
-        "info",
-        "log",
-        "time",
-        "timeEnd"
-      ]
-    },
-    "variable-name": [
-      true,
-      "ban-keywords",
-      "check-format",
-      "allow-leading-underscore"
-    ],
-    "max-classes-per-file": [
-      true,
-      2
-    ],
     "no-namespace": false,
-    "no-string-literal": false,
-    "interface-name": false
-  },
-  "jsRules": {
-    "max-line-length": {
-      "options": [120]
-    }
+    "no-submodule-imports": false,
+    "max-classes-per-file": [true, 2],
+    // ここからReact 固有のルール
+    "jsx-wrap-multiline": false,
+    "jsx-no-multiline-js": false
   }
 }
