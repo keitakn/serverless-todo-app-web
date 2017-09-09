@@ -91,7 +91,10 @@ export const fetchAllTodoSuccessAction = (todoList: [ITodoEntity]): IFetchAllTod
  * ITodoState IF
  */
 export interface ITodoState {
-  currentTodo: ITodoEntity;
+  currentTodo: {
+    id?: number;
+    title: string;
+  };
   todoList: [ITodoEntity];
   loading: boolean;
   isError: boolean;
@@ -123,20 +126,20 @@ const initialState: ITodoState = {
 export default function reducer(state: ITodoState = initialState, action: TodoActions): ITodoState {
   switch (action.type) {
     case ActionNames.POST_TODO:
-      return {...state,
-
-              currentTodo: {
-            title: action.payload.title,
-          },
-              loading: action.meta.loading,
-              isError: action.error,
+      return {
+        ...state,
+        currentTodo: {
+          title: action.payload.title,
+        },
+        loading: action.meta.loading,
+        isError: action.error,
       };
     case ActionNames.FETCH_ALL_TODO_SUCCESS:
-      return {...state,
-
-              todoList: action.payload.todoList,
-              loading: action.meta.loading,
-              isError: action.error,
+      return {
+        ...state,
+        todoList: action.payload.todoList,
+        loading: action.meta.loading,
+        isError: action.error,
       };
     default:
       return state;

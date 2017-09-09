@@ -173,33 +173,33 @@ const initialState: ISignupState = {
 export default function reducer(state: ISignupState = initialState, action: SignupActions): ISignupState {
   switch (action.type) {
     case ActionNames.POST_SIGNUP_REQUEST:
-      return {...state,
-
-              email: action.payload.email,
-              password: action.payload.password,
-              gender: action.payload.gender,
-              birthdate: action.payload.birthdate,
-              loading: action.meta.loading,
-              signupCompleted: action.meta.signupCompleted,
-              isError: action.error,
+      return {
+        ...state,
+        email: action.payload.email,
+        password: action.payload.password,
+        gender: action.payload.gender,
+        birthdate: action.payload.birthdate,
+        loading: action.meta.loading,
+        signupCompleted: action.meta.signupCompleted,
+        isError: action.error,
       };
     case ActionNames.SIGNUP_SUCCESS:
-      return {...state,
-
-              email: action.payload.email,
-              loading: action.meta.loading,
-              signupCompleted: action.meta.signupCompleted,
-              isError: action.error,
+      return {
+        ...state,
+        email: action.payload.email,
+        loading: action.meta.loading,
+        signupCompleted: action.meta.signupCompleted,
+        isError: action.error,
       };
     case ActionNames.SIGNUP_FAILURE:
-      return {...state,
-
-              loading: action.meta.loading,
-              signupCompleted: action.meta.signupCompleted,
-              isError: action.error,
-              errors: {
-            message: action.payload.message,
-          },
+      return {
+        ...state,
+        loading: action.meta.loading,
+        signupCompleted: action.meta.signupCompleted,
+        isError: action.error,
+        errors: {
+          message: action.payload.message,
+        },
       };
     default:
       return state;
