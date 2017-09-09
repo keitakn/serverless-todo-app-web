@@ -19,11 +19,11 @@ interface IPostSignupRequestAction extends Action {
     password: string;
     gender: string;
     birthdate: string;
-  },
+  };
   meta: {
     loading: true;
     signupCompleted: false;
-  },
+  };
   error: false;
 }
 
@@ -65,11 +65,11 @@ interface ISignupSuccessAction extends Action {
   type: ActionNames.SIGNUP_SUCCESS;
   payload: {
     email: string;
-  },
+  };
   meta: {
     loading: false;
     signupCompleted: true;
-  },
+  };
   error: false;
 }
 
@@ -107,7 +107,7 @@ interface ISignupFailureAction extends Action {
   meta: {
     loading: false;
     signupCompleted: false;
-  },
+  };
   error: true;
 }
 
@@ -173,43 +173,34 @@ const initialState: ISignupState = {
 export default function reducer(state: ISignupState = initialState, action: SignupActions): ISignupState {
   switch (action.type) {
     case ActionNames.POST_SIGNUP_REQUEST:
-      return Object.assign(
-        {},
-        state,
-        {
-          email: action.payload.email,
-          password: action.payload.password,
-          gender: action.payload.gender,
-          birthdate: action.payload.birthdate,
-          loading: action.meta.loading,
-          signupCompleted: action.meta.signupCompleted,
-          isError: action.error,
-        },
-      );
+      return {...state,
+
+              email: action.payload.email,
+              password: action.payload.password,
+              gender: action.payload.gender,
+              birthdate: action.payload.birthdate,
+              loading: action.meta.loading,
+              signupCompleted: action.meta.signupCompleted,
+              isError: action.error,
+      };
     case ActionNames.SIGNUP_SUCCESS:
-      return Object.assign(
-        {},
-        state,
-        {
-          email: action.payload.email,
-          loading: action.meta.loading,
-          signupCompleted: action.meta.signupCompleted,
-          isError: action.error,
-        },
-      );
+      return {...state,
+
+              email: action.payload.email,
+              loading: action.meta.loading,
+              signupCompleted: action.meta.signupCompleted,
+              isError: action.error,
+      };
     case ActionNames.SIGNUP_FAILURE:
-      return Object.assign(
-        {},
-        state,
-        {
-          loading: action.meta.loading,
-          signupCompleted: action.meta.signupCompleted,
-          isError: action.error,
-          errors: {
+      return {...state,
+
+              loading: action.meta.loading,
+              signupCompleted: action.meta.signupCompleted,
+              isError: action.error,
+              errors: {
             message: action.payload.message,
           },
-        },
-      );
+      };
     default:
       return state;
   }

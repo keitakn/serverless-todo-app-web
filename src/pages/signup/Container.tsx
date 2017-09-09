@@ -1,17 +1,17 @@
+import {CognitoUserAttribute, CognitoUserPool, ISignUpResult} from "amazon-cognito-identity-js";
 import {connect, MapDispatchToPropsParam, MapStateToPropsParam} from "react-redux";
 import {Dispatch} from "redux";
-import {ReduxAction, IReduxState} from "../../store";
+import {AppConfig} from "../../AppConfig";
+import {IReduxState, ReduxAction} from "../../store";
 import {
+  ISignupRequest,
+  ISignupState,
+  ISignupSuccessResponse,
   postSignupRequestAction,
   signupFailureAction,
-  ISignupRequest,
   signupSuccessAction,
-  ISignupSuccessResponse,
-  ISignupState
 } from "./module";
 import Signup from "./Signup";
-import {CognitoUserPool, CognitoUserAttribute, ISignUpResult} from "amazon-cognito-identity-js";
-import {AppConfig} from "../../AppConfig";
 import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
 import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
 
@@ -78,7 +78,7 @@ export class ActionDispatcher {
       (error: Error, signupResult: ISignUpResult) => {
         if (error) {
           const signupFailureResponse = {
-            error: error,
+            error,
           };
 
           // TODO エラー内容が既にemailが登録されている等だった場合は検証コードを再送するのが良いかも

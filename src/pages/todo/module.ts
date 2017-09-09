@@ -15,10 +15,10 @@ interface IPostTodoAction extends Action {
   type: ActionNames.POST_TODO;
   payload: {
     title: string;
-  },
+  };
   meta: {
     loading: true;
-  },
+  };
   error: false;
 }
 
@@ -63,10 +63,10 @@ interface IFetchAllTodoSuccessAction extends Action {
   type: ActionNames.FETCH_ALL_TODO_SUCCESS;
   payload: {
     todoList: [{id: number, title: string}];
-  },
+  };
   meta: {
     loading: false;
-  },
+  };
   error: false;
 }
 
@@ -79,7 +79,7 @@ interface IFetchAllTodoSuccessAction extends Action {
 export const fetchAllTodoSuccessAction = (todoList: [ITodoEntity]): IFetchAllTodoSuccessAction => ({
   type: ActionNames.FETCH_ALL_TODO_SUCCESS,
   payload: {
-    todoList: todoList,
+    todoList,
   },
   meta: {
     loading: false,
@@ -91,7 +91,7 @@ export const fetchAllTodoSuccessAction = (todoList: [ITodoEntity]): IFetchAllTod
  * ITodoState IF
  */
 export interface ITodoState {
-  currentTodo: ITodoEntity,
+  currentTodo: ITodoEntity;
   todoList: [ITodoEntity];
   loading: boolean;
   isError: boolean;
@@ -123,27 +123,21 @@ const initialState: ITodoState = {
 export default function reducer(state: ITodoState = initialState, action: TodoActions): ITodoState {
   switch (action.type) {
     case ActionNames.POST_TODO:
-      return Object.assign(
-        {},
-        state,
-        {
-          currentTodo: {
+      return {...state,
+
+              currentTodo: {
             title: action.payload.title,
           },
-          loading: action.meta.loading,
-          isError: action.error,
-        }
-      );
+              loading: action.meta.loading,
+              isError: action.error,
+      };
     case ActionNames.FETCH_ALL_TODO_SUCCESS:
-      return Object.assign(
-        {},
-        state,
-        {
-          todoList: action.payload.todoList,
-          loading: action.meta.loading,
-          isError: action.error,
-        }
-      );
+      return {...state,
+
+              todoList: action.payload.todoList,
+              loading: action.meta.loading,
+              isError: action.error,
+      };
     default:
       return state;
   }
