@@ -1,6 +1,6 @@
 import {Action, combineReducers, createStore} from "redux";
-import todo, {TodoActions, ITodoState} from "./pages/todo/module";
-import signup, {SignupActions, ISignupState} from "./pages/signup/module";
+import signup, {ISignupState, SignupActions} from "./pages/signup/module";
+import todo, {ITodoState, TodoActions} from "./pages/todo/module";
 
 export default createStore(
   combineReducers({

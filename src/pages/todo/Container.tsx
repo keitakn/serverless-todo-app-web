@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import {RouteComponentProps} from "react-router";
 import {Dispatch} from "redux";
 import HttpClientFactory from "../../factories/HttpClientFactory";
-import {ReduxAction, IReduxState} from "../../store";
-import {postTodoAction, fetchAllTodoSuccessAction, ICreateTodoRequest} from "./module";
+import {IReduxState, ReduxAction} from "../../store";
+import {fetchAllTodoSuccessAction, ICreateTodoRequest, postTodoAction} from "./module";
 import Todo from "./Todo";
 
 /**
@@ -17,9 +17,12 @@ export class ActionDispatcher {
 
   /**
    * @param {(action: ReduxAction) => void} dispatch
-   * @param {AxiosInstance} axiosInstance
+   * @param {AxiosInstance} httpClient
    */
-  constructor(private dispatch: (action: ReduxAction) => void, private axiosInstance: AxiosInstance) {}
+  constructor(
+    private dispatch: (action: ReduxAction) => void,
+    private httpClient: AxiosInstance,
+  ) {}
 
   /**
    * TODOを作成する
@@ -29,16 +32,16 @@ export class ActionDispatcher {
    */
   public async create(request: ICreateTodoRequest): Promise<void> {
     try {
-      const axiosResponse = await this.axiosInstance.post("/api/todo", request);
+      const axiosResponse = await this.httpClient.post("/api/todo", request);
 
       if (axiosResponse.status !== 201) {
         return Promise.reject(
-          new Error(`illegal status code: ${axiosResponse.status}`)
+          new Error(`illegal status code: ${axiosResponse.status}`),
         );
       }
 
       this.dispatch(
-        postTodoAction(request)
+        postTodoAction(request),
       );
 
       await this.fetchAll();
@@ -55,11 +58,11 @@ export class ActionDispatcher {
    */
   public async fetchAll(): Promise<void> {
     try {
-      const axiosResponse = await this.axiosInstance.get("/api/todo");
+      const axiosResponse = await this.httpClient.get("/api/todo");
 
       if (axiosResponse.status !== 200) {
         return Promise.reject(
-          new Error(`illegal status code: ${axiosResponse.status}`)
+          new Error(`illegal status code: ${axiosResponse.status}`),
         );
       }
 
@@ -81,7 +84,7 @@ const mapStateToProps = (state: IReduxState, ownProps: RouteComponentProps<{todo
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  actions: new ActionDispatcher(dispatch, axiosInstance)
+  actions: new ActionDispatcher(dispatch, axiosInstance),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);
