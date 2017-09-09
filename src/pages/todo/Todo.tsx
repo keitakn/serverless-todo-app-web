@@ -21,11 +21,11 @@ interface IProps {
  * TODO作成 Form Component
  */
 class TodoCreateForm extends React.Component<IProps, {}> {
-  // TODO 非推奨の書き方なので後で直す
-  public refs: {
-    [string: string]: any;
-    todoTitle: TextField;
-  };
+
+  /**
+   * Formから送信されてくるTODOタイトル
+   */
+  private todoTitleInput: TextField;
 
   /**
    * @param {IProps} props
@@ -44,7 +44,7 @@ class TodoCreateForm extends React.Component<IProps, {}> {
   public async handleTouchTap(e: React.FormEvent<any>) {
     e.preventDefault();
 
-    const title = this.refs.todoTitle.getValue();
+    const title = this.todoTitleInput.getInputNode().value.trim();
 
     await this.props.actions.create({title});
   }
@@ -55,7 +55,10 @@ class TodoCreateForm extends React.Component<IProps, {}> {
   public render() {
     return (
       <div>
-        <TextField hintText="買い物に行く" ref="todoTitle" />
+        <TextField
+          hintText="買い物に行く"
+          ref={(input: TextField) => {this.todoTitleInput = input; }}
+        />
         <FloatingActionButton onTouchTap={this.handleTouchTap}>
           <ContentAdd />
         </FloatingActionButton>
