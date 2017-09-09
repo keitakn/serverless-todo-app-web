@@ -56,7 +56,7 @@ class TodoCreateForm extends React.Component<IProps, {}> {
     return (
       <div>
         <TextField hintText="買い物に行く" ref="todoTitle" />
-        <FloatingActionButton onTouchTap={(e) => this.handleTouchTap(e)}>
+        <FloatingActionButton onTouchTap={this.handleTouchTap}>
           <ContentAdd />
         </FloatingActionButton>
       </div>
