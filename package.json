@@ -14,19 +14,19 @@
   },
   "dependencies": {
     "@types/body-parser": "^1.16.4",
-    "@types/enzyme": "^2.8.6",
+    "@types/enzyme": "^2.8.7",
     "@types/express": "^4.0.36",
     "@types/jasmine": "^2.5.53",
     "@types/material-ui": "^0.18.0",
-    "@types/node": "^8.0.24",
+    "@types/node": "^8.0.28",
     "@types/react": "^16.0.2",
     "@types/react-dom": "^15.5.3",
-    "@types/react-redux": "^5.0.4",
+    "@types/react-redux": "^5.0.7",
     "@types/react-router-dom": "^4.0.7",
     "@types/react-tap-event-plugin": "^0.0.30",
     "amazon-cognito-identity-js": "^1.19.0",
     "axios": "^0.16.2",
-    "body-parser": "^1.17.2",
+    "body-parser": "^1.18.0",
     "dotenv-webpack": "^1.5.4",
     "enzyme": "^2.9.1",
     "express": "^4.15.4",
@@ -44,10 +44,10 @@
     "react-tap-event-plugin": "^2.0.1",
     "react-test-renderer": "^15.6.1",
     "redux": "^3.7.2",
-    "ts-loader": "^2.3.3",
+    "ts-loader": "^2.3.6",
     "tslint": "^5.6.0",
     "tslint-react": "^3.2.0",
     "typescript": "^2.4.2",
-    "webpack": "^3.5.5"
+    "webpack": "^3.5.6"
   }
 }
