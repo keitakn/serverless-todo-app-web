@@ -17,9 +17,12 @@ export class ActionDispatcher {
 
   /**
    * @param {(action: ReduxAction) => void} dispatch
-   * @param {AxiosInstance} axiosInstance
+   * @param {AxiosInstance} httpClient
    */
-  constructor(private dispatch: (action: ReduxAction) => void, private axiosInstance: AxiosInstance) {}
+  constructor(
+    private dispatch: (action: ReduxAction) => void,
+    private httpClient: AxiosInstance,
+  ) {}
 
   /**
    * TODOを作成する
@@ -29,7 +32,7 @@ export class ActionDispatcher {
    */
   public async create(request: ICreateTodoRequest): Promise<void> {
     try {
-      const axiosResponse = await this.axiosInstance.post("/api/todo", request);
+      const axiosResponse = await this.httpClient.post("/api/todo", request);
 
       if (axiosResponse.status !== 201) {
         return Promise.reject(
@@ -55,7 +58,7 @@ export class ActionDispatcher {
    */
   public async fetchAll(): Promise<void> {
     try {
-      const axiosResponse = await this.axiosInstance.get("/api/todo");
+      const axiosResponse = await this.httpClient.get("/api/todo");
 
       if (axiosResponse.status !== 200) {
         return Promise.reject(
