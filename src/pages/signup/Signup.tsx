@@ -40,14 +40,24 @@ const SignupSuccessMessage = (props: IProps) => {
 class SignupForm extends React.Component<IProps, {}> {
 
   /**
-   * TODO 非推奨の書き方なので後で直す
+   * Formから送信されてくるメールアドレス
    */
-  public refs: {
-    email: TextField;
-    password: TextField;
-    gender: RadioButtonGroup;
-    birthdate: any;
-  };
+  private emailInput: TextField;
+
+  /**
+   * Formから送信されてくるメールアドレス
+   */
+  private passwordInput: TextField;
+
+  /**
+   * Formから送信されてくる性別
+   */
+  private genderInput: RadioButtonGroup;
+
+  /**
+   * Formから送信されてくる誕生日
+   */
+  private birthdateInput: any;
 
   /**
    * @param {IProps} props
@@ -68,10 +78,10 @@ class SignupForm extends React.Component<IProps, {}> {
     e.preventDefault();
 
     const signUpRequest = {
-      email: this.refs.email.getValue().trim(),
-      password: this.refs.password.getValue().trim(),
-      gender: this.refs.gender.getSelectedValue(),
-      birthdate: this.refs.birthdate.refs.input.props.value,
+      email: this.emailInput.getInputNode().value.trim(),
+      password: this.passwordInput.getInputNode().value.trim(),
+      gender: this.genderInput.getSelectedValue(),
+      birthdate: this.birthdateInput.refs.input.props.value,
     };
 
     await this.props.actions.postSignup(signUpRequest);
@@ -86,18 +96,22 @@ class SignupForm extends React.Component<IProps, {}> {
         <TextField
           type="email"
           hintText="Enter your Email"
-          ref="email"
+          ref={(input: TextField) => {this.emailInput = input; }}
           defaultValue={this.props.value.email}
           errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
         />
         <TextField
           type="password"
           hintText="Enter your Password"
-          ref="password"
+          ref={(input: TextField) => {this.passwordInput = input; }}
           defaultValue={this.props.value.password}
           errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
         />
-        <RadioButtonGroup ref="gender" name="gender" defaultSelected="not_light">
+        <RadioButtonGroup
+          ref={(input: RadioButtonGroup) => {this.genderInput = input; }}
+          name="gender"
+          defaultSelected="not_light"
+        >
           <RadioButton
             value="female"
             label="女性"
@@ -108,7 +122,7 @@ class SignupForm extends React.Component<IProps, {}> {
           />
         </RadioButtonGroup>
         <DatePicker
-          ref="birthdate"
+          ref={(input: DatePicker) => {this.birthdateInput = input; }}
           hintText="birthdate"
         />
         <RaisedButton onTouchTap={this.handleTouchTap} label="サインアップ" secondary={true} fullWidth={true} />
@@ -121,6 +135,10 @@ class SignupForm extends React.Component<IProps, {}> {
  * Signup Root Component
  */
 export default class Signup extends React.PureComponent<IProps, {}> {
+
+  /**
+   * @returns {any}
+   */
   public render() {
     return (
       <MuiThemeProvider>
