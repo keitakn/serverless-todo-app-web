@@ -2,6 +2,7 @@
   "extends": ["tslint:latest", "tslint-react"],
   "rules": {
     // TSLintに元から設定されている設定の上書き
+    "indent": [true, "spaces", 2],
     "object-literal-sort-keys": false,
     "no-namespace": false,
     "no-submodule-imports": false,
