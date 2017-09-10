@@ -17,6 +17,77 @@ interface IProps {
 }
 
 /**
+ * SignupCompleteForm Component
+ */
+class SignupCompleteForm extends React.PureComponent<IProps, {}> {
+  /**
+   * Formから送信されてくるメールアドレス
+   */
+  private emailInput: TextField;
+
+  /**
+   * Formから送信されてくる検証コード
+   */
+  private verificationCodeInput: TextField;
+
+  /**
+   * @param {IProps} props
+   */
+  constructor(props: IProps) {
+    super(props);
+
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+  }
+
+  /**
+   * サインアップ完了リクエストを送信する
+   *
+   * @param {React.FormEvent<any>} e
+   * @returns {Promise<void>}
+   */
+  public async handleTouchTap(e: React.FormEvent<any>) {
+    e.preventDefault();
+
+    const signupCompleteRequest = {
+      email: this.emailInput.getInputNode().value.trim(),
+      verificationCode: this.verificationCodeInput.getInputNode().value.trim(),
+    };
+
+    console.log(signupCompleteRequest);
+  }
+
+  /**
+   * @returns {any}
+   */
+  public render() {
+    return (
+      <form>
+        <TextField
+          type="email"
+          hintText="Enter your Email"
+          ref={(input: TextField) => {this.emailInput = input; }}
+          defaultValue={this.props.value.email}
+          errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
+        />
+        <TextField
+          type="text"
+          hintText="Enter your VerificationCode"
+          ref={(input: TextField) => {this.verificationCodeInput = input; }}
+          defaultValue=""
+          errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
+        />
+        <RaisedButton
+          onTouchTap={this.handleTouchTap}
+          label="サインアップを完了させる"
+          secondary={true}
+          fullWidth={true}
+        />
+      </form>
+    );
+  }
+}
+
+/**
  * サインアップ正常終了時に表示させるComponent
  *
  * @param {IProps} props
@@ -140,17 +211,18 @@ export default class Signup extends React.PureComponent<IProps, {}> {
    * @returns {any}
    */
   public render() {
+    const signupCompleted  = this.props.value.signupCompleted;
+    const state            = this.props.value;
+    const actionDispatcher = this.props.actions;
+
     return (
       <MuiThemeProvider>
         <div>
           <AppMenu />
           <p>サインアップ</p>
-          <SignupForm value={this.props.value} actions={this.props.actions} />
-          {
-            (this.props.value.signupCompleted) ?
-            <SignupSuccessMessage value={this.props.value} actions={this.props.actions}/> :
-            ""
-          }
+          <SignupForm value={state} actions={actionDispatcher} />
+          {(signupCompleted) ? <SignupSuccessMessage value={state} actions={actionDispatcher}/> : ""}
+          {(signupCompleted) ? <SignupCompleteForm value={state} actions={actionDispatcher}/> : ""}
         </div>
       </MuiThemeProvider>
     );
