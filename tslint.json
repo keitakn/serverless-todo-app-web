@@ -3,15 +3,18 @@
   "rules": {
     // TSLintに元から設定されている設定の上書き
     "indent": [true, "spaces", 2],
+    "max-line-length": [true, 120],
     "max-file-line-count": [true, 300],
     "object-literal-sort-keys": false,
     "no-namespace": false,
     "no-submodule-imports": false,
     "max-classes-per-file": [true, 2],
+    "variable-name": false,
     // ここからReact 固有のルール
     "jsx-wrap-multiline": false,
     "jsx-no-multiline-js": false,
     // tslint-config-airbnb
-    "object-shorthand-properties-first": false
+    "object-shorthand-properties-first": false,
+    "import-name": false
   }
 }
