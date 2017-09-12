@@ -1,12 +1,12 @@
-import {Action} from "redux";
+import { Action } from 'redux';
 
 /**
  * actions Enum
  */
 enum ActionNames {
-  POST_SIGNUP_REQUEST = "POST_SIGNUP_REQUEST",
-  SIGNUP_SUCCESS = "SIGNUP_SUCCESS",
-  SIGNUP_FAILURE = "SIGNUP_FAILURE",
+  POST_SIGNUP_REQUEST = 'POST_SIGNUP_REQUEST',
+  SIGNUP_SUCCESS = 'SIGNUP_SUCCESS',
+  SIGNUP_FAILURE = 'SIGNUP_FAILURE',
 }
 
 /**
@@ -151,15 +151,15 @@ export interface ISignupState {
 export type SignupActions = IPostSignupRequestAction | ISignupSuccessAction | ISignupFailureAction;
 
 const initialState: ISignupState = {
-  email: "",
-  password: "",
-  gender: "",
-  birthdate: "1999-01-01",
+  email: '',
+  password: '',
+  gender: '',
+  birthdate: '1999-01-01',
   loading: false,
   signupCompleted: false,
   isError: false,
   errors: {
-    message: "",
+    message: '',
   },
 };
 

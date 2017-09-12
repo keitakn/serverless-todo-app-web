@@ -1,4 +1,4 @@
-import axios, {AxiosAdapter, AxiosInstance} from "axios";
+import axios, { AxiosAdapter, AxiosInstance } from 'axios';
 
 /**
  * HttpClientFactory
@@ -15,9 +15,9 @@ export default class HttpClientFactory {
    */
   public static create(): AxiosInstance {
     const headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "X-Requested-With": "XMLHttpRequest",
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
     };
 
     const requestConfig = {
@@ -35,9 +35,9 @@ export default class HttpClientFactory {
    */
   public static createMockInstance(mockAdapter: AxiosAdapter): AxiosInstance {
     const headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "X-Requested-With": "XMLHttpRequest",
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
     };
 
     const requestConfig = {

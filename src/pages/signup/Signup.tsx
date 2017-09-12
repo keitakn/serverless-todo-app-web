@@ -1,12 +1,12 @@
-import DatePicker from "material-ui/DatePicker";
-import {RadioButton, RadioButtonGroup} from "material-ui/RadioButton";
-import RaisedButton from "material-ui/RaisedButton";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import TextField from "material-ui/TextField";
-import * as React from "react";
-import AppMenu from "../../components/AppMenu";
-import {ActionDispatcher} from "./Container";
-import {ISignupState} from "./module";
+import DatePicker from 'material-ui/DatePicker';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import TextField from 'material-ui/TextField';
+import * as React from 'react';
+import AppMenu from '../../components/AppMenu';
+import { ActionDispatcher } from './Container';
+import { ISignupState } from './module';
 
 /**
  * IProps IF
@@ -67,14 +67,14 @@ class SignupCompleteForm extends React.PureComponent<IProps, {}> {
           hintText="Enter your Email"
           ref={(input: TextField) => {this.emailInput = input; }}
           defaultValue={this.props.value.email}
-          errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
+          errorText={(this.props.value.isError) ? this.props.value.errors.message : ''}
         />
         <TextField
           type="text"
           hintText="Enter your VerificationCode"
           ref={(input: TextField) => {this.verificationCodeInput = input; }}
           defaultValue=""
-          errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
+          errorText={(this.props.value.isError) ? this.props.value.errors.message : ''}
         />
         <RaisedButton
           onTouchTap={this.handleTouchTap}
@@ -169,14 +169,14 @@ class SignupForm extends React.Component<IProps, {}> {
           hintText="Enter your Email"
           ref={(input: TextField) => {this.emailInput = input; }}
           defaultValue={this.props.value.email}
-          errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
+          errorText={(this.props.value.isError) ? this.props.value.errors.message : ''}
         />
         <TextField
           type="password"
           hintText="Enter your Password"
           ref={(input: TextField) => {this.passwordInput = input; }}
           defaultValue={this.props.value.password}
-          errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
+          errorText={(this.props.value.isError) ? this.props.value.errors.message : ''}
         />
         <RadioButtonGroup
           ref={(input: RadioButtonGroup) => {this.genderInput = input; }}
@@ -221,8 +221,8 @@ export default class Signup extends React.PureComponent<IProps, {}> {
           <AppMenu />
           <p>サインアップ</p>
           <SignupForm value={state} actions={actionDispatcher} />
-          {(signupCompleted) ? <SignupSuccessMessage value={state} actions={actionDispatcher}/> : ""}
-          {(signupCompleted) ? <SignupCompleteForm value={state} actions={actionDispatcher}/> : ""}
+          {(signupCompleted) ? <SignupSuccessMessage value={state} actions={actionDispatcher}/> : ''}
+          {(signupCompleted) ? <SignupCompleteForm value={state} actions={actionDispatcher}/> : ''}
         </div>
       </MuiThemeProvider>
     );

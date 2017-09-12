@@ -1,8 +1,8 @@
-import {CognitoUserAttribute, CognitoUserPool, ISignUpResult} from "amazon-cognito-identity-js";
-import {connect, MapDispatchToPropsParam, MapStateToPropsParam} from "react-redux";
-import {Dispatch} from "redux";
-import {AppConfig} from "../../AppConfig";
-import {IReduxState, ReduxAction} from "../../store";
+import { CognitoUserAttribute, CognitoUserPool, ISignUpResult } from 'amazon-cognito-identity-js';
+import { connect, MapDispatchToPropsParam, MapStateToPropsParam } from 'react-redux';
+import { Dispatch } from 'redux';
+import { AppConfig } from '../../AppConfig';
+import { IReduxState, ReduxAction } from '../../store';
 import {
   ISignupRequest,
   ISignupState,
@@ -10,8 +10,8 @@ import {
   postSignupRequestAction,
   signupFailureAction,
   signupSuccessAction,
-} from "./module";
-import Signup from "./Signup";
+} from './module';
+import Signup from './Signup';
 import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
 import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
 
@@ -46,17 +46,17 @@ export class ActionDispatcher {
     const cognitoUserPool = new CognitoUserPool(poolData);
 
     const dataEmail = {
-      Name: "email",
+      Name: 'email',
       Value: signUpRequest.email,
     };
 
     const dataGender = {
-      Name: "gender",
+      Name: 'gender',
       Value: signUpRequest.gender,
     };
 
     const dataBirthdate = {
-      Name: "birthdate",
+      Name: 'birthdate',
       Value: signUpRequest.birthdate,
     };
 
@@ -99,10 +99,10 @@ export class ActionDispatcher {
 }
 
 const mapStateToProps: MapStateToPropsParam<{value: ISignupState}, any> = (state: IReduxState) => {
-  return {value: state.signup};
+  return { value: state.signup };
 };
 
 const mapDispatchToProps: MapDispatchToPropsParam<{actions: ActionDispatcher}, {}>
-  = (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)});
+  = (dispatch: Dispatch<ReduxAction>) => ({ actions: new ActionDispatcher(dispatch) });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

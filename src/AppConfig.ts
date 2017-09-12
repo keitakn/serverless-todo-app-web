@@ -15,7 +15,7 @@ export namespace AppConfig {
   export const getCognitoUserPoolId = (): string => {
     const cognitoUserPoolId = process.env.COGNITO_USER_POOL_ID;
 
-    return typeof cognitoUserPoolId === "string" ? cognitoUserPoolId : "";
+    return typeof cognitoUserPoolId === 'string' ? cognitoUserPoolId : '';
   };
 
   /**
@@ -26,6 +26,6 @@ export namespace AppConfig {
   export const getCognitoUserPoolClientId = (): string => {
     const cognitoUserPoolClientId = process.env.COGNITO_USER_POOL_CLIENT_ID;
 
-    return typeof cognitoUserPoolClientId === "string" ? cognitoUserPoolClientId : "";
+    return typeof cognitoUserPoolClientId === 'string' ? cognitoUserPoolClientId : '';
   };
 }
