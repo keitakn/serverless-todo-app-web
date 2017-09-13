@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import AppMenu from '../../components/AppMenu';
 import { ActionDispatcher } from './Container';
-import { ISignupState } from './module';
+import { ISignupCompleteRequest, ISignupState } from './module';
 
 /**
  * IProps IF
@@ -48,12 +48,12 @@ class SignupCompleteForm extends React.PureComponent<IProps, {}> {
   public async handleTouchTap(e: React.FormEvent<any>) {
     e.preventDefault();
 
-    const signupCompleteRequest = {
+    const signupCompleteRequest: ISignupCompleteRequest = {
       email: this.emailInput.getInputNode().value.trim(),
       verificationCode: this.verificationCodeInput.getInputNode().value.trim(),
     };
 
-    console.log(signupCompleteRequest);
+    await this.props.actions.postSignupCompleteRequest(signupCompleteRequest);
   }
 
   /**

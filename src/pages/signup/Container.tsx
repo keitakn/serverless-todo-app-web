@@ -1,12 +1,18 @@
-import { CognitoUserAttribute, CognitoUserPool, ISignUpResult } from 'amazon-cognito-identity-js';
+import {
+  CognitoUser,
+  CognitoUserAttribute,
+  CognitoUserPool,
+  ISignUpResult,
+} from 'amazon-cognito-identity-js';
 import { connect, MapDispatchToPropsParam, MapStateToPropsParam } from 'react-redux';
 import { Dispatch } from 'redux';
 import { AppConfig } from '../../AppConfig';
 import { IReduxState, ReduxAction } from '../../store';
 import {
+  ISignupCompleteRequest,
   ISignupRequest,
   ISignupState,
-  ISignupSuccessResponse,
+  ISignupSuccessResponse, postSignupCompleteRequestAction,
   postSignupRequestAction,
   signupFailureAction,
   signupSuccessAction,
@@ -95,6 +101,44 @@ export class ActionDispatcher {
 
         return signupSuccessResponse;
       });
+  }
+
+  /**
+   * サインアップ完了リクエストを送信する
+   *
+   * @param {ISignupCompleteRequest} request
+   * @returns {Promise<any>}
+   */
+  public async postSignupCompleteRequest(request: ISignupCompleteRequest) {
+    return new Promise((resolve, reject) => {
+      this.dispatch(
+        postSignupCompleteRequestAction(request),
+      );
+
+      const poolData = {
+        UserPoolId: getCognitoUserPoolId(),
+        ClientId: getCognitoUserPoolClientId(),
+      };
+      const cognitoUserPool = new CognitoUserPool(poolData);
+
+      const userData = {
+        Username: request.email,
+        Pool: cognitoUserPool,
+      };
+
+      const cognitoUser = new CognitoUser(userData);
+      cognitoUser.confirmRegistration(
+        request.verificationCode,
+        true,
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+
+          return resolve(result);
+        },
+      );
+    });
   }
 }
 

@@ -7,6 +7,7 @@ enum ActionNames {
   POST_SIGNUP_REQUEST = 'POST_SIGNUP_REQUEST',
   SIGNUP_SUCCESS = 'SIGNUP_SUCCESS',
   SIGNUP_FAILURE = 'SIGNUP_FAILURE',
+  POST_SIGNUP_COMPLETE_REQUEST = 'POST_SIGNUP_COMPLETE_REQUEST',
 }
 
 /**
@@ -135,6 +136,51 @@ export const signupFailureAction = (response: ISignupFailureResponse): ISignupFa
 });
 
 /**
+ * postSignupCompleteRequestAction IF
+ */
+interface IPostSignupCompleteRequestAction {
+  type: ActionNames.POST_SIGNUP_COMPLETE_REQUEST;
+  payload: {
+    email: string;
+    verificationCode: string;
+  };
+  meta: {
+    loading: true;
+    userConfirmed: false;
+  };
+  error: false;
+}
+
+/**
+ * サインアップ完了Request 引数IF
+ */
+export interface ISignupCompleteRequest {
+  email: string;
+  verificationCode: string;
+}
+
+/**
+ * サインアップ完了のRequest送信時に実行されるaction
+ *
+ * @param {ISignupCompleteRequest} request
+ * @returns {IPostSignupCompleteRequestAction}
+ */
+export const postSignupCompleteRequestAction = (
+  request: ISignupCompleteRequest,
+): IPostSignupCompleteRequestAction => ({
+  type: ActionNames.POST_SIGNUP_COMPLETE_REQUEST,
+  payload: {
+    email: request.email,
+    verificationCode: request.verificationCode,
+  },
+  meta: {
+    loading: true,
+    userConfirmed: false,
+  },
+  error: false,
+});
+
+/**
  * ISignupState IF
  */
 export interface ISignupState {
@@ -148,7 +194,11 @@ export interface ISignupState {
   errors: {message: string};
 }
 
-export type SignupActions = IPostSignupRequestAction | ISignupSuccessAction | ISignupFailureAction;
+export type SignupActions =
+  IPostSignupRequestAction |
+  ISignupSuccessAction |
+  ISignupFailureAction |
+  IPostSignupCompleteRequestAction;
 
 const initialState: ISignupState = {
   email: '',
