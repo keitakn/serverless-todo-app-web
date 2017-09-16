@@ -1,11 +1,11 @@
-import {AxiosInstance} from "axios";
-import {connect} from "react-redux";
-import {RouteComponentProps} from "react-router";
-import {Dispatch} from "redux";
-import HttpClientFactory from "../../factories/HttpClientFactory";
-import {IReduxState, ReduxAction} from "../../store";
-import {fetchAllTodoSuccessAction, ICreateTodoRequest, postTodoAction} from "./module";
-import Todo from "./Todo";
+import { AxiosInstance } from 'axios';
+import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
+import { Dispatch } from 'redux';
+import HttpClientFactory from '../../factories/HttpClientFactory';
+import { IReduxState, ReduxAction } from '../../store';
+import { fetchAllTodoSuccessAction, ICreateTodoRequest, postTodoAction } from './module';
+import Todo from './Todo';
 
 /**
  * ActionDispatcher
@@ -32,7 +32,7 @@ export class ActionDispatcher {
    */
   public async create(request: ICreateTodoRequest): Promise<void> {
     try {
-      const axiosResponse = await this.httpClient.post("/api/todo", request);
+      const axiosResponse = await this.httpClient.post('/api/todo', request);
 
       if (axiosResponse.status !== 201) {
         return Promise.reject(
@@ -58,7 +58,7 @@ export class ActionDispatcher {
    */
   public async fetchAll(): Promise<void> {
     try {
-      const axiosResponse = await this.httpClient.get("/api/todo");
+      const axiosResponse = await this.httpClient.get('/api/todo');
 
       if (axiosResponse.status !== 200) {
         return Promise.reject(
@@ -78,9 +78,9 @@ const axiosInstance = HttpClientFactory.create();
 
 const mapStateToProps = (state: IReduxState, ownProps: RouteComponentProps<{todoId: string | undefined}>) => {
   if (ownProps.match.params.todoId === undefined) {
-    return {value: state.todo};
+    return { value: state.todo };
   }
-  return {value: state.todo, param: ownProps.match.params.todoId};
+  return { value: state.todo, param: ownProps.match.params.todoId };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({

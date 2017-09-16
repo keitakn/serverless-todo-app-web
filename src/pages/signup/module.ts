@@ -1,12 +1,15 @@
-import {Action} from "redux";
+import { Action } from 'redux';
 
 /**
  * actions Enum
  */
 enum ActionNames {
-  POST_SIGNUP_REQUEST = "POST_SIGNUP_REQUEST",
-  SIGNUP_SUCCESS = "SIGNUP_SUCCESS",
-  SIGNUP_FAILURE = "SIGNUP_FAILURE",
+  POST_SIGNUP_REQUEST = 'POST_SIGNUP_REQUEST',
+  SIGNUP_SUCCESS = 'SIGNUP_SUCCESS',
+  SIGNUP_FAILURE = 'SIGNUP_FAILURE',
+  POST_SIGNUP_COMPLETE_REQUEST = 'POST_SIGNUP_COMPLETE_REQUEST',
+  SIGNUP_COMPLETE_SUCCESS = 'SIGNUP_COMPLETE_SUCCESS',
+  SIGNUP_COMPLETE_FAILURE = 'SIGNUP_COMPLETE_FAILURE',
 }
 
 /**
@@ -135,6 +138,115 @@ export const signupFailureAction = (response: ISignupFailureResponse): ISignupFa
 });
 
 /**
+ * postSignupCompleteRequestAction IF
+ */
+interface IPostSignupCompleteRequestAction {
+  type: ActionNames.POST_SIGNUP_COMPLETE_REQUEST;
+  payload: {
+    email: string;
+    verificationCode: string;
+  };
+  meta: {
+    loading: true;
+    userConfirmed: false;
+  };
+  error: false;
+}
+
+/**
+ * サインアップ完了Request 引数IF
+ */
+export interface ISignupCompleteRequest {
+  email: string;
+  verificationCode: string;
+}
+
+/**
+ * サインアップ完了のRequest送信時に実行されるaction
+ *
+ * @param {ISignupCompleteRequest} request
+ * @returns {IPostSignupCompleteRequestAction}
+ */
+export const postSignupCompleteRequestAction = (
+  request: ISignupCompleteRequest,
+): IPostSignupCompleteRequestAction => ({
+  type: ActionNames.POST_SIGNUP_COMPLETE_REQUEST,
+  payload: {
+    email: request.email,
+    verificationCode: request.verificationCode,
+  },
+  meta: {
+    loading: true,
+    userConfirmed: false,
+  },
+  error: false,
+});
+
+/**
+ * signupCompleteSuccess IF
+ */
+interface ISignupCompleteSuccessAction {
+  type: ActionNames.SIGNUP_COMPLETE_SUCCESS;
+  payload: {};
+  meta: {
+    loading: false;
+    userConfirmed: true;
+  };
+  error: false;
+}
+
+/**
+ * サインアップ完了成功時に実行されるaction
+ *
+ * @returns {ISignupCompleteSuccessAction}
+ */
+export const signupCompleteSuccess = (): ISignupCompleteSuccessAction => ({
+  type: ActionNames.SIGNUP_COMPLETE_SUCCESS,
+  payload: {},
+  meta: {
+    loading: false,
+    userConfirmed: true,
+  },
+  error: false,
+});
+
+/**
+ * signupCompleteFailureAction IF
+ */
+interface ISignupCompleteFailureAction {
+  type: ActionNames.SIGNUP_COMPLETE_FAILURE;
+  payload: Error;
+  meta: {
+    loading: false;
+  };
+  error: true;
+}
+
+/**
+ * signupCompleteFailureAction 引数IF
+ */
+export interface ISignupCompleteFailureResponse {
+  error: Error;
+}
+
+/**
+ * サインアップ完了失敗時に呼ばれるaction
+ *
+ * @param {ISignupCompleteFailureResponse} response
+ * @returns {ISignupCompleteFailureAction}
+ */
+export const signupCompleteFailureAction = (
+  response: ISignupCompleteFailureResponse,
+): ISignupCompleteFailureAction => ({
+  type: ActionNames.SIGNUP_COMPLETE_FAILURE,
+  payload: response.error,
+  meta: {
+    loading: false,
+  },
+  error: true,
+});
+
+/**
  * ISignupState IF
  */
 export interface ISignupState {
@@ -144,22 +256,30 @@ export interface ISignupState {
   birthdate: string;
   loading: boolean;
   signupCompleted: boolean;
+  userConfirmed: boolean;
   isError: boolean;
   errors: {message: string};
 }
 
-export type SignupActions = IPostSignupRequestAction | ISignupSuccessAction | ISignupFailureAction;
+export type SignupActions =
+  IPostSignupRequestAction |
+  ISignupSuccessAction |
+  ISignupFailureAction |
+  IPostSignupCompleteRequestAction |
+  ISignupCompleteSuccessAction |
+  ISignupCompleteFailureAction;
 
 const initialState: ISignupState = {
-  email: "",
-  password: "",
-  gender: "",
-  birthdate: "1999-01-01",
+  email: '',
+  password: '',
+  gender: '',
+  birthdate: '1999-01-01',
   loading: false,
   signupCompleted: false,
+  userConfirmed: false,
   isError: false,
   errors: {
-    message: "",
+    message: '',
   },
 };
 
@@ -196,6 +316,22 @@ export default function reducer(state: ISignupState = initialState, action: Sign
         ...state,
         loading: action.meta.loading,
         signupCompleted: action.meta.signupCompleted,
+        isError: action.error,
+        errors: {
+          message: action.payload.message,
+        },
+      };
+    case ActionNames.SIGNUP_COMPLETE_SUCCESS:
+      return {
+        ...state,
+        loading: action.meta.loading,
+        userConfirmed: action.meta.userConfirmed,
+        isError: action.error,
+      };
+    case ActionNames.SIGNUP_COMPLETE_FAILURE:
+      return {
+        ...state,
+        loading: action.meta.loading,
         isError: action.error,
         errors: {
           message: action.payload.message,

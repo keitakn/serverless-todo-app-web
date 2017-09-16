@@ -1,13 +1,13 @@
-import Checkbox from "material-ui/Checkbox";
-import FloatingActionButton from "material-ui/FloatingActionButton";
-import {List, ListItem} from "material-ui/List";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import ContentAdd from "material-ui/svg-icons/content/add";
-import TextField from "material-ui/TextField";
-import * as React from "react";
-import AppMenu from "../../components/AppMenu";
-import {ActionDispatcher} from "./Container";
-import {ITodoEntity, ITodoState} from "./module";
+import Checkbox from 'material-ui/Checkbox';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import { List, ListItem } from 'material-ui/List';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import TextField from 'material-ui/TextField';
+import * as React from 'react';
+import AppMenu from '../../components/AppMenu';
+import { ActionDispatcher } from './Container';
+import { ITodoEntity, ITodoState } from './module';
 
 /**
  * IProps IF
@@ -46,7 +46,7 @@ class TodoCreateForm extends React.Component<IProps, {}> {
 
     const title = this.todoTitleInput.getInputNode().value.trim();
 
-    await this.props.actions.create({title});
+    await this.props.actions.create({ title });
   }
 
   /**

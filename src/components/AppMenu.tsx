@@ -1,7 +1,7 @@
-import {AppBar, IconButton, IconMenu, MenuItem} from "material-ui";
-import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
-import * as React from "react";
-import {Link} from "react-router-dom";
+import { AppBar, IconButton, IconMenu, MenuItem } from 'material-ui';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 export default class AppMenu extends React.Component<any, any> {
 

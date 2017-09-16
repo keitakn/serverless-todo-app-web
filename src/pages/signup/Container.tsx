@@ -1,17 +1,23 @@
-import {CognitoUserAttribute, CognitoUserPool, ISignUpResult} from "amazon-cognito-identity-js";
-import {connect, MapDispatchToPropsParam, MapStateToPropsParam} from "react-redux";
-import {Dispatch} from "redux";
-import {AppConfig} from "../../AppConfig";
-import {IReduxState, ReduxAction} from "../../store";
 import {
+  CognitoUser,
+  CognitoUserAttribute,
+  CognitoUserPool,
+  ISignUpResult,
+} from 'amazon-cognito-identity-js';
+import { connect, MapDispatchToPropsParam, MapStateToPropsParam } from 'react-redux';
+import { Dispatch } from 'redux';
+import { AppConfig } from '../../AppConfig';
+import { IReduxState, ReduxAction } from '../../store';
+import {
+  ISignupCompleteRequest,
   ISignupRequest,
   ISignupState,
-  ISignupSuccessResponse,
-  postSignupRequestAction,
+  ISignupSuccessResponse, postSignupCompleteRequestAction,
+  postSignupRequestAction, signupCompleteFailureAction, signupCompleteSuccess,
   signupFailureAction,
   signupSuccessAction,
-} from "./module";
-import Signup from "./Signup";
+} from './module';
+import Signup from './Signup';
 import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
 import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
 
@@ -46,17 +52,17 @@ export class ActionDispatcher {
     const cognitoUserPool = new CognitoUserPool(poolData);
 
     const dataEmail = {
-      Name: "email",
+      Name: 'email',
       Value: signUpRequest.email,
     };
 
     const dataGender = {
-      Name: "gender",
+      Name: 'gender',
       Value: signUpRequest.gender,
     };
 
     const dataBirthdate = {
-      Name: "birthdate",
+      Name: 'birthdate',
       Value: signUpRequest.birthdate,
     };
 
@@ -96,13 +102,58 @@ export class ActionDispatcher {
         return signupSuccessResponse;
       });
   }
+
+  /**
+   * サインアップ完了リクエストを送信する
+   *
+   * @param {ISignupCompleteRequest} request
+   * @returns {Promise<any>}
+   */
+  public async postSignupCompleteRequest(request: ISignupCompleteRequest) {
+    return new Promise((resolve, reject) => {
+      this.dispatch(
+        postSignupCompleteRequestAction(request),
+      );
+
+      const poolData = {
+        UserPoolId: getCognitoUserPoolId(),
+        ClientId: getCognitoUserPoolClientId(),
+      };
+      const cognitoUserPool = new CognitoUserPool(poolData);
+
+      const userData = {
+        Username: request.email,
+        Pool: cognitoUserPool,
+      };
+
+      const cognitoUser = new CognitoUser(userData);
+      cognitoUser.confirmRegistration(
+        request.verificationCode,
+        true,
+        (error, result) => {
+          if (error) {
+            this.dispatch(
+              signupCompleteFailureAction({ error }),
+            );
+            return reject(error);
+          }
+
+          this.dispatch(
+            signupCompleteSuccess(),
+          );
+
+          return resolve(result);
+        },
+      );
+    });
+  }
 }
 
 const mapStateToProps: MapStateToPropsParam<{value: ISignupState}, any> = (state: IReduxState) => {
-  return {value: state.signup};
+  return { value: state.signup };
 };
 
 const mapDispatchToProps: MapDispatchToPropsParam<{actions: ActionDispatcher}, {}>
-  = (dispatch: Dispatch<ReduxAction>) => ({actions: new ActionDispatcher(dispatch)});
+  = (dispatch: Dispatch<ReduxAction>) => ({ actions: new ActionDispatcher(dispatch) });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

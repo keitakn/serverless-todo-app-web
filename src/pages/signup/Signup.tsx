@@ -1,12 +1,12 @@
-import DatePicker from "material-ui/DatePicker";
-import {RadioButton, RadioButtonGroup} from "material-ui/RadioButton";
-import RaisedButton from "material-ui/RaisedButton";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import TextField from "material-ui/TextField";
-import * as React from "react";
-import AppMenu from "../../components/AppMenu";
-import {ActionDispatcher} from "./Container";
-import {ISignupState} from "./module";
+import DatePicker from 'material-ui/DatePicker';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import TextField from 'material-ui/TextField';
+import * as React from 'react';
+import AppMenu from '../../components/AppMenu';
+import { ActionDispatcher } from './Container';
+import { ISignupCompleteRequest, ISignupState } from './module';
 
 /**
  * IProps IF
@@ -17,13 +17,101 @@ interface IProps {
 }
 
 /**
- * サインアップ正常終了時に表示させるComponent
+ * サインアップ完了成功時に表示させるComponent
  *
- * @param {IProps} props
  * @returns {any}
  * @constructor
  */
-const SignupSuccessMessage = (props: IProps) => {
+const SignupCompleteSuccessMessage: React.StatelessComponent = () => {
+  return (
+    <div>
+      検証コードが確認出来ました。
+      ログイン画面よりログインを行って下さい。
+    </div>
+  );
+};
+
+/**
+ * SignupCompleteForm Component
+ */
+class SignupCompleteForm extends React.PureComponent<IProps, {}> {
+  /**
+   * Formから送信されてくるメールアドレス
+   */
+  private emailInput: TextField;
+
+  /**
+   * Formから送信されてくる検証コード
+   */
+  private verificationCodeInput: TextField;
+
+  /**
+   * @param {IProps} props
+   */
+  constructor(props: IProps) {
+    super(props);
+
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+  }
+
+  /**
+   * サインアップ完了リクエストを送信する
+   *
+   * @param {React.FormEvent<any>} e
+   * @returns {Promise<void>}
+   */
+  public async handleTouchTap(e: React.FormEvent<any>) {
+    e.preventDefault();
+
+    const signupCompleteRequest: ISignupCompleteRequest = {
+      email: this.emailInput.getInputNode().value.trim(),
+      verificationCode: this.verificationCodeInput.getInputNode().value.trim(),
+    };
+
+    await this.props.actions.postSignupCompleteRequest(signupCompleteRequest);
+  }
+
+  /**
+   * @returns {any}
+   */
+  public render() {
+    const isError = this.props.value.isError;
+    const signupCompleted = this.props.value.signupCompleted;
+
+    return (
+      <form>
+        <TextField
+          type="email"
+          hintText="Enter your Email"
+          ref={(input: TextField) => {this.emailInput = input; }}
+          defaultValue={this.props.value.email}
+          errorText={(isError && signupCompleted) ? this.props.value.errors.message : ''}
+        />
+        <TextField
+          type="text"
+          hintText="Enter your VerificationCode"
+          ref={(input: TextField) => {this.verificationCodeInput = input; }}
+          defaultValue=""
+          errorText={(isError && signupCompleted) ? this.props.value.errors.message : ''}
+        />
+        <RaisedButton
+          onTouchTap={this.handleTouchTap}
+          label="サインアップを完了させる"
+          secondary={true}
+          fullWidth={true}
+        />
+      </form>
+    );
+  }
+}
+
+/**
+ * サインアップ正常終了時に表示させるComponent
+ *
+ * @returns {any}
+ * @constructor
+ */
+const SignupSuccessMessage: React.StatelessComponent = () => {
   return (
     <div>
       Signupが完了しました。
@@ -91,6 +179,9 @@ class SignupForm extends React.Component<IProps, {}> {
    * @returns {any}
    */
   public render() {
+    const isError = this.props.value.isError;
+    const signupCompleted = this.props.value.signupCompleted;
+
     return (
       <form>
         <TextField
@@ -98,14 +189,14 @@ class SignupForm extends React.Component<IProps, {}> {
           hintText="Enter your Email"
           ref={(input: TextField) => {this.emailInput = input; }}
           defaultValue={this.props.value.email}
-          errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
+          errorText={(isError && signupCompleted === false) ? this.props.value.errors.message : ''}
         />
         <TextField
           type="password"
           hintText="Enter your Password"
           ref={(input: TextField) => {this.passwordInput = input; }}
           defaultValue={this.props.value.password}
-          errorText={(this.props.value.isError) ? this.props.value.errors.message : ""}
+          errorText={(isError && signupCompleted === false) ? this.props.value.errors.message : ''}
         />
         <RadioButtonGroup
           ref={(input: RadioButtonGroup) => {this.genderInput = input; }}
@@ -140,17 +231,20 @@ export default class Signup extends React.PureComponent<IProps, {}> {
    * @returns {any}
    */
   public render() {
+    const signupCompleted  = this.props.value.signupCompleted;
+    const state            = this.props.value;
+    const actionDispatcher = this.props.actions;
+    const userConfirmed    = this.props.value.userConfirmed;
+
     return (
       <MuiThemeProvider>
         <div>
           <AppMenu />
           <p>サインアップ</p>
-          <SignupForm value={this.props.value} actions={this.props.actions} />
-          {
-            (this.props.value.signupCompleted) ?
-            <SignupSuccessMessage value={this.props.value} actions={this.props.actions}/> :
-            ""
-          }
+          <SignupForm value={state} actions={actionDispatcher} />
+          {(signupCompleted) ? <SignupSuccessMessage /> : ''}
+          {(signupCompleted) ? <SignupCompleteForm value={state} actions={actionDispatcher}/> : ''}
+          {(userConfirmed) ? <SignupCompleteSuccessMessage /> : ''}
         </div>
       </MuiThemeProvider>
     );

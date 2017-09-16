@@ -1,11 +1,11 @@
-import {Action} from "redux";
+import { Action } from 'redux';
 
 /**
  * actions Enum
  */
 enum ActionNames {
-  POST_TODO = "POST_TODO",
-  FETCH_ALL_TODO_SUCCESS = "FETCH_ALL_TODO_SUCCESS",
+  POST_TODO = 'POST_TODO',
+  FETCH_ALL_TODO_SUCCESS = 'FETCH_ALL_TODO_SUCCESS',
 }
 
 /**
@@ -106,13 +106,13 @@ export type TodoActions = IPostTodoAction | IFetchAllTodoSuccessAction;
 const initialState: ITodoState = {
   currentTodo: {
     id: 0,
-    title: "",
+    title: '',
   },
-  todoList: [{id: 0, title: ""}],
+  todoList: [{ id: 0, title: '' }],
   loading: false,
   isError: false,
   errors: {
-    message: "",
+    message: '',
   },
 };
 
