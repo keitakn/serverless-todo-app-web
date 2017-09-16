@@ -8,6 +8,7 @@ enum ActionNames {
   SIGNUP_SUCCESS = 'SIGNUP_SUCCESS',
   SIGNUP_FAILURE = 'SIGNUP_FAILURE',
   POST_SIGNUP_COMPLETE_REQUEST = 'POST_SIGNUP_COMPLETE_REQUEST',
+  SIGNUP_COMPLETE_SUCCESS = 'SIGNUP_COMPLETE_SUCCESS',
 }
 
 /**
@@ -181,6 +182,34 @@ export const postSignupCompleteRequestAction = (
 });
 
 /**
+ * signupCompleteSuccess IF
+ */
+interface ISignupCompleteSuccess {
+  type: ActionNames.SIGNUP_COMPLETE_SUCCESS;
+  payload: {};
+  meta: {
+    loading: false;
+    userConfirmed: true;
+  };
+  error: false;
+}
+
+/**
+ * サインアップ完了成功時に実行されるaction
+ *
+ * @returns {ISignupCompleteSuccess}
+ */
+export const signupCompleteSuccess = (): ISignupCompleteSuccess => ({
+  type: ActionNames.SIGNUP_COMPLETE_SUCCESS,
+  payload: {},
+  meta: {
+    loading: false,
+    userConfirmed: true,
+  },
+  error: false,
+});
+
+/**
  * ISignupState IF
  */
 export interface ISignupState {
@@ -190,6 +219,7 @@ export interface ISignupState {
   birthdate: string;
   loading: boolean;
   signupCompleted: boolean;
+  userConfirmed: boolean;
   isError: boolean;
   errors: {message: string};
 }
@@ -198,7 +228,8 @@ export type SignupActions =
   IPostSignupRequestAction |
   ISignupSuccessAction |
   ISignupFailureAction |
-  IPostSignupCompleteRequestAction;
+  IPostSignupCompleteRequestAction |
+  ISignupCompleteSuccess;
 
 const initialState: ISignupState = {
   email: '',
@@ -207,6 +238,7 @@ const initialState: ISignupState = {
   birthdate: '1999-01-01',
   loading: false,
   signupCompleted: false,
+  userConfirmed: false,
   isError: false,
   errors: {
     message: '',
@@ -250,6 +282,13 @@ export default function reducer(state: ISignupState = initialState, action: Sign
         errors: {
           message: action.payload.message,
         },
+      };
+    case ActionNames.SIGNUP_COMPLETE_SUCCESS:
+      return {
+        ...state,
+        loading: action.meta.loading,
+        userConfirmed: action.meta.userConfirmed,
+        isError: action.error,
       };
     default:
       return state;

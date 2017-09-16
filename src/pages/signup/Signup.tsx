@@ -17,6 +17,21 @@ interface IProps {
 }
 
 /**
+ * サインアップ完了成功時に表示させるComponent
+ *
+ * @returns {any}
+ * @constructor
+ */
+const SignupCompleteSuccessMessage: React.StatelessComponent = () => {
+  return (
+    <div>
+      検証コードが確認出来ました。
+      ログイン画面よりログインを行って下さい。
+    </div>
+  );
+};
+
+/**
  * SignupCompleteForm Component
  */
 class SignupCompleteForm extends React.PureComponent<IProps, {}> {
@@ -90,11 +105,10 @@ class SignupCompleteForm extends React.PureComponent<IProps, {}> {
 /**
  * サインアップ正常終了時に表示させるComponent
  *
- * @param {IProps} props
  * @returns {any}
  * @constructor
  */
-const SignupSuccessMessage = (props: IProps) => {
+const SignupSuccessMessage: React.StatelessComponent = () => {
   return (
     <div>
       Signupが完了しました。
@@ -214,6 +228,7 @@ export default class Signup extends React.PureComponent<IProps, {}> {
     const signupCompleted  = this.props.value.signupCompleted;
     const state            = this.props.value;
     const actionDispatcher = this.props.actions;
+    const userConfirmed    = this.props.value.userConfirmed;
 
     return (
       <MuiThemeProvider>
@@ -221,8 +236,9 @@ export default class Signup extends React.PureComponent<IProps, {}> {
           <AppMenu />
           <p>サインアップ</p>
           <SignupForm value={state} actions={actionDispatcher} />
-          {(signupCompleted) ? <SignupSuccessMessage value={state} actions={actionDispatcher}/> : ''}
+          {(signupCompleted) ? <SignupSuccessMessage /> : ''}
           {(signupCompleted) ? <SignupCompleteForm value={state} actions={actionDispatcher}/> : ''}
+          {(userConfirmed) ? <SignupCompleteSuccessMessage /> : ''}
         </div>
       </MuiThemeProvider>
     );
