@@ -13,7 +13,7 @@ import {
   ISignupRequest,
   ISignupState,
   ISignupSuccessResponse, postSignupCompleteRequestAction,
-  postSignupRequestAction, signupCompleteSuccess,
+  postSignupRequestAction, signupCompleteFailureAction, signupCompleteSuccess,
   signupFailureAction,
   signupSuccessAction,
 } from './module';
@@ -132,11 +132,14 @@ export class ActionDispatcher {
         true,
         (error, result) => {
           if (error) {
+            this.dispatch(
+              signupCompleteFailureAction({ error }),
+            );
             return reject(error);
           }
 
           this.dispatch(
-            signupCompleteSuccess()
+            signupCompleteSuccess(),
           );
 
           return resolve(result);

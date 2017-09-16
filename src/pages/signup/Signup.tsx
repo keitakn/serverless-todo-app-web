@@ -75,6 +75,9 @@ class SignupCompleteForm extends React.PureComponent<IProps, {}> {
    * @returns {any}
    */
   public render() {
+    const isError = this.props.value.isError;
+    const signupCompleted = this.props.value.signupCompleted;
+
     return (
       <form>
         <TextField
@@ -82,14 +85,14 @@ class SignupCompleteForm extends React.PureComponent<IProps, {}> {
           hintText="Enter your Email"
           ref={(input: TextField) => {this.emailInput = input; }}
           defaultValue={this.props.value.email}
-          errorText={(this.props.value.isError) ? this.props.value.errors.message : ''}
+          errorText={(isError && signupCompleted) ? this.props.value.errors.message : ''}
         />
         <TextField
           type="text"
           hintText="Enter your VerificationCode"
           ref={(input: TextField) => {this.verificationCodeInput = input; }}
           defaultValue=""
-          errorText={(this.props.value.isError) ? this.props.value.errors.message : ''}
+          errorText={(isError && signupCompleted) ? this.props.value.errors.message : ''}
         />
         <RaisedButton
           onTouchTap={this.handleTouchTap}
@@ -176,6 +179,9 @@ class SignupForm extends React.Component<IProps, {}> {
    * @returns {any}
    */
   public render() {
+    const isError = this.props.value.isError;
+    const signupCompleted = this.props.value.signupCompleted;
+
     return (
       <form>
         <TextField
@@ -183,14 +189,14 @@ class SignupForm extends React.Component<IProps, {}> {
           hintText="Enter your Email"
           ref={(input: TextField) => {this.emailInput = input; }}
           defaultValue={this.props.value.email}
-          errorText={(this.props.value.isError) ? this.props.value.errors.message : ''}
+          errorText={(isError && signupCompleted === false) ? this.props.value.errors.message : ''}
         />
         <TextField
           type="password"
           hintText="Enter your Password"
           ref={(input: TextField) => {this.passwordInput = input; }}
           defaultValue={this.props.value.password}
-          errorText={(this.props.value.isError) ? this.props.value.errors.message : ''}
+          errorText={(isError && signupCompleted === false) ? this.props.value.errors.message : ''}
         />
         <RadioButtonGroup
           ref={(input: RadioButtonGroup) => {this.genderInput = input; }}

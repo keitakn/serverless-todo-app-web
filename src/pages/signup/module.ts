@@ -9,6 +9,7 @@ enum ActionNames {
   SIGNUP_FAILURE = 'SIGNUP_FAILURE',
   POST_SIGNUP_COMPLETE_REQUEST = 'POST_SIGNUP_COMPLETE_REQUEST',
   SIGNUP_COMPLETE_SUCCESS = 'SIGNUP_COMPLETE_SUCCESS',
+  SIGNUP_COMPLETE_FAILURE = 'SIGNUP_COMPLETE_FAILURE',
 }
 
 /**
@@ -184,7 +185,7 @@ export const postSignupCompleteRequestAction = (
 /**
  * signupCompleteSuccess IF
  */
-interface ISignupCompleteSuccess {
+interface ISignupCompleteSuccessAction {
   type: ActionNames.SIGNUP_COMPLETE_SUCCESS;
   payload: {};
   meta: {
@@ -197,9 +198,9 @@ interface ISignupCompleteSuccess {
 /**
  * サインアップ完了成功時に実行されるaction
  *
- * @returns {ISignupCompleteSuccess}
+ * @returns {ISignupCompleteSuccessAction}
  */
-export const signupCompleteSuccess = (): ISignupCompleteSuccess => ({
+export const signupCompleteSuccess = (): ISignupCompleteSuccessAction => ({
   type: ActionNames.SIGNUP_COMPLETE_SUCCESS,
   payload: {},
   meta: {
@@ -207,6 +208,42 @@ export const signupCompleteSuccess = (): ISignupCompleteSuccess => ({
     userConfirmed: true,
   },
   error: false,
+});
+
+/**
+ * signupCompleteFailureAction IF
+ */
+interface ISignupCompleteFailureAction {
+  type: ActionNames.SIGNUP_COMPLETE_FAILURE;
+  payload: Error;
+  meta: {
+    loading: false;
+  };
+  error: true;
+}
+
+/**
+ * signupCompleteFailureAction 引数IF
+ */
+export interface ISignupCompleteFailureResponse {
+  error: Error;
+}
+
+/**
+ * サインアップ完了失敗時に呼ばれるaction
+ *
+ * @param {ISignupCompleteFailureResponse} response
+ * @returns {ISignupCompleteFailureAction}
+ */
+export const signupCompleteFailureAction = (
+  response: ISignupCompleteFailureResponse,
+): ISignupCompleteFailureAction => ({
+  type: ActionNames.SIGNUP_COMPLETE_FAILURE,
+  payload: response.error,
+  meta: {
+    loading: false,
+  },
+  error: true,
 });
 
 /**
@@ -229,7 +266,8 @@ export type SignupActions =
   ISignupSuccessAction |
   ISignupFailureAction |
   IPostSignupCompleteRequestAction |
-  ISignupCompleteSuccess;
+  ISignupCompleteSuccessAction |
+  ISignupCompleteFailureAction;
 
 const initialState: ISignupState = {
   email: '',
@@ -289,6 +327,15 @@ export default function reducer(state: ISignupState = initialState, action: Sign
         loading: action.meta.loading,
         userConfirmed: action.meta.userConfirmed,
         isError: action.error,
+      };
+    case ActionNames.SIGNUP_COMPLETE_FAILURE:
+      return {
+        ...state,
+        loading: action.meta.loading,
+        isError: action.error,
+        errors: {
+          message: action.payload.message,
+        },
       };
     default:
       return state;
