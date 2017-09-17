@@ -31,7 +31,7 @@ export default class SignupForm extends React.PureComponent<ISignupProps, {}> {
   private birthdateInput: any;
 
   /**
-   * @param {IProps} props
+   * @param {ISignupProps} props
    */
   constructor(props: ISignupProps) {
     super(props);
