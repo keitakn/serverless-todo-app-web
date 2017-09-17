@@ -12,8 +12,11 @@ import {
   ISignupCompleteRequest,
   ISignupRequest,
   ISignupState,
-  ISignupSuccessResponse, postSignupCompleteRequestAction,
-  postSignupRequestAction, signupCompleteFailureAction, signupCompleteSuccess,
+  ISignupSuccessResponse,
+  postSignupCompleteRequestAction,
+  postSignupRequestAction,
+  signupCompleteFailureAction,
+  signupCompleteSuccess,
   signupFailureAction,
   signupSuccessAction,
 } from './module';
