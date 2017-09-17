@@ -45,8 +45,6 @@ export class ActionDispatcher {
    */
   public async postSignup(signUpRequest: ISignupRequest) {
     this.dispatch(postSignupRequestAction(signUpRequest));
-
-    // TODO 登録成功時と登録失敗時のアクションを実装
     // TODO この一連の登録処理は別の場所に分離させる
     const poolData = {
       UserPoolId: getCognitoUserPoolId(),
@@ -118,6 +116,7 @@ export class ActionDispatcher {
         postSignupCompleteRequestAction(request),
       );
 
+      // TODO この一連の登録処理は別の場所に分離させる
       const poolData = {
         UserPoolId: getCognitoUserPoolId(),
         ClientId: getCognitoUserPoolClientId(),
