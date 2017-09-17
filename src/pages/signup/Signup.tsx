@@ -1,17 +1,15 @@
-import DatePicker from 'material-ui/DatePicker';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import AppMenu from '../../components/AppMenu';
 import { ActionDispatcher } from './Container';
-import { ISignupCompleteRequest, ISignupState } from './module';
+import { ISignupState } from './module';
+import SignupForm from './SignupForm';
+import SignupCompleteForm from './SignupCompleteForm';
 
 /**
- * IProps IF
+ * SignupProps IF
  */
-interface IProps {
+export interface ISignupProps {
   value: ISignupState;
   actions: ActionDispatcher;
 }
@@ -32,80 +30,6 @@ const SignupCompleteSuccessMessage: React.StatelessComponent = () => {
 };
 
 /**
- * SignupCompleteForm Component
- */
-class SignupCompleteForm extends React.PureComponent<IProps, {}> {
-  /**
-   * Formから送信されてくるメールアドレス
-   */
-  private emailInput: TextField;
-
-  /**
-   * Formから送信されてくる検証コード
-   */
-  private verificationCodeInput: TextField;
-
-  /**
-   * @param {IProps} props
-   */
-  constructor(props: IProps) {
-    super(props);
-
-    this.handleTouchTap = this.handleTouchTap.bind(this);
-  }
-
-  /**
-   * サインアップ完了リクエストを送信する
-   *
-   * @param {React.FormEvent<any>} e
-   * @returns {Promise<void>}
-   */
-  public async handleTouchTap(e: React.FormEvent<any>) {
-    e.preventDefault();
-
-    const signupCompleteRequest: ISignupCompleteRequest = {
-      email: this.emailInput.getInputNode().value.trim(),
-      verificationCode: this.verificationCodeInput.getInputNode().value.trim(),
-    };
-
-    await this.props.actions.postSignupCompleteRequest(signupCompleteRequest);
-  }
-
-  /**
-   * @returns {any}
-   */
-  public render() {
-    const isError = this.props.value.isError;
-    const signupCompleted = this.props.value.signupCompleted;
-
-    return (
-      <form>
-        <TextField
-          type="email"
-          hintText="Enter your Email"
-          ref={(input: TextField) => {this.emailInput = input; }}
-          defaultValue={this.props.value.email}
-          errorText={(isError && signupCompleted) ? this.props.value.errors.message : ''}
-        />
-        <TextField
-          type="text"
-          hintText="Enter your VerificationCode"
-          ref={(input: TextField) => {this.verificationCodeInput = input; }}
-          defaultValue=""
-          errorText={(isError && signupCompleted) ? this.props.value.errors.message : ''}
-        />
-        <RaisedButton
-          onTouchTap={this.handleTouchTap}
-          label="サインアップを完了させる"
-          secondary={true}
-          fullWidth={true}
-        />
-      </form>
-    );
-  }
-}
-
-/**
  * サインアップ正常終了時に表示させるComponent
  *
  * @returns {any}
@@ -123,109 +47,9 @@ const SignupSuccessMessage: React.StatelessComponent = () => {
 };
 
 /**
- * SignupForm Component
- */
-class SignupForm extends React.Component<IProps, {}> {
-
-  /**
-   * Formから送信されてくるメールアドレス
-   */
-  private emailInput: TextField;
-
-  /**
-   * Formから送信されてくるメールアドレス
-   */
-  private passwordInput: TextField;
-
-  /**
-   * Formから送信されてくる性別
-   */
-  private genderInput: RadioButtonGroup;
-
-  /**
-   * Formから送信されてくる誕生日
-   */
-  private birthdateInput: any;
-
-  /**
-   * @param {IProps} props
-   */
-  constructor(props: IProps) {
-    super(props);
-
-    this.handleTouchTap = this.handleTouchTap.bind(this);
-  }
-
-  /**
-   * サインアップのリクエストを送信する
-   *
-   * @param {React.FormEvent<any>} e
-   * @returns {Promise<void>}
-   */
-  public async handleTouchTap(e: React.FormEvent<any>) {
-    e.preventDefault();
-
-    const signUpRequest = {
-      email: this.emailInput.getInputNode().value.trim(),
-      password: this.passwordInput.getInputNode().value.trim(),
-      gender: this.genderInput.getSelectedValue(),
-      birthdate: this.birthdateInput.refs.input.props.value,
-    };
-
-    await this.props.actions.postSignup(signUpRequest);
-  }
-
-  /**
-   * @returns {any}
-   */
-  public render() {
-    const isError = this.props.value.isError;
-    const signupCompleted = this.props.value.signupCompleted;
-
-    return (
-      <form>
-        <TextField
-          type="email"
-          hintText="Enter your Email"
-          ref={(input: TextField) => {this.emailInput = input; }}
-          defaultValue={this.props.value.email}
-          errorText={(isError && signupCompleted === false) ? this.props.value.errors.message : ''}
-        />
-        <TextField
-          type="password"
-          hintText="Enter your Password"
-          ref={(input: TextField) => {this.passwordInput = input; }}
-          defaultValue={this.props.value.password}
-          errorText={(isError && signupCompleted === false) ? this.props.value.errors.message : ''}
-        />
-        <RadioButtonGroup
-          ref={(input: RadioButtonGroup) => {this.genderInput = input; }}
-          name="gender"
-          defaultSelected="not_light"
-        >
-          <RadioButton
-            value="female"
-            label="女性"
-          />
-          <RadioButton
-            value="male"
-            label="男性"
-          />
-        </RadioButtonGroup>
-        <DatePicker
-          ref={(input: DatePicker) => {this.birthdateInput = input; }}
-          hintText="birthdate"
-        />
-        <RaisedButton onTouchTap={this.handleTouchTap} label="サインアップ" secondary={true} fullWidth={true} />
-      </form>
-    );
-  }
-}
-
-/**
  * Signup Root Component
  */
-export default class Signup extends React.PureComponent<IProps, {}> {
+export default class Signup extends React.PureComponent<ISignupProps, {}> {
 
   /**
    * @returns {any}
