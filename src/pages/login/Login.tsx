@@ -16,27 +16,15 @@ export interface ILoginProps {
 /**
  * Loginの親Component
  */
-export default class Login extends React.PureComponent<ILoginProps, {}> {
+const Login = (props: ILoginProps) => {
+  return (
+    <MuiThemeProvider>
+      <div>
+        <AppMenu />
+        <LoginForm actions={props.actions} value={props.value} />
+      </div>
+    </MuiThemeProvider>
+  );
+};
 
-  /**
-   * @param {ITodoProps} props
-   */
-  constructor(props: ILoginProps) {
-    super(props);
-  }
-
-  /**
-   * @returns {any}
-   */
-  public render() {
-    return (
-      <MuiThemeProvider>
-        <div>
-          <AppMenu />
-          <p>ログイン</p>
-          <LoginForm actions={this.props.actions} value={this.props.value} />
-        </div>
-      </MuiThemeProvider>
-    );
-  }
-}
+export default Login;
