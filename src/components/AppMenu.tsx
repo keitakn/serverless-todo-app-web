@@ -24,6 +24,12 @@ const AppMenu = () => {
             }
           />
           <MenuItem
+            primaryText="login"
+            containerElement={
+              <Link to="/login" />
+            }
+          />
+          <MenuItem
             primaryText="todo"
             containerElement={
               <Link to="/todo" />

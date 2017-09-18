@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import NotFound from './components/NotFound';
 import Signup from './pages/signup/Container';
 import Todo from './pages/todo/Container';
+import Login from './pages/login/Container';
 
 /**
  * ルーティング用 Component
@@ -16,6 +17,7 @@ const Routes = () => {
     <Switch>
       <Route exact={true} path="/todo" component={Todo} />
       <Route exact={true} path="/signup" component={Signup} />
+      <Route exact={true} path="/login" component={Login} />
       <Route component={NotFound}/>
     </Switch>
   );
