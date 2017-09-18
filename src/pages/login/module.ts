@@ -44,10 +44,8 @@ export const postLoginRequestAction = (request: any): IPostLoginRequestAction =>
  * ILoginState IF
  */
 export interface ILoginState {
-  user: {
-    email: string;
-    password: string;
-  };
+  email: string;
+  password: string;
   loading: boolean;
   isError: boolean;
   errors: {message: string};
@@ -56,10 +54,8 @@ export interface ILoginState {
 export type LoginActions = IPostLoginRequestAction;
 
 const initialState: ILoginState = {
-  user: {
-    email: '',
-    password: '',
-  },
+  email: '',
+  password: '',
   loading: false,
   isError: false,
   errors: {
@@ -79,10 +75,8 @@ export default function reducer(state: ILoginState = initialState, action: Login
     case ActionNames.POST_LOGIN_REQUEST:
       return {
         ...state,
-        user: {
-          email: action.payload.email,
-          password: action.payload.password,
-        },
+        email: action.payload.email,
+        password: action.payload.password,
         loading: action.meta.loading,
         isError: action.error,
       };
