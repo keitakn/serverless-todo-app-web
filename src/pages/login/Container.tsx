@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { IReduxState, ReduxAction } from '../../store';
 import { postLoginRequestAction } from './module';
 import Login from './Login';
+import {LoginDomains} from "../../domain/LoginDomains";
 
 /**
  * ActionDispatcher
@@ -22,11 +23,14 @@ export class ActionDispatcher {
   /**
    * ログインを行う
    *
-   * @param request
+   * @param {LoginDomains.ILoginRequest} request
    * @returns {Promise<void>}
    */
-  public async login(request: any): Promise<void> {
+  public async login(request: LoginDomains.ILoginRequest): Promise<void> {
     this.dispatch(postLoginRequestAction(request));
+
+    const cognitoUserSession = await LoginDomains.login(request);
+    console.log(cognitoUserSession);
   }
 }
 

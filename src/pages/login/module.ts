@@ -1,4 +1,5 @@
 import { Action } from 'redux';
+import {LoginDomains} from "../../domain/LoginDomains";
 
 /**
  * actions Enum
@@ -25,10 +26,10 @@ interface IPostLoginRequestAction extends Action {
 /**
  * ログインRequestの送信時に実行されるaction
  *
- * @param request
+ * @param {LoginDomains.ILoginRequest} request
  * @returns {IPostLoginRequestAction}
  */
-export const postLoginRequestAction = (request: any): IPostLoginRequestAction => ({
+export const postLoginRequestAction = (request: LoginDomains.ILoginRequest): IPostLoginRequestAction => ({
   type: ActionNames.POST_LOGIN_REQUEST,
   payload: {
     email: request.email,
