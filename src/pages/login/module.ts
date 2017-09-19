@@ -78,6 +78,48 @@ export const loginSuccessAction = (session: CognitoUserSession): ILoginSuccessAc
 });
 
 /**
+ * loginFailureAction IF
+ */
+interface ILoginFailureAction {
+  type: ActionNames.LOGIN_FAILURE;
+  payload: Error;
+  meta: {
+    email: string;
+    password: string;
+    isLoggedIn: false;
+    loading: false;
+  };
+  error: true;
+}
+
+/**
+ * loginFailureActionのResponseIF
+ */
+interface ILoginFailureResponse {
+  email: string;
+  password: string;
+  error: Error;
+}
+
+/**
+ * ログイン失敗時に実行されるaction
+ *
+ * @param {ILoginFailureResponse} response
+ * @returns {ILoginFailureAction}
+ */
+export const loginFailureAction = (response: ILoginFailureResponse): ILoginFailureAction => ({
+  type: ActionNames.LOGIN_FAILURE,
+  payload: response.error,
+  meta: {
+    email: response.email,
+    password: response.password,
+    isLoggedIn: false,
+    loading: false,
+  },
+  error: true,
+});
+
+/**
  * ILoginState IF
  */
 export interface ILoginState {
@@ -90,7 +132,7 @@ export interface ILoginState {
   errors: {message: string};
 }
 
-export type LoginActions = IPostLoginRequestAction | ILoginSuccessAction;
+export type LoginActions = IPostLoginRequestAction | ILoginSuccessAction | ILoginFailureAction;
 
 const initialState: ILoginState = {
   email: '',
@@ -127,6 +169,18 @@ export default function reducer(state: ILoginState = initialState, action: Login
         session: action.payload.session,
         loading: action.meta.loading,
         isError: action.error,
+      };
+    case ActionNames.LOGIN_FAILURE:
+      return {
+        ...state,
+        email: action.meta.email,
+        password: action.meta.password,
+        isLoggedIn: action.meta.isLoggedIn,
+        loading: action.meta.loading,
+        isError: action.error,
+        errors: {
+          message: action.payload.message,
+        },
       };
     default:
       return state;

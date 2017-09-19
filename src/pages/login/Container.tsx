@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { IReduxState, ReduxAction } from '../../store';
-import { loginSuccessAction, postLoginRequestAction } from './module';
+import { loginFailureAction, loginSuccessAction, postLoginRequestAction } from './module';
 import Login from './Login';
 import { LoginDomains } from '../../domain/LoginDomains';
 
@@ -29,7 +29,19 @@ export class ActionDispatcher {
   public async login(request: LoginDomains.ILoginRequest): Promise<void> {
     this.dispatch(postLoginRequestAction(request));
 
-    const cognitoUserSession = await LoginDomains.login(request);
+    const cognitoUserSession = await LoginDomains.login(request).catch((error: Error) => {
+      const errorResponse = {
+        email: request.email,
+        password: request.password,
+        error,
+      };
+
+      this.dispatch(
+        loginFailureAction(errorResponse),
+      );
+
+      return Promise.reject(error);
+    });
 
     this.dispatch(
       loginSuccessAction(cognitoUserSession),
