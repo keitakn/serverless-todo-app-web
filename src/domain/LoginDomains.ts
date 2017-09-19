@@ -2,7 +2,7 @@ import {
   CognitoUser,
   CognitoUserPool,
   AuthenticationDetails,
-  CognitoUserSession
+  CognitoUserSession,
 } from 'amazon-cognito-identity-js';
 import { AppConfig } from '../AppConfig';
 import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
@@ -61,8 +61,56 @@ export namespace LoginDomains {
           onFailure: (error: Error) => {
             reject(error);
           },
-        }
+        },
       );
+    });
+  };
+
+  /**
+   * ログイン状態か確認する
+   *
+   * @returns {Promise<boolean>}
+   */
+  export const isLoggedIn = async (): Promise<boolean> => {
+    try {
+      const session = await fetchSession();
+
+      return Promise.resolve(
+        session.isValid(),
+      );
+    } catch (error) {
+      return Promise.resolve(false);
+    }
+  };
+
+  /**
+   * CognitoUserSessionを取得する
+   *
+   * @returns {Promise<CognitoUserSession>}
+   */
+  export const fetchSession = async (): Promise<CognitoUserSession> => {
+    return new Promise<CognitoUserSession>((resolve, reject) => {
+      const poolData = {
+        UserPoolId: getCognitoUserPoolId(),
+        ClientId: getCognitoUserPoolClientId(),
+      };
+      const cognitoUserPool = new CognitoUserPool(poolData);
+
+      const cognitoUser = cognitoUserPool.getCurrentUser();
+
+      if (cognitoUser == null) {
+        return reject(
+          new Error('user dose not exist'),
+        );
+      }
+
+      cognitoUser.getSession((error: Error, session: CognitoUserSession) => {
+        if (error) {
+          return reject(error);
+        }
+
+        return resolve(session);
+      });
     });
   };
 }
