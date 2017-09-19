@@ -60,15 +60,22 @@ interface ILoginSuccessAction {
 }
 
 /**
+ * ログイン成功時のResponse
+ */
+interface ILoginSuccessResponse {
+  session: CognitoUserSession;
+}
+
+/**
  * ログイン成功時に呼ばれるaction
  *
- * @param {"amazon-cognito-identity-js".CognitoUserSession} session
+ * @param {ILoginSuccessResponse} response
  * @returns {ILoginSuccessAction}
  */
-export const loginSuccessAction = (session: CognitoUserSession): ILoginSuccessAction => ({
+export const loginSuccessAction = (response: ILoginSuccessResponse): ILoginSuccessAction => ({
   type: ActionNames.LOGIN_SUCCESS,
   payload: {
-    session,
+    session: response.session,
     isLoggedIn: true,
   },
   meta: {

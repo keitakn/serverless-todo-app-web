@@ -44,7 +44,7 @@ export class ActionDispatcher {
     });
 
     this.dispatch(
-      loginSuccessAction(cognitoUserSession),
+      loginSuccessAction({ session: cognitoUserSession }),
     );
   }
 
