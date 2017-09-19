@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { IReduxState, ReduxAction } from '../../store';
-import { postLoginRequestAction } from './module';
+import { loginSuccessAction, postLoginRequestAction } from './module';
 import Login from './Login';
-import {LoginDomains} from "../../domain/LoginDomains";
+import { LoginDomains } from '../../domain/LoginDomains';
 
 /**
  * ActionDispatcher
@@ -30,7 +30,19 @@ export class ActionDispatcher {
     this.dispatch(postLoginRequestAction(request));
 
     const cognitoUserSession = await LoginDomains.login(request);
-    console.log(cognitoUserSession);
+
+    this.dispatch(
+      loginSuccessAction(cognitoUserSession),
+    );
+  }
+
+  /**
+   * ログイン状態かどうかを確認する
+   *
+   * @returns {Promise<boolean>}
+   */
+  public static async isLoggedIn(): Promise<boolean> {
+    return await LoginDomains.isLoggedIn();
   }
 }
 
