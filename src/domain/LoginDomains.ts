@@ -7,6 +7,7 @@ import {
 import { AppConfig } from '../AppConfig';
 import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
 import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
+import getAppUri = AppConfig.getAppUri;
 
 /**
  * LoginDomains
@@ -112,5 +113,14 @@ export namespace LoginDomains {
         return resolve(session);
       });
     });
+  };
+
+  /**
+   * ログイン後のリダイレクト処理
+   *
+   * @returns {string}
+   */
+  export const redirectAfterLoginSuccessful = () => {
+    return location.href = `${getAppUri()}/todo`;
   };
 }

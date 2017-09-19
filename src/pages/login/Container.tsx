@@ -46,6 +46,8 @@ export class ActionDispatcher {
     this.dispatch(
       loginSuccessAction({ session: cognitoUserSession }),
     );
+
+    await LoginDomains.redirectAfterLoginSuccessful();
   }
 
   /**
