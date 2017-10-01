@@ -8,6 +8,17 @@
 export namespace AppConfig {
 
   /**
+   * 自身のURIを取得する
+   *
+   * @returns {string}
+   */
+  export const getAppUri = () => {
+    const appUri = process.env.APP_URI;
+
+    return typeof appUri === 'string' ? appUri : '';
+  };
+
+  /**
    * Cognito UserPoolのIDを取得する
    *
    * @returns {string}
