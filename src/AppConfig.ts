@@ -15,7 +15,7 @@ export namespace AppConfig {
   export const getAppUri = () => {
     const appUri = process.env.APP_URI;
 
-    return typeof appUri === "string" ? appUri : "";
+    return typeof appUri === 'string' ? appUri : '';
   };
 
   /**
