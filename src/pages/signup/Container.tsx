@@ -83,7 +83,7 @@ export class ActionDispatcher {
       attributeList,
       attributeList,
       (error: Error, signupResult: ISignUpResult) => {
-        if (error) {
+        if (error != null) {
           const signupFailureResponse = {
             error,
           };
