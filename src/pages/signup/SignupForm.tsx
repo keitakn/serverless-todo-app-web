@@ -72,14 +72,14 @@ export default class SignupForm extends React.PureComponent<ISignupProps, {}> {
           hintText="Enter your Email"
           ref={(input: TextField) => {this.emailInput = input; }}
           defaultValue={this.props.value.email}
-          errorText={(isError && signupCompleted === false) ? this.props.value.errors.message : ''}
+          errorText={(isError && !signupCompleted) ? this.props.value.errors.message : ''}
         />
         <TextField
           type="password"
           hintText="Enter your Password"
           ref={(input: TextField) => {this.passwordInput = input; }}
           defaultValue={this.props.value.password}
-          errorText={(isError && signupCompleted === false) ? this.props.value.errors.message : ''}
+          errorText={(isError && !signupCompleted) ? this.props.value.errors.message : ''}
         />
         <RadioButtonGroup
           ref={(input: RadioButtonGroup) => {this.genderInput = input; }}
