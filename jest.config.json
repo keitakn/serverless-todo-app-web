@@ -1,0 +1,23 @@
+{
+  "collectCoverageFrom": [
+    "src/**/*.{ts,tsx}"
+  ],
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "json"
+  ],
+  "moduleNameMapper": {
+    "^src/(.*)$": "<rootDir>/src/$1"
+  },
+  "roots": [
+    "tests"
+  ],
+  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|jsx|ts|tsx)$",
+  "transform": {
+    "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+  },
+  "verbose": true
+}
