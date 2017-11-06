@@ -9,6 +9,8 @@
     "server": "tsc server.ts && node server.js",
     "lint": "tslint -p . -c tslint.json 'src/**/*.{ts,tsx}'",
     "lint:fix": "tslint -p . -c tslint.json --fix 'src/**/*.{ts,tsx}'",
+    "lint:test": "tslint -p . -c tslint.json 'tests/**/*.{ts,tsx}'",
+    "lint:test:fix": "tslint -p . -c tslint.json --fix 'tests/**/*.{ts,tsx}'",
     "test": "jest --config=jest.config.json",
     "test:coverage": "jest --config=jest.config.json --collectCoverage=true"
   },
