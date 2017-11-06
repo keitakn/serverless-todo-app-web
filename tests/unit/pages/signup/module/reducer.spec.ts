@@ -1,5 +1,4 @@
-import reducer, { postSignupRequestAction } from '../../../../../src/pages/signup/module';
-import { ISignupState } from '../../../../../src/pages/signup/module';
+import reducer, { postSignupRequestAction, ISignupState } from '../../../../../src/pages/signup/module';
 
 /**
  * src/pages/signup/module.ts
