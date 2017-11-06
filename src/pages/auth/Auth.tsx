@@ -44,7 +44,7 @@ export default class Auth extends React.PureComponent<IAuthProps, {}> {
     const loading  = this.props.value.loading;
 
     return (
-      (loggedIn && loading === false) ? (
+      (loggedIn && !loading) ? (
         <Route children={this.props.children} />
       ) : (
         <MuiThemeProvider>

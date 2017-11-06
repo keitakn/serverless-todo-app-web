@@ -106,7 +106,7 @@ export namespace LoginDomains {
       }
 
       cognitoUser.getSession((error: Error, session: CognitoUserSession) => {
-        if (error) {
+        if (error != null) {
           return reject(error);
         }
 

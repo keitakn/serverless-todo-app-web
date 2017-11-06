@@ -11,7 +11,6 @@
     "max-classes-per-file": [true, 2],
     "variable-name": false,
     // ここからReact 固有のルール
-    "jsx-wrap-multiline": false,
     "jsx-no-multiline-js": false,
     // tslint-config-airbnb
     "object-shorthand-properties-first": false,
