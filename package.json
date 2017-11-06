@@ -9,8 +9,8 @@
     "server": "tsc server.ts && node server.js",
     "lint": "tslint -p . -c tslint.json 'src/**/*.{ts,tsx}'",
     "lint:fix": "tslint -p . -c tslint.json --fix 'src/**/*.{ts,tsx}'",
-    "test:unit": "karma start karma.conf.js",
-    "test:all": "karma start karma.conf.js **/*.spec.tsx **/*.spec.ts"
+    "test": "jest --config=jest.config.json",
+    "test:coverage": "jest --config=jest.config.json --collectCoverage=true"
   },
   "devDependencies": {
     "@types/body-parser": "^1.16.4",
