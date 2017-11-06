@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "build/test",
+    "outDir": "build/tests",
     "types": [
       "node",
       "jest"
