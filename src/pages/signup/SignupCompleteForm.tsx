@@ -2,7 +2,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { ISignupProps } from './Signup';
-import { ISignupCompleteRequest } from '../../domain/UserService';
+import { UserService } from '../../domain/UserService';
+import ISignupCompleteRequest = UserService.ISignupCompleteRequest;
 
 /**
  * SignupCompleteForm Component
