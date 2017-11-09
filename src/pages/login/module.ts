@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { LoginDomains } from '../../domain/LoginDomains';
+import { LoginService } from '../../domain/LoginService';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
 /**
@@ -29,10 +29,10 @@ interface IPostLoginRequestAction extends Action {
 /**
  * ログインRequestの送信時に実行されるaction
  *
- * @param {LoginDomains.ILoginRequest} request
+ * @param {LoginService.ILoginRequest} request
  * @returns {IPostLoginRequestAction}
  */
-export const postLoginRequestAction = (request: LoginDomains.ILoginRequest): IPostLoginRequestAction => ({
+export const postLoginRequestAction = (request: LoginService.ILoginRequest): IPostLoginRequestAction => ({
   type: ActionNames.POST_LOGIN_REQUEST,
   payload: {
     email: request.email,
