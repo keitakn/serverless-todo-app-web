@@ -10,12 +10,13 @@ import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
 import getAppUri = AppConfig.getAppUri;
 
 /**
- * LoginDomains
+ * LoginService
+ * ログイン系のビジネスロジック置き場
  *
  * @author keita-nishimoto
  * @since 2017-09-19
  */
-export namespace LoginDomains {
+export namespace LoginService {
 
   /**
    * ログイン時のリクエストIF
@@ -28,7 +29,7 @@ export namespace LoginDomains {
   /**
    * ログインを行う
    *
-   * @param {LoginDomains.ILoginRequest} request
+   * @param {LoginService.ILoginRequest} request
    * @returns {Promise<"amazon-cognito-identity-js".CognitoUserSession>}
    */
   export const login = async (request: ILoginRequest): Promise<CognitoUserSession> => {

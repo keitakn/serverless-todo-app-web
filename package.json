@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "server": "tsc server.ts && node server.js",
+    "server": "node server.js",
     "lint": "tslint -p . -c tslint.json 'src/**/*.{ts,tsx}'",
     "lint:fix": "tslint -p . -c tslint.json --fix 'src/**/*.{ts,tsx}'",
     "lint:test": "tslint -p . -c tslint.json 'tests/**/*.{ts,tsx}'",

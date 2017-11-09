@@ -1,18 +1,8 @@
-import {
-  CognitoUser,
-  CognitoUserAttribute,
-  CognitoUserPool,
-  ISignUpResult,
-} from 'amazon-cognito-identity-js';
 import { connect, MapDispatchToPropsParam, MapStateToPropsParam } from 'react-redux';
 import { Dispatch } from 'redux';
-import { AppConfig } from '../../AppConfig';
 import { IReduxState, ReduxAction } from '../../store';
 import {
-  ISignupCompleteRequest,
-  ISignupRequest,
   ISignupState,
-  ISignupSuccessResponse,
   postSignupCompleteRequestAction,
   postSignupRequestAction,
   signupCompleteFailureAction,
@@ -21,8 +11,12 @@ import {
   signupSuccessAction,
 } from './module';
 import Signup from './Signup';
-import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
-import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
+import { UserService } from '../../domain/UserService';
+import ISignupRequest = UserService.ISignupRequest;
+import ISignupSuccessResponse = UserService.ISignupSuccessResponse;
+import ISignupFailureResponse = UserService.ISignupFailureResponse;
+import ISignupCompleteRequest = UserService.ISignupCompleteRequest;
+import ISignupCompleteFailureResponse = UserService.ISignupCompleteFailureResponse;
 
 /**
  * ActionDispatcher
@@ -40,68 +34,17 @@ export class ActionDispatcher {
   /**
    * サインアップリクエストを送信する
    *
-   * @param {ISignupRequest} signUpRequest
+   * @param {ISignupRequest} request
    * @returns {Promise<void>}
    */
-  public async postSignup(signUpRequest: ISignupRequest) {
-    this.dispatch(postSignupRequestAction(signUpRequest));
-    // TODO この一連の登録処理は別の場所に分離させる
-    const poolData = {
-      UserPoolId: getCognitoUserPoolId(),
-      ClientId: getCognitoUserPoolClientId(),
-    };
-    const cognitoUserPool = new CognitoUserPool(poolData);
+  public async postSignup(request: ISignupRequest) {
+    this.dispatch(postSignupRequestAction(request));
 
-    const dataEmail = {
-      Name: 'email',
-      Value: signUpRequest.email,
-    };
-
-    const dataGender = {
-      Name: 'gender',
-      Value: signUpRequest.gender,
-    };
-
-    const dataBirthdate = {
-      Name: 'birthdate',
-      Value: signUpRequest.birthdate,
-    };
-
-    const attributeEmail = new CognitoUserAttribute(dataEmail);
-    const attributeGender = new CognitoUserAttribute(dataGender);
-    const attributeBirthdate = new CognitoUserAttribute(dataBirthdate);
-
-    const attributeList = [
-      attributeEmail,
-      attributeGender,
-      attributeBirthdate,
-    ];
-
-    cognitoUserPool.signUp(
-      dataEmail.Value,
-      signUpRequest.password,
-      attributeList,
-      attributeList,
-      (error: Error, signupResult: ISignUpResult) => {
-        if (error != null) {
-          const signupFailureResponse = {
-            error,
-          };
-
-          // TODO エラー内容が既にemailが登録されている等だった場合は検証コードを再送するのが良いかも
-          this.dispatch(signupFailureAction(signupFailureResponse));
-
-          return error;
-        }
-
-        const signupSuccessResponse: ISignupSuccessResponse = {
-          email: signupResult.user.getUsername(),
-        };
-
-        this.dispatch(signupSuccessAction(signupSuccessResponse));
-
-        return signupSuccessResponse;
-      });
+    await UserService.signup(request).then((response: ISignupSuccessResponse) => {
+      this.dispatch(signupSuccessAction(response));
+    }).catch((error: ISignupFailureResponse) => {
+      this.dispatch(signupFailureAction(error));
+    });
   }
 
   /**
@@ -111,41 +54,17 @@ export class ActionDispatcher {
    * @returns {Promise<any>}
    */
   public async postSignupCompleteRequest(request: ISignupCompleteRequest) {
-    return new Promise((resolve, reject) => {
+    this.dispatch(
+      postSignupCompleteRequestAction(request),
+    );
+
+    await UserService.signupComplete(request).then(() => {
       this.dispatch(
-        postSignupCompleteRequestAction(request),
+        signupCompleteSuccess(),
       );
-
-      // TODO この一連の登録処理は別の場所に分離させる
-      const poolData = {
-        UserPoolId: getCognitoUserPoolId(),
-        ClientId: getCognitoUserPoolClientId(),
-      };
-      const cognitoUserPool = new CognitoUserPool(poolData);
-
-      const userData = {
-        Username: request.email,
-        Pool: cognitoUserPool,
-      };
-
-      const cognitoUser = new CognitoUser(userData);
-      cognitoUser.confirmRegistration(
-        request.verificationCode,
-        true,
-        (error, result) => {
-          if (error) {
-            this.dispatch(
-              signupCompleteFailureAction({ error }),
-            );
-            return reject(error);
-          }
-
-          this.dispatch(
-            signupCompleteSuccess(),
-          );
-
-          return resolve(result);
-        },
+    }).catch((error: ISignupCompleteFailureResponse) => {
+      this.dispatch(
+        signupCompleteFailureAction(error),
       );
     });
   }

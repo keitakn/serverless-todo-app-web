@@ -3,8 +3,8 @@
 
 
 "@types/body-parser@*", "@types/body-parser@^1.16.4":
-  version "1.16.7"
-  resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.16.7.tgz#455fc23fd0ddaaeda6cd6cbb653558276e5920fa"
+  version "1.16.8"
+  resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.16.8.tgz#687ec34140624a3bec2b1a8ea9268478ae8f3be3"
   dependencies:
     "@types/express" "*"
     "@types/node" "*"
@@ -32,8 +32,8 @@
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-21.1.5.tgz#3db93d069d12602ca115d3604550e15131d8eb7a"
 
 "@types/material-ui@^0.18.0":
-  version "0.18.3"
-  resolved "https://registry.yarnpkg.com/@types/material-ui/-/material-ui-0.18.3.tgz#3a2a9fc81e57799419d8a58137800cd803d64a76"
+  version "0.18.4"
+  resolved "https://registry.yarnpkg.com/@types/material-ui/-/material-ui-0.18.4.tgz#0bb18659a0e78737b38f7158f132f136c6bdf2dc"
   dependencies:
     "@types/react" "*"
     "@types/react-addons-linked-state-mixin" "*"
@@ -43,8 +43,8 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.0.tgz#5a7306e367c539b9f6543499de8dd519fac37a8b"
 
 "@types/node@*", "@types/node@^8.0.28":
-  version "8.0.47"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.47.tgz#968e596f91acd59069054558a00708c445ca30c2"
+  version "8.0.50"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.50.tgz#dc545448e128c88c4eec7cd64025fcc3b7604541"
 
 "@types/react-addons-linked-state-mixin@*":
   version "0.14.18"
@@ -53,8 +53,8 @@
     "@types/react" "*"
 
 "@types/react-dom@^16.0.2":
-  version "16.0.2"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.2.tgz#2da9de21fd83f0140b64794ad9c47930230aedae"
+  version "16.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.0.3.tgz#8accad7eabdab4cca3e1a56f5ccb57de2da0ff64"
   dependencies:
     "@types/node" "*"
     "@types/react" "*"
@@ -67,16 +67,16 @@
     redux "^3.6.0"
 
 "@types/react-router-dom@^4.0.7":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.2.0.tgz#0f2f11d1553bd5aafbd8f613317e8dc9291d7a34"
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.2.1.tgz#c5583550d7246dea60612cc55a523cf980d56df1"
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
     "@types/react-router" "*"
 
 "@types/react-router@*":
-  version "4.0.16"
-  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-4.0.16.tgz#5153d07cb138a30c50aaaa33c8d654e8f321ae13"
+  version "4.0.17"
+  resolved "https://registry.yarnpkg.com/@types/react-router/-/react-router-4.0.17.tgz#1032c800ed0da188d8a3bb38fe6afa8c917865d5"
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -86,8 +86,8 @@
   resolved "https://registry.yarnpkg.com/@types/react-tap-event-plugin/-/react-tap-event-plugin-0.0.30.tgz#123f35080412f489b6770c5a65c159ff96654cb5"
 
 "@types/react@*", "@types/react@^16.0.2":
-  version "16.0.20"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.20.tgz#dc16feb9c0bdf50e439482c6fd3c43d5a1d9f3b1"
+  version "16.0.22"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.22.tgz#19ad106e124aceebd2b4d430a278d55413ee8759"
 
 "@types/serve-static@*":
   version "1.13.0"
@@ -769,8 +769,8 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
 color-convert@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.0.tgz#1accf97dd739b983bf994d56fec8f95853641b7a"
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.1.tgz#c1261107aeb2f294ebffec9ed9ecad529a6097ed"
   dependencies:
     color-name "^1.1.1"
 
@@ -3628,8 +3628,8 @@ trim-right@^1.0.1:
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
 
 ts-jest@^21.1.4:
-  version "21.1.4"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-21.1.4.tgz#6b720cd4ebfacbc935468e60dd395392f817095b"
+  version "21.2.1"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-21.2.1.tgz#cc98f4ed432c8f650940b5090a2efef365693fd0"
   dependencies:
     babel-core "^6.24.1"
     babel-plugin-istanbul "^4.1.4"

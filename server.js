@@ -1,8 +1,7 @@
-import * as express from "express";
-import * as path from "path";
-import * as fs from "fs";
-import * as bodyParser from "body-parser";
-import {Request, Response} from "express";
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
@@ -18,7 +17,7 @@ app.get("/api/count", (req, res) => {
   //res.status(400).json(obj); //for error testing
 });
 
-app.get("/api/todo", (req: Request, res: Response) => {
+app.get("/api/todo", (req, res) => {
 
   fs.readFile(TODO_LIST_JSON, (error, buffer) => {
     if (error) {
@@ -75,7 +74,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.listen(port, (error: Error) => {
+app.listen(port, (error) => {
   if (error) {
     console.log(error);
   }

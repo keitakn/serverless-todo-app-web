@@ -1,4 +1,10 @@
 import { Action } from 'redux';
+import { UserService } from '../../domain/UserService';
+import ISignupFailureResponse = UserService.ISignupFailureResponse;
+import ISignupRequest = UserService.ISignupRequest;
+import ISignupSuccessResponse = UserService.ISignupSuccessResponse;
+import ISignupCompleteFailureResponse = UserService.ISignupCompleteFailureResponse;
+import ISignupCompleteRequest = UserService.ISignupCompleteRequest;
 
 /**
  * actions Enum
@@ -28,16 +34,6 @@ interface IPostSignupRequestAction extends Action {
     signupCompleted: false;
   };
   error: false;
-}
-
-/**
- * postSignupRequestAction引数データ型
- */
-export interface ISignupRequest {
-  email: string;
-  password: string;
-  gender: string;
-  birthdate: string;
 }
 
 /**
@@ -77,13 +73,6 @@ interface ISignupSuccessAction extends Action {
 }
 
 /**
- * signupSuccessAction 引数IF
- */
-export interface ISignupSuccessResponse {
-  email: string;
-}
-
-/**
  * サインアップが正常終了した時に実行されるaction
  *
  * @param {ISignupSuccessResponse} response
@@ -112,13 +101,6 @@ interface ISignupFailureAction extends Action {
     signupCompleted: false;
   };
   error: true;
-}
-
-/**
- * signupFailureAction 引数IF
- */
-export interface ISignupFailureResponse {
-  error: Error;
 }
 
 /**
@@ -151,14 +133,6 @@ interface IPostSignupCompleteRequestAction {
     userConfirmed: false;
   };
   error: false;
-}
-
-/**
- * サインアップ完了Request 引数IF
- */
-export interface ISignupCompleteRequest {
-  email: string;
-  verificationCode: string;
 }
 
 /**
@@ -220,13 +194,6 @@ interface ISignupCompleteFailureAction {
     loading: false;
   };
   error: true;
-}
-
-/**
- * signupCompleteFailureAction 引数IF
- */
-export interface ISignupCompleteFailureResponse {
-  error: Error;
 }
 
 /**

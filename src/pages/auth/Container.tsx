@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { IReduxState, ReduxAction } from '../../store';
 import Auth from './Auth';
-import { LoginDomains } from '../../domain/LoginDomains';
+import { LoginService } from '../../domain/LoginService';
 import { isLoggedInFalseAction, isLoggedInStartAction, isLoggedInTrueAction } from './module';
 
 /**
@@ -30,7 +30,7 @@ export class ActionDispatcher {
       isLoggedInStartAction(),
     );
 
-    const isLoggedIn = await LoginDomains.isLoggedIn();
+    const isLoggedIn = await LoginService.isLoggedIn();
 
     if (isLoggedIn) {
       this.dispatch(

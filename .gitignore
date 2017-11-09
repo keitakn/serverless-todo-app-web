@@ -63,6 +63,4 @@ typings/
 .idea
 serverless-todo-app-web.iml
 
-# JavaScript Files
-server.js
 

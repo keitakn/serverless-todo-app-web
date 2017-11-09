@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { IReduxState, ReduxAction } from '../../store';
 import { loginFailureAction, loginSuccessAction, postLoginRequestAction } from './module';
 import Login from './Login';
-import { LoginDomains } from '../../domain/LoginDomains';
+import { LoginService } from '../../domain/LoginService';
 
 /**
  * ActionDispatcher
@@ -23,13 +23,13 @@ export class ActionDispatcher {
   /**
    * ログインを行う
    *
-   * @param {LoginDomains.ILoginRequest} request
+   * @param {LoginService.ILoginRequest} request
    * @returns {Promise<void>}
    */
-  public async login(request: LoginDomains.ILoginRequest): Promise<void> {
+  public async login(request: LoginService.ILoginRequest): Promise<void> {
     this.dispatch(postLoginRequestAction(request));
 
-    const cognitoUserSession = await LoginDomains.login(request).catch((error: Error) => {
+    const cognitoUserSession = await LoginService.login(request).catch((error: Error) => {
       const errorResponse = {
         email: request.email,
         password: request.password,
@@ -47,7 +47,7 @@ export class ActionDispatcher {
       loginSuccessAction({ session: cognitoUserSession }),
     );
 
-    await LoginDomains.redirectAfterLoginSuccessful();
+    await LoginService.redirectAfterLoginSuccessful();
   }
 
   /**
@@ -56,7 +56,7 @@ export class ActionDispatcher {
    * @returns {Promise<boolean>}
    */
   public static async isLoggedIn(): Promise<boolean> {
-    return await LoginDomains.isLoggedIn();
+    return await LoginService.isLoggedIn();
   }
 }
 
