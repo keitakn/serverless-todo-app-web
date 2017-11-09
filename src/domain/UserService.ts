@@ -110,8 +110,14 @@ export namespace UserService {
     });
   };
 
-  export const signupComplete = (request: ISignupCompleteRequest) => {
-    return new Promise((resolve, reject) => {
+  /**
+   * サインアップを完了させる
+   *
+   * @param {UserService.ISignupCompleteRequest} request
+   * @returns {Promise<any>}
+   */
+  export const signupComplete = (request: ISignupCompleteRequest): Promise<any> => {
+    return new Promise<any>((resolve, reject) => {
       const poolData = {
         UserPoolId: getCognitoUserPoolId(),
         ClientId: getCognitoUserPoolClientId(),
