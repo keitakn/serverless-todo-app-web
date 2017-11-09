@@ -101,7 +101,6 @@ export namespace UserService {
         attributeList,
         (error: Error, signupResult: ISignUpResult) => {
           if (error != null) {
-            // TODO エラー内容が既にemailが登録されている等だった場合は検証コードを再送するのが良いかも
             return reject({ error });
           }
 
