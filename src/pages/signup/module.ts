@@ -3,6 +3,8 @@ import { UserService } from '../../domain/UserService';
 import ISignupFailureResponse = UserService.ISignupFailureResponse;
 import ISignupRequest = UserService.ISignupRequest;
 import ISignupSuccessResponse = UserService.ISignupSuccessResponse;
+import ISignupCompleteFailureResponse = UserService.ISignupCompleteFailureResponse;
+import ISignupCompleteRequest = UserService.ISignupCompleteRequest;
 
 /**
  * actions Enum
@@ -134,14 +136,6 @@ interface IPostSignupCompleteRequestAction {
 }
 
 /**
- * サインアップ完了Request 引数IF
- */
-export interface ISignupCompleteRequest {
-  email: string;
-  verificationCode: string;
-}
-
-/**
  * サインアップ完了のRequest送信時に実行されるaction
  *
  * @param {ISignupCompleteRequest} request
@@ -200,13 +194,6 @@ interface ISignupCompleteFailureAction {
     loading: false;
   };
   error: true;
-}
-
-/**
- * signupCompleteFailureAction 引数IF
- */
-export interface ISignupCompleteFailureResponse {
-  error: Error;
 }
 
 /**

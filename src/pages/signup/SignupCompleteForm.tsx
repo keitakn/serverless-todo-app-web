@@ -2,7 +2,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { ISignupProps } from './Signup';
-import { ISignupCompleteRequest } from './module';
+import { ISignupCompleteRequest } from '../../domain/UserService';
 
 /**
  * SignupCompleteForm Component

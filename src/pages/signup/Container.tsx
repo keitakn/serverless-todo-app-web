@@ -1,13 +1,7 @@
-import {
-  CognitoUser,
-  CognitoUserPool,
-} from 'amazon-cognito-identity-js';
 import { connect, MapDispatchToPropsParam, MapStateToPropsParam } from 'react-redux';
 import { Dispatch } from 'redux';
-import { AppConfig } from '../../AppConfig';
 import { IReduxState, ReduxAction } from '../../store';
 import {
-  ISignupCompleteRequest,
   ISignupState,
   postSignupCompleteRequestAction,
   postSignupRequestAction,
@@ -17,12 +11,12 @@ import {
   signupSuccessAction,
 } from './module';
 import Signup from './Signup';
-import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
-import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
 import { UserService } from '../../domain/UserService';
 import ISignupRequest = UserService.ISignupRequest;
 import ISignupSuccessResponse = UserService.ISignupSuccessResponse;
 import ISignupFailureResponse = UserService.ISignupFailureResponse;
+import ISignupCompleteRequest = UserService.ISignupCompleteRequest;
+import ISignupCompleteFailureResponse = UserService.ISignupCompleteFailureResponse;
 
 /**
  * ActionDispatcher
@@ -60,41 +54,17 @@ export class ActionDispatcher {
    * @returns {Promise<any>}
    */
   public async postSignupCompleteRequest(request: ISignupCompleteRequest) {
-    return new Promise((resolve, reject) => {
+    this.dispatch(
+      postSignupCompleteRequestAction(request),
+    );
+
+    await UserService.signupComplete(request).then(() => {
       this.dispatch(
-        postSignupCompleteRequestAction(request),
+        signupCompleteSuccess(),
       );
-
-      // TODO この一連の登録処理は別の場所に分離させる
-      const poolData = {
-        UserPoolId: getCognitoUserPoolId(),
-        ClientId: getCognitoUserPoolClientId(),
-      };
-      const cognitoUserPool = new CognitoUserPool(poolData);
-
-      const userData = {
-        Username: request.email,
-        Pool: cognitoUserPool,
-      };
-
-      const cognitoUser = new CognitoUser(userData);
-      cognitoUser.confirmRegistration(
-        request.verificationCode,
-        true,
-        (error, result) => {
-          if (error) {
-            this.dispatch(
-              signupCompleteFailureAction({ error }),
-            );
-            return reject(error);
-          }
-
-          this.dispatch(
-            signupCompleteSuccess(),
-          );
-
-          return resolve(result);
-        },
+    }).catch((error: ISignupCompleteFailureResponse) => {
+      this.dispatch(
+        signupCompleteFailureAction(error),
       );
     });
   }

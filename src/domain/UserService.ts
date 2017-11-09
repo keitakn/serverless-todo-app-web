@@ -1,4 +1,9 @@
-import { CognitoUserAttribute, CognitoUserPool, ISignUpResult } from 'amazon-cognito-identity-js';
+import {
+  CognitoUserAttribute,
+  CognitoUserPool,
+  ISignUpResult,
+  CognitoUser,
+} from 'amazon-cognito-identity-js';
 import { AppConfig } from '../AppConfig';
 import getCognitoUserPoolClientId = AppConfig.getCognitoUserPoolClientId;
 import getCognitoUserPoolId = AppConfig.getCognitoUserPoolId;
@@ -32,6 +37,21 @@ export namespace UserService {
    * Signup失敗時のレスポンス型
    */
   export interface ISignupFailureResponse {
+    error: Error;
+  }
+
+  /**
+   * サインアップ完了Request 引数IF
+   */
+  export interface ISignupCompleteRequest {
+    email: string;
+    verificationCode: string;
+  }
+
+  /**
+   * signupCompleteFailureAction 引数IF
+   */
+  export interface ISignupCompleteFailureResponse {
     error: Error;
   }
 
@@ -87,6 +107,34 @@ export namespace UserService {
 
           return resolve({ email: signupResult.user.getUsername() });
         });
+    });
+  };
+
+  export const signupComplete = (request: ISignupCompleteRequest) => {
+    return new Promise((resolve, reject) => {
+      const poolData = {
+        UserPoolId: getCognitoUserPoolId(),
+        ClientId: getCognitoUserPoolClientId(),
+      };
+      const cognitoUserPool = new CognitoUserPool(poolData);
+
+      const userData = {
+        Username: request.email,
+        Pool: cognitoUserPool,
+      };
+
+      const cognitoUser = new CognitoUser(userData);
+      cognitoUser.confirmRegistration(
+        request.verificationCode,
+        true,
+        (error, result) => {
+          if (error) {
+            return reject({ error });
+          }
+
+          return resolve(result);
+        },
+      );
     });
   };
 }
