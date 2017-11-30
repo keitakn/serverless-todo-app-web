@@ -4,8 +4,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as React from 'react';
 import AppMenu from '../../components/AppMenu';
 import { ActionDispatcher } from './Container';
-import { ITodoEntity, ITodoState } from './module';
+import { ITodoState } from './module';
 import TodoCreateForm from './TodoCreateForm';
+import { TodoService } from '../../domain/TodoService';
+import ITodoEntity = TodoService.ITodoEntity;
 
 /**
  * ITodoProps IF

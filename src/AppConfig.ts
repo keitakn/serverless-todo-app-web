@@ -39,4 +39,15 @@ export namespace AppConfig {
 
     return typeof cognitoUserPoolClientId === 'string' ? cognitoUserPoolClientId : '';
   };
+
+  /**
+   * TodoAppBackendのURIを取得する
+   *
+   * @returns {string}
+   */
+  export const getTodoAppBackendUri = (): string => {
+    const uri = process.env.TODO_APP_BACKEND_BASE_URI;
+
+    return typeof uri === 'string' ? uri : '';
+  };
 }

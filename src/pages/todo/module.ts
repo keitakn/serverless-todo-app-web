@@ -1,4 +1,7 @@
 import { Action } from 'redux';
+import { TodoService } from '../../domain/TodoService';
+import ICreateTodoRequest = TodoService.ICreateTodoRequest;
+import ITodoEntity = TodoService.ITodoEntity;
 
 /**
  * actions Enum
@@ -23,14 +26,6 @@ interface IPostTodoAction extends Action {
 }
 
 /**
- * TODO作成のリクエスト型
- * @todo このIFはドメイン層的な場所を作ってそっちに移す
- */
-export interface ICreateTodoRequest {
-  title: string;
-}
-
-/**
  * TODOの作成リクエスト送信時に実行されるaction
  *
  * @param {ICreateTodoRequest} request
@@ -48,21 +43,12 @@ export const postTodoAction = (request: ICreateTodoRequest): IPostTodoAction => 
 });
 
 /**
- * TODOのデータ型
- * @todo このIFはドメイン層的な場所を作ってそっちに移す
- */
-export interface ITodoEntity {
-  id: number;
-  title: string;
-}
-
-/**
  * fetchAllTodoSuccessAction IF
  */
 interface IFetchAllTodoSuccessAction extends Action {
   type: ActionNames.FETCH_ALL_TODO_SUCCESS;
   payload: {
-    todoList: [{id: number, title: string}];
+    todoList: [ITodoEntity];
   };
   meta: {
     loading: false;
@@ -92,8 +78,11 @@ export const fetchAllTodoSuccessAction = (todoList: [ITodoEntity]): IFetchAllTod
  */
 export interface ITodoState {
   currentTodo: {
-    id?: number;
+    id: string;
     title: string;
+    isCompleted: boolean;
+    createdAt: string;
+    updatedAt: string;
   };
   todoList: [ITodoEntity];
   loading: boolean;
@@ -105,10 +94,13 @@ export type TodoActions = IPostTodoAction | IFetchAllTodoSuccessAction;
 
 const initialState: ITodoState = {
   currentTodo: {
-    id: 0,
+    id: '',
     title: '',
+    isCompleted: false,
+    createdAt: '',
+    updatedAt: '',
   },
-  todoList: [{ id: 0, title: '' }],
+  todoList: [{ id: '', title: '', isCompleted: false, createdAt: '', updatedAt: '' }],
   loading: false,
   isError: false,
   errors: {
@@ -129,7 +121,11 @@ export default function reducer(state: ITodoState = initialState, action: TodoAc
       return {
         ...state,
         currentTodo: {
+          id: state.currentTodo.id,
           title: action.payload.title,
+          isCompleted: state.currentTodo.isCompleted,
+          createdAt: state.currentTodo.createdAt,
+          updatedAt: state.currentTodo.updatedAt,
         },
         loading: action.meta.loading,
         isError: action.error,

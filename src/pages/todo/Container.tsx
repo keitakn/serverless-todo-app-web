@@ -1,11 +1,13 @@
-import { AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Dispatch } from 'redux';
 import HttpClientFactory from '../../factories/HttpClientFactory';
 import { IReduxState, ReduxAction } from '../../store';
-import { fetchAllTodoSuccessAction, ICreateTodoRequest, postTodoAction } from './module';
+import { fetchAllTodoSuccessAction, postTodoAction } from './module';
 import Todo from './Todo';
+import { TodoService } from '../../domain/TodoService';
+import ICreateTodoRequest = TodoService.ICreateTodoRequest;
 
 /**
  * ActionDispatcher
@@ -31,24 +33,20 @@ export class ActionDispatcher {
    * @returns {Promise<void>}
    */
   public async create(request: ICreateTodoRequest): Promise<void> {
-    try {
-      const axiosResponse = await this.httpClient.post('/api/todo', request);
+    this.dispatch(
+      postTodoAction(request),
+    );
 
-      if (axiosResponse.status !== 201) {
-        return Promise.reject(
-          new Error(`illegal status code: ${axiosResponse.status}`),
-        );
-      }
+    TodoService
+      .createTodo(request, this.httpClient)
+      .catch((error: AxiosError) => {
+        // TODO 異常系のactionをちゃんと作る必要がある
+        return Promise.reject(error);
+      });
 
-      this.dispatch(
-        postTodoAction(request),
-      );
+    // TODO 作成成功時のactionを実装する必要がある
 
-      await this.fetchAll();
-    } catch (error) {
-      // TODO 異常系のactionを作る必要がある
-      return Promise.reject(error);
-    }
+    await this.fetchAll();
   }
 
   /**
