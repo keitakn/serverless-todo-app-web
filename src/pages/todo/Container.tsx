@@ -50,25 +50,19 @@ export class ActionDispatcher {
   }
 
   /**
-   * 全てのTODOを取得する
+   * 全てのTODOリストを取得する
    *
    * @returns {Promise<void>}
    */
   public async fetchAll(): Promise<void> {
-    try {
-      const axiosResponse = await this.httpClient.get('/api/todo');
+    const todoList = await TodoService
+      .fetchAllTodoList(this.httpClient)
+      .catch((error: AxiosError) => {
+        // TODO 異常系のactionをちゃんと作る必要がある
+        return Promise.reject(error);
+      });
 
-      if (axiosResponse.status !== 200) {
-        return Promise.reject(
-          new Error(`illegal status code: ${axiosResponse.status}`),
-        );
-      }
-
-      this.dispatch(fetchAllTodoSuccessAction(axiosResponse.data));
-    } catch (error) {
-      // TODO 異常系のactionを作る必要がある
-      return Promise.reject(error);
-    }
+    this.dispatch(fetchAllTodoSuccessAction(todoList));
   }
 }
 

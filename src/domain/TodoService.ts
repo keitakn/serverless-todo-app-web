@@ -48,6 +48,25 @@ export namespace TodoService {
 
     return todoEntity;
   };
+
+  /**
+   * TODOリストを取得する
+   *
+   * @param {AxiosInstance} httpClient
+   * @returns {Promise<[TodoService.ITodoEntity]>}
+   */
+  export const fetchAllTodoList = async (httpClient: AxiosInstance) => {
+    const url = `${getTodoAppBackendUri()}/todo`;
+
+    const apiResponse = await httpClient.get(url).catch((error: AxiosError) => {
+      // TODO 後でエラーハンドリングをちゃんと書く
+      return Promise.reject(error);
+    });
+
+    const todoList: [ITodoEntity] = apiResponse.data.items;
+
+    return todoList;
+  };
 }
 
 
