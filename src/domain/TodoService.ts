@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance } from 'axios';
 import { AppConfig } from '../AppConfig';
 import getTodoAppBackendUri = AppConfig.getTodoAppBackendUri;
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
 /**
  * TodoService
@@ -27,6 +28,14 @@ export namespace TodoService {
    */
   export interface ICreateTodoRequest {
     title: string;
+    session: CognitoUserSession;
+  }
+
+  /**
+   * TODOリスト取得のリクエスト型
+   */
+  export interface IFetchTodoListRequest {
+    session: CognitoUserSession;
   }
 
   /**
@@ -39,7 +48,21 @@ export namespace TodoService {
   export const createTodo = async (request: ICreateTodoRequest, httpClient: AxiosInstance) => {
     const url = `${getTodoAppBackendUri()}/todo`;
 
-    const apiResponse = await httpClient.post(url, request).catch((error: AxiosError) => {
+    const headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: request.session.getIdToken().getJwtToken(),
+    };
+
+    const requestConfig = {
+      headers,
+    };
+
+    const createRequest = {
+      title: request.title,
+    };
+
+    const apiResponse = await httpClient.post(url, createRequest, requestConfig).catch((error: AxiosError) => {
       // TODO 後でエラーハンドリングをちゃんと書く
       return Promise.reject(error);
     });
@@ -52,13 +75,23 @@ export namespace TodoService {
   /**
    * TODOリストを取得する
    *
+   * @param {TodoService.IFetchTodoListRequest} request
    * @param {AxiosInstance} httpClient
    * @returns {Promise<[TodoService.ITodoEntity]>}
    */
-  export const fetchAllTodoList = async (httpClient: AxiosInstance) => {
+  export const fetchAllTodoList = async (request: IFetchTodoListRequest, httpClient: AxiosInstance) => {
     const url = `${getTodoAppBackendUri()}/todo`;
 
-    const apiResponse = await httpClient.get(url).catch((error: AxiosError) => {
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: request.session.getIdToken().getJwtToken(),
+    };
+
+    const requestConfig = {
+      headers,
+    };
+
+    const apiResponse = await httpClient.get(url, requestConfig).catch((error: AxiosError) => {
       // TODO 後でエラーハンドリングをちゃんと書く
       return Promise.reject(error);
     });

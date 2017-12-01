@@ -8,6 +8,7 @@ import { fetchAllTodoSuccessAction, postTodoAction } from './module';
 import Todo from './Todo';
 import { TodoService } from '../../domain/TodoService';
 import ICreateTodoRequest = TodoService.ICreateTodoRequest;
+import { LoginService } from '../../domain/LoginService';
 
 /**
  * ActionDispatcher
@@ -55,8 +56,12 @@ export class ActionDispatcher {
    * @returns {Promise<void>}
    */
   public async fetchAll(): Promise<void> {
+    const session = await LoginService.fetchSession().catch((error) => {
+      return Promise.reject(error);
+    });
+
     const todoList = await TodoService
-      .fetchAllTodoList(this.httpClient)
+      .fetchAllTodoList({ session }, this.httpClient)
       .catch((error: AxiosError) => {
         // TODO 異常系のactionをちゃんと作る必要がある
         return Promise.reject(error);
