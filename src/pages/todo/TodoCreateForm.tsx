@@ -3,6 +3,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { ITodoProps } from './Todo';
+import { LoginService } from '../../domain/LoginService';
 
 /**
  * TODO作成 Form Component
@@ -32,8 +33,11 @@ export default class TodoCreateForm extends React.PureComponent<ITodoProps, {}> 
     e.preventDefault();
 
     const title = this.todoTitleInput.getInputNode().value.trim();
+    const session = await LoginService.fetchSession().catch((error) => {
+      return Promise.reject(error);
+    });
 
-    await this.props.actions.create({ title });
+    await this.props.actions.create({ title, session });
   }
 
   /**
